@@ -8,6 +8,9 @@ A Railway-oriented approach to result handling in .Net
 - Async all the way
 
 ## Features:
+- Automatic null check of inputs
+- Supports both error and confirmation messages
+- Designed to support both Webb APIs and ASP .NET solutions
 - Error and confirmation levels are compatible with ILogger
  
 
