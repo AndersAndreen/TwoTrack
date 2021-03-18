@@ -20,5 +20,13 @@ namespace TwoTrackResult
             result._errors.Add(error ?? TtError.MakeArgumentNullError());
             return result;
         }
+
+        public TtResult AddErrors(IEnumerable<TtError> errors)
+        {
+            var result = new TtResult();
+            result._errors.AddRange(Errors);
+            result._errors.AddRange(errors ?? new List<TtError> { TtError.MakeArgumentNullError() });
+            return result;
+        }
     }
 }

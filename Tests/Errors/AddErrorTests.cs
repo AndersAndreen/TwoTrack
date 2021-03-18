@@ -17,7 +17,6 @@ namespace Tests.Errors
 
             // Assert
             result.Errors.Count.Should().Be(1);
-            //result.Succeeded.Should().BeTrue();
         }
 
         [Fact]
