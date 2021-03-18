@@ -1,4 +1,6 @@
-﻿namespace TwoTrackResult
+﻿using System.Reflection;
+
+namespace TwoTrackResult
 {
     public class TtError
     {
@@ -12,6 +14,9 @@
         {
             return new TtError { Level = errorLevel };
         }
+
+        public static TtError MakeArgumentNullError()
+            => new TtError();
 
     }
 }

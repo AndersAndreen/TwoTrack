@@ -9,8 +9,7 @@ namespace TwoTrackResult
         public bool Succeeded => !Failed;
         private readonly List<TtError> _errors = new List<TtError>();
 
-        public IReadOnlyCollection<TtError> Errors => _errors;
-        //public IReadOnlyCollection<TtError> Errors => new List<TtError>(_errors);
+        public IReadOnlyCollection<TtError> Errors => new List<TtError>(_errors);
 
         internal TtResult()
         {
@@ -25,8 +24,10 @@ namespace TwoTrackResult
 
         public TtResult AddError(TtError error)
         {
-            _errors.Add(error);
-            return this;
+            var result = new TtResult();
+            result._errors.AddRange(Errors);
+            result._errors.Add(error ?? TtError.MakeArgumentNullError());
+            return result;
         }
     }
 }
