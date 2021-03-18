@@ -1,5 +1,5 @@
 # TwoTrack
-A Railway-oriented approach to result handling in .Net
+A Railway-oriented approach to functional style result handling in .Net
 
 ## Principles:
 - Clear intent over verbose error handling
