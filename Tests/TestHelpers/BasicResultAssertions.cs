@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Railcar;
+using TwoTrack;
 
 namespace Tests.TestHelpers
 {
     public static class BasicResultAssertions
     {
-        public static void AssertBasicSuccessCriteria(this RailcarResult result)
+        public static void AssertBasicSuccessCriteria(this TtResult result)
         {
             using (new AssertionScope())
             {
@@ -19,7 +19,7 @@ namespace Tests.TestHelpers
             }
         }
 
-        public static void AssertBasicAppResultFailureCriteria(this RailcarResult result)
+        public static void AssertBasicAppResultFailureCriteria(this TtResult result)
         {
             using (new AssertionScope())
             {

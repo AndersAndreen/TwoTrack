@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Railcar
+namespace TwoTrack
 {
-    public class RailcarResult
+    public class TtResult
     {
         public bool Failed => Errors.Any();
         public bool Succeeded => !Failed;
@@ -13,15 +11,15 @@ namespace Railcar
 
         public IReadOnlyCollection<object> Errors => new List<object>(_errors);
 
-        internal static RailcarResult Fail()
+        internal static TtResult Fail()
         {
-            var result = new RailcarResult();
+            var result = new TtResult();
             result._errors.Add(new object());
             return result;
         }
 
 
-        internal RailcarResult()
+        internal TtResult()
         {
         }
     }

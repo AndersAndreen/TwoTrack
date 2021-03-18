@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Railcar\Railcar.csproj" />
+    <ProjectReference Include="..\TwoTrack\TwoTrack.csproj" />
   </ItemGroup>
 
 </Project>
