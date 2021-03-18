@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using TwoTrack;
+using TwoTrackResult;
 
 namespace Tests.TestHelpers
 {
@@ -14,8 +14,8 @@ namespace Tests.TestHelpers
                 result.Failed.Should().BeFalse();
                 result.Succeeded.Should().BeTrue();
                 // Warnings do not count as failure criteria, so we filter them out
-                //result.Errors.Where(error => error.Level != ErrorLevel.Warning || error.Level != ErrorLevel.ReportWarning)
-                //    .Should().BeEmpty();
+                result.Errors.Where(error => error.Level != ErrorLevel.Warning && error.Level != ErrorLevel.ReportWarning)
+                    .Should().BeEmpty();
             }
         }
 
@@ -26,8 +26,8 @@ namespace Tests.TestHelpers
                 result.Failed.Should().BeTrue();
                 result.Succeeded.Should().BeFalse();
                 // Warnings do not count as failure criteria, so we filter them out
-                //result.Errors.Where(error => error.Level != ErrorLevel.Warning || error.Level != ErrorLevel.ReportWarning)
-                //    .Should().NotBeEmpty();
+                result.Errors.Where(error => error.Level != ErrorLevel.Warning && error.Level != ErrorLevel.ReportWarning)
+                    .Should().NotBeEmpty();
             }
         }
     }

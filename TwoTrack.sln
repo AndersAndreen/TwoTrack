@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrack", "TwoTrack\TwoTrack.csproj", "{A13BB4EA-E5DD-4532-B880-1F46B321BCE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackResult", "TwoTrack\TwoTrackResult.csproj", "{A13BB4EA-E5DD-4532-B880-1F46B321BCE2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{7F222B1D-3354-4326-8B9B-8A8B275C8134}"
 EndProject

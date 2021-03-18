@@ -1,6 +1,6 @@
-﻿namespace TwoTrack
+﻿namespace TwoTrackResult
 {
-    public class MakeResult
+    public class TwoTrack
     {
         public static TtResult Ok() => new TtResult();
 

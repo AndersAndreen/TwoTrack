@@ -1,8 +1,6 @@
-using System;
-using System.Linq;
 using FluentAssertions;
 using Tests.TestHelpers;
-using TwoTrack;
+using TwoTrackResult;
 using Xunit;
 
 namespace Tests.Creation
@@ -15,11 +13,10 @@ namespace Tests.Creation
             // Arrange
 
             // Act
-            var result = MakeResult.Fail();
+            var result = TwoTrack.Fail();
 
             // Assert
-            result.Succeeded.Should().BeFalse();
-            result.Failed.Should().BeTrue();
+            result.AssertBasicAppResultFailureCriteria();
             result.Errors.Count.Should().Be(1);
         }
     }
