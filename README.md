@@ -13,5 +13,17 @@ A Railway-oriented approach to functional style result handling in .Net
 - Designed to support both Webb APIs and ASP .NET solutions
 - Error and confirmation levels are compatible with ILogger
  
-
+# Documentation
+## TtError 
+parameters:
+- ErrorLevel
+  - For logging: Warning, Error, Critical
+  - For APIs: ReportWarning, ReportError
+  - For ASP .Net Views: ReportWarning, ReportError
+- Category (
+  - For logging: "Exception", "DatabareError" etc. 
+  - For APIs: "Status400BadRequest",  "Status500InternalServerError" etc. 
+  - For ASP .Net Views: "UserName", "Telephone", "Password" etc.
+- Description
+- StackTrace
 
