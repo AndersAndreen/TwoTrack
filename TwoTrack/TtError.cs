@@ -35,9 +35,17 @@ namespace TwoTrackResult
         public static TtError Make(ErrorLevel errorLevel)
             => Make(errorLevel, "", ErrorDescriptions.DefaultError);
 
+        public static TtError Make(Exception exception)
+            => new TtError
+            {
+                Level = ErrorLevel.Error,
+                Category = Defaults.Category.Exception,
+                Description = $"{exception.GetType()}: {exception.Message}",
+                StackTrace = exception.StackTrace
+            };
 
         public static TtError MakeArgumentNullError(object caller, MethodBase methodBase)
-            => Make(ErrorLevel.Error, ErrorCategory.ArgumentNullError, Meta.GetMethodSignature(caller, methodBase));
+            => Make(ErrorLevel.Error, Defaults.Category.ArgumentNullError, Meta.GetMethodSignature(caller, methodBase));
 
         // -------------------------------------------------------------------------------------------
         // Implementation of abstract methods

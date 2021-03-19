@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using TwoTrackResult;
 using TwoTrackResult.Defaults;
 using Xunit;
@@ -11,7 +12,7 @@ namespace Tests.Errors
         [InlineData(null, null)]
         [InlineData("cat", null)]
         [InlineData(null, "desc")]
-        public void CategoryAndDescriptionNullChecks_ExpectResultFailed(string category, string description)
+        public void Make_CategoryAndDescriptionNullChecks_ExpectResultFailed(string category, string description)
         {
             // Arrange
 
@@ -20,13 +21,13 @@ namespace Tests.Errors
 
             // Assert
             error.Level.Should().Be(ErrorLevel.Error);
-            error.Category.Should().Be(ErrorCategory.ArgumentNullError);
+            error.Category.Should().Be(Category.ArgumentNullError);
             error.Description.Should().NotBeEmpty();
             error.StackTrace.Should().NotBeEmpty();
         }
 
         [Fact]
-        public void AddError_ExpectCategoryAndDescriptionAdded()
+        public void Make_ErrorWithCatAndDesc_ExpectCategoryAndDescriptionAdded()
         {
             // Arrange
             var category = "cat";
@@ -39,6 +40,30 @@ namespace Tests.Errors
             error.Level.Should().Be(ErrorLevel.Error);
             error.Category.Should().Be(category);
             error.Description.Should().Be(description);
+            error.StackTrace.Should().NotBeEmpty();
+        }
+
+        [Fact]
+        public void MakeFromException_ExpectCategoryAndDescriptionAdded()
+        {
+            // Arrange
+            Exception exception;
+            try
+            {
+                throw new ArgumentNullException();
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+
+            // Act
+            var error = TtError.Make(exception);
+
+            // Assert
+            error.Level.Should().Be(ErrorLevel.Error);
+            error.Category.Should().Be(Category.Exception);
+            error.Description.Should().Be($"System.ArgumentNullException: {exception.Message}");
             error.StackTrace.Should().NotBeEmpty();
         }
 
