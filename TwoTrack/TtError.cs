@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AppResultRWOP.Utilities;
+using System;
 using System.Reflection;
 using TwoTrackResult.Defaults;
 using TwoTrackResult.Utilities;
 
 namespace TwoTrackResult
 {
-    public class TtError
+    public class TtError : ValueObject<TtError>
     {
         public ErrorLevel Level { get; private set; } = ErrorLevel.Error;
         public string Category { get; private set; }
@@ -14,14 +15,6 @@ namespace TwoTrackResult
         // -------------------------------------------------------------------------------------------
         // Constructors
         // -------------------------------------------------------------------------------------------
-
-
-        //private TtError(Exception exception)
-        //    : this(Category.Exception, ErrorLevel.Error, exception.Message)
-        //{
-        //    Exception = exception;
-        //    StackTrace = exception.StackTrace;
-        //}
 
         private TtError()
         {
@@ -46,5 +39,18 @@ namespace TwoTrackResult
         public static TtError MakeArgumentNullError(object caller, MethodBase methodBase)
             => Make(ErrorLevel.Error, ErrorCategory.ArgumentNullError, Meta.GetMethodSignature(caller, methodBase));
 
+        // -------------------------------------------------------------------------------------------
+        // Implementation of abstract methods
+        // -------------------------------------------------------------------------------------------
+        protected override bool ComparePropertiesForEquality(TtError error)
+        {
+            return Level == error.Level
+                   && Category == error.Category
+                   && Description == error.Description
+                   && StackTrace == error.StackTrace;
+        }
+
+        protected override string DefineToStringFormat() => $"ErrorLevel:{Level}, EventType:{Category}, Description:{Description}";
     }
 }
+
