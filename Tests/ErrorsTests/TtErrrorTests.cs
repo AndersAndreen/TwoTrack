@@ -4,7 +4,7 @@ using TwoTrackResult;
 using TwoTrackResult.Defaults;
 using Xunit;
 
-namespace Tests.Errors
+namespace Tests.ErrorsTests
 {
     public class TtErrrorTests
     {
@@ -44,7 +44,7 @@ namespace Tests.Errors
         }
 
         [Fact]
-        public void MakeFromException_ExpectCategoryAndDescriptionAdded()
+        public void MakeFromException_ExpectCategoryDescriptionandStackTraceAdded()
         {
             // Arrange
             Exception exception;
@@ -58,7 +58,7 @@ namespace Tests.Errors
             }
 
             // Act
-            var error = TtError.Make(exception);
+            var error = TtError.Exception(exception);
 
             // Assert
             error.Level.Should().Be(ErrorLevel.Error);

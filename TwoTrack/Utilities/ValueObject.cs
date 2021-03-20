@@ -1,4 +1,6 @@
-﻿namespace AppResultRWOP.Utilities
+﻿using System;
+
+namespace TwoTrackResult.Utilities
 {
     public abstract class ValueObject<T>
     {
@@ -11,5 +13,10 @@
             => obj?.GetType() == typeof(T) && ComparePropertiesForEquality((T)obj);
         public static bool operator ==(ValueObject<T> x, ValueObject<T> y) => x?.Equals(y) ?? false;
         public static bool operator !=(ValueObject<T> x, ValueObject<T> y) => (!x?.Equals(y)) ?? false;
+
+        protected static void NullCheck<T2>(T2 parameter, string paramName)
+        {
+            if (parameter == null) throw new ArgumentNullException(paramName);
+        }
     }
 }

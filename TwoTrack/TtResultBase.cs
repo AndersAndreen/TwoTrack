@@ -1,32 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using TwoTrackResult.Utilities;
 
 namespace TwoTrackResult
 {
-    public abstract class TtResultBase
+    public abstract class TtResultBase<T> where T : TtResult
     {
         private readonly List<TtError> _errors = new List<TtError>();
 
         public bool Failed => Errors.Any(error => error.Level != ErrorLevel.Warning && error.Level != ErrorLevel.ReportWarning);
         public bool Succeeded => !Failed;
         public IReadOnlyCollection<TtError> Errors => new List<TtError>(_errors);
+        protected Func<Exception, bool> ExceptionFilter = ex => false;
+        #region AddError base functionality
 
-        public TtResult AddError(TtError error)
+        protected T AddError(T result, TtError error)
         {
-            var result = new TtResult();
+            error = error ?? TtError.ArgumentNullError();
             result._errors.AddRange(Errors);
-            result._errors.Add(error ?? TtError.MakeArgumentNullError(this, MethodBase.GetCurrentMethod()));
+            result._errors.Add(error);
             return result;
         }
 
-        public TtResult AddErrors(IEnumerable<TtError> errors)
+        protected T AddErrors(T result, IEnumerable<TtError> errors)
         {
-            var result = new TtResult();
+            errors = errors ?? TtError.ArgumentNullError().ToList();
             result._errors.AddRange(Errors);
-            result._errors.AddRange(errors ?? new List<TtError> { TtError.MakeArgumentNullError(this, MethodBase.GetCurrentMethod()) });
+            result._errors.AddRange(errors);
             return result;
         }
-
+        #endregion
     }
 }

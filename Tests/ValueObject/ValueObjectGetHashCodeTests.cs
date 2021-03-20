@@ -16,8 +16,8 @@ namespace Tests.ValueObject
             // Arrange
 
             // Act
-            var hash1 = ValueObjectMockInt.Make(value1).GetHashCode();
-            var hash2 = ValueObjectMockInt.Make(value2).GetHashCode();
+            var hash1 = ValueObjectIntMock.Make(value1).GetHashCode();
+            var hash2 = ValueObjectIntMock.Make(value2).GetHashCode();
 
             // Assert
             hash1.Should().Be(hash2);
@@ -35,8 +35,8 @@ namespace Tests.ValueObject
             // Arrange
 
             // Act
-            var hash1 = ValueObjectMockInt.Make(value1).GetHashCode();
-            var hash2 = ValueObjectMockInt.Make(value2).GetHashCode();
+            var hash1 = ValueObjectIntMock.Make(value1).GetHashCode();
+            var hash2 = ValueObjectIntMock.Make(value2).GetHashCode();
 
             // Assert
             hash1.Should().NotBe(hash2);

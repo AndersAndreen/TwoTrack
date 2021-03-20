@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
+using System.Linq;
 using TwoTrackResult;
 
 namespace Tests.TestHelpers

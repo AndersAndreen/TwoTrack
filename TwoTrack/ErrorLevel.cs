@@ -27,18 +27,18 @@
         Critical = 5,
 
         /// <summary>
+        /// Yellow light
+        /// This ErrorLevel is purely for user feedback or API responses and will not be logged.
+        /// ReportWarnings do not cause AppResult fail. 
+        /// </summary>
+        ReportWarning = 23,
+
+        /// <summary>
         /// Red light
         /// This ErrorLevel is purely for user feedback or API responses and will not be logged.
         /// It makes AppResult
         /// Reports cause AppResult fail.
         /// </summary>
-        ReportError = 20,
-
-        /// <summary>
-        /// Yellow light
-        /// This ErrorLevel is purely for user feedback or API responses and will not be logged.
-        /// ReportWarnings do not cause AppResult fail. 
-        /// </summary>
-        ReportWarning = 21
+        ReportError = 24
     }
 }

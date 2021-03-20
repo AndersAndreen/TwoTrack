@@ -14,7 +14,7 @@ namespace Tests.ValueObject
             // Arrange
 
             // Act
-            var mock = ValueObjectMockInt.Make(value);
+            var mock = ValueObjectIntMock.Make(value);
 
             // Assert
             mock.ToString().Should().Be(value.ToString());

@@ -13,7 +13,7 @@ namespace Tests.ValueObject
         public void Equals_TwoObjectsOfDifferentType(object compareTo)
         {
             // Arrange
-            var mock = ValueObjectMockInt.Make(1);
+            var mock = ValueObjectIntMock.Make(1);
 
             // Act
             var result = mock.Equals(compareTo);
@@ -29,10 +29,10 @@ namespace Tests.ValueObject
         public void Equals_TwoObjectsOfSameType(int value, int compareTo, bool expectedResult)
         {
             // Arrange
-            var mock = ValueObjectMockInt.Make(value);
+            var mock = ValueObjectIntMock.Make(value);
 
             // Act
-            var result = mock.Equals(ValueObjectMockInt.Make(compareTo));
+            var result = mock.Equals(ValueObjectIntMock.Make(compareTo));
 
             // Assert
             result.Should().Be(expectedResult);
@@ -45,10 +45,10 @@ namespace Tests.ValueObject
         public void EqualityOperator_TwoObjectsOfSameType(int value, int compareTo, bool expectedResult)
         {
             // Arrange
-            var mock = ValueObjectMockInt.Make(value);
+            var mock = ValueObjectIntMock.Make(value);
 
             // Act
-            var result = mock == ValueObjectMockInt.Make(compareTo);
+            var result = mock == ValueObjectIntMock.Make(compareTo);
 
             // Assert
             result.Should().Be(expectedResult);
@@ -61,10 +61,10 @@ namespace Tests.ValueObject
         public void InqualityOperator_TwoObjectsOfSameType(int value, int compareTo, bool expectedResult)
         {
             // Arrange
-            var mock = ValueObjectMockInt.Make(value);
+            var mock = ValueObjectIntMock.Make(value);
 
             // Act
-            var result = mock != ValueObjectMockInt.Make(compareTo);
+            var result = mock != ValueObjectIntMock.Make(compareTo);
 
             // Assert
             result.Should().Be(expectedResult);

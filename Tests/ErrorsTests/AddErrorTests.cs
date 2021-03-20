@@ -1,13 +1,16 @@
+using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using TwoTrackResult;
+using TwoTrackResult.Defaults;
 using Xunit;
 
-namespace Tests.Errors
+namespace Tests.ErrorsTests
 {
     public class AddErrorTests
     {
         [Fact]
-        public void AddNull_ExpectResultFailed()
+        public void AddNullToSucceded_ExpectArgumentNullError()
         {
             // Arrange
             var error = TtError.Make(ErrorLevel.Warning);
@@ -16,11 +19,11 @@ namespace Tests.Errors
             var result = TwoTrack.Ok().AddError(null);
 
             // Assert
-            result.Errors.Count.Should().Be(1);
+            result.Errors.First().Category.Should().Be(Category.ArgumentNullError);
         }
 
         [Fact]
-        public void AddErrorToSucceded_Imutability_ExpectResultsToDiffer()
+        public void AddNullToSucceded_ExpectImmutability()
         {
             // Arrange
             var error = TtError.Make(ErrorLevel.Warning);
@@ -35,7 +38,7 @@ namespace Tests.Errors
         }
 
         [Fact]
-        public void AddErrorToFailed_Imutability_ExpectErrorCountToDiffer()
+        public void AddErrorToFailed_ExpectImmutability()
         {
             // Arrange
             var error = TtError.Make(ErrorLevel.Warning);

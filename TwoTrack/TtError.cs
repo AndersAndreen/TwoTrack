@@ -1,6 +1,5 @@
-﻿using AppResultRWOP.Utilities;
-using System;
-using System.Reflection;
+﻿using System;
+using System.Diagnostics;
 using TwoTrackResult.Defaults;
 using TwoTrackResult.Utilities;
 
@@ -22,7 +21,7 @@ namespace TwoTrackResult
 
         public static TtError Make(ErrorLevel errorLevel, string category, string description)
         {
-            if (category is null || description is null) return MakeArgumentNullError(typeof(TtError), MethodBase.GetCurrentMethod());
+            if (category is null || description is null) return ArgumentNullError();
             return new TtError
             {
                 Level = errorLevel,
@@ -35,7 +34,7 @@ namespace TwoTrackResult
         public static TtError Make(ErrorLevel errorLevel)
             => Make(errorLevel, "", ErrorDescriptions.DefaultError);
 
-        public static TtError Make(Exception exception)
+        public static TtError Exception(Exception exception)
             => new TtError
             {
                 Level = ErrorLevel.Error,
@@ -44,8 +43,21 @@ namespace TwoTrackResult
                 StackTrace = exception.StackTrace
             };
 
-        public static TtError MakeArgumentNullError(object caller, MethodBase methodBase)
-            => Make(ErrorLevel.Error, Defaults.Category.ArgumentNullError, Meta.GetMethodSignature(caller, methodBase));
+        public static TtError DefaultError()
+            => Make(ErrorLevel.Error, "", ErrorDescriptions.DefaultError);
+
+
+        public static TtError ArgumentNullError()
+        {
+            StackFrame callStack = new StackFrame(1, true);
+            return new TtError
+            {
+                Level = ErrorLevel.Error,
+                Category = Defaults.Category.ArgumentNullError,
+                Description = $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}",
+                StackTrace = Environment.StackTrace
+            };
+        }
 
         // -------------------------------------------------------------------------------------------
         // Implementation of abstract methods

@@ -3,7 +3,7 @@ using Tests.TestHelpers;
 using TwoTrackResult;
 using Xunit;
 
-namespace Tests.Creation
+namespace Tests.CreationTests
 {
     public class ResultOkTests
     {

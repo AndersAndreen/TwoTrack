@@ -1,9 +1,10 @@
 ﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace Tests.ValueObject
 {
-    public class ValueObjectCreationTests
+    public class ValueObjectIntCreationTests
     {
         [Theory]
         [InlineData(-1)]
@@ -14,10 +15,42 @@ namespace Tests.ValueObject
             // Arrange
 
             // Act
-            var mock = ValueObjectMockInt.Make(value);
+            var mock = ValueObjectIntMock.Make(value);
 
             // Assert
             mock.Value.Should().Be(value);
         }
+    }
+
+    public class ValueObjectStringCreationTests
+    {
+        [Theory]
+        [InlineData("")]
+        [InlineData("#")]
+        [InlineData("Hej")]
+        public void CreateValueObjectTest_success(string value)
+        {
+            // Arrange
+
+            // Act
+            var mock = ValueObjectStringMock.Make(value);
+
+            // Assert
+            mock.Value.Should().Be(value);
+        }
+
+        [Fact]
+        public void CreateValueObjectTest_fail()
+        {
+            // Arrange
+            Action act = () => ValueObjectStringMock.Make(null);
+
+            // Act
+
+            // Assert
+
+            act.Should().Throw<ArgumentNullException>();
+        }
+
     }
 }
