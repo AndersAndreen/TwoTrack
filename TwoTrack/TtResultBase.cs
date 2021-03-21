@@ -5,7 +5,7 @@ using TwoTrackResult.Utilities;
 
 namespace TwoTrackResult
 {
-    public abstract class TtResultBase<T> where T : TtResult
+    public abstract class TtResultBase<T> where T : TtResultBase<T>
     {
         private readonly List<TtError> _errors = new List<TtError>();
         private readonly List<TtConfirmation> _confirmations = new List<TtConfirmation>();
@@ -37,7 +37,7 @@ namespace TwoTrackResult
         #region AddConfirmation
         protected T AddConfirmation(T result, TtConfirmation confirmation)
         {
-            if(result is null) throw new ArgumentNullException(nameof(result));
+            if (result is null) throw new ArgumentNullException(nameof(result));
             if (confirmation is null) return AddErrors(result, Errors);
             result._confirmations.AddRange(Confirmations);
             result._confirmations.Add(confirmation);

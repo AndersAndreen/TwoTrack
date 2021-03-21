@@ -35,13 +35,15 @@ namespace TwoTrackResult
             => Make(errorLevel, "", ErrorDescriptions.DefaultError);
 
         public static TtError Exception(Exception exception)
-            => new TtError
-            {
-                Level = ErrorLevel.Error,
-                Category = Defaults.Category.Exception,
-                Description = $"{exception.GetType()}: {exception.Message}",
-                StackTrace = exception.StackTrace
-            };
+            => exception == null
+               ? ArgumentNullError()
+               : new TtError
+               {
+                   Level = ErrorLevel.Error,
+                   Category = Defaults.Category.Exception,
+                   Description = $"{exception.GetType()}: {exception.Message}",
+                   StackTrace = exception.StackTrace
+               };
 
         public static TtError DefaultError()
             => Make(ErrorLevel.Error, "", ErrorDescriptions.DefaultError);
@@ -70,7 +72,7 @@ namespace TwoTrackResult
                    && StackTrace == error.StackTrace;
         }
 
-        protected override string DefineToStringFormat() 
+        protected override string DefineToStringFormat()
             => $"ErrorLevel:{Level}, EventType:{Category}, Description:{Description}";
     }
 }

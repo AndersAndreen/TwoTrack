@@ -1,5 +1,5 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
+using System;
 using TwoTrackResult;
 using TwoTrackResult.Defaults;
 using Xunit;

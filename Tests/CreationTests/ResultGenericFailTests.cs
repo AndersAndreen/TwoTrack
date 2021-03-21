@@ -7,15 +7,15 @@ using Xunit;
 
 namespace Tests.CreationTests
 {
-    public class ResultFailTests
+    public class ResultGenericFailTests
     {
         [Fact]
-        public void ResultFactory_FailWithEmptyTtErrorList_ExpectedFailureStates()
+        public void ResultFactory_FailTWithEmptyTtErrorList_ExpectedFailureStates()
         {
             // Arrange
 
             // Act
-            var result = TwoTrack.Fail(new List<TtError>());
+            var result = TwoTrack.Fail<int>(new List<TtError>());
 
             // Assert
             result.AssertBasicAppResultFailureCriteria();
@@ -23,12 +23,12 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_FailWithNullErrorList_ExpectedFailureStates()
+        public void ResultFactory_FailTWithNullErrorList_ExpectedFailureStates()
         {
             // Arrange
 
             // Act
-            var result = TwoTrack.Fail(default(IEnumerable<TtError>));
+            var result = TwoTrack.Fail<int>(default(IEnumerable<TtError>));
 
             // Assert
             result.AssertBasicAppResultFailureCriteria();
@@ -36,12 +36,12 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_FailWithNullAsExceptionArgument_ExpectedFailureStates()
+        public void ResultFactory_FailTWithNullAsExceptionArgument_ExpectedFailureStates()
         {
             // Arrange
 
             // Act
-            var result = TwoTrack.Fail(default(Exception));
+            var result = TwoTrack.Fail<int>(default(Exception));
 
             // Assert
             result.AssertBasicAppResultFailureCriteria();
@@ -49,12 +49,12 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_FailWithException_ExpectedFailureStates()
+        public void ResultFactory_FailTWithException_ExpectedFailureStates()
         {
             // Arrange
 
             // Act
-            var result = TwoTrack.Fail(new ArgumentOutOfRangeException());
+            var result = TwoTrack.Fail<int>(new ArgumentOutOfRangeException());
 
             // Assert
             result.AssertBasicAppResultFailureCriteria();
@@ -62,13 +62,13 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_FailWithResult_ExpectedFailureStates()
+        public void ResultFactory_FailTWithResult_ExpectedFailureStates()
         {
             // Arrange
             var result1 = TwoTrack.Ok().AddError(TtError.DefaultError());
 
             // Act
-            var result2 = TwoTrack.Fail(result1);
+            var result2 = TwoTrack.Fail<int>(result1);
 
             // Assert
             result2.AssertBasicAppResultFailureCriteria();
@@ -76,12 +76,13 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_Fail_ExpectedFailureStates()
+        public void ResultFactory_FailT_ExpectedFailureStates()
         {
             // Arrange
+            var result1 = TwoTrack.Ok().AddError(TtError.DefaultError());
 
             // Act
-            var result2 = TwoTrack.Fail();
+            var result2 = TwoTrack.Fail<int>();
 
             // Assert
             result2.AssertBasicAppResultFailureCriteria();

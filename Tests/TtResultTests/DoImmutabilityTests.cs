@@ -1,7 +1,6 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
+using System;
 using System.Linq;
-using Tests.ValueObject;
 using TwoTrackResult;
 using Xunit;
 
