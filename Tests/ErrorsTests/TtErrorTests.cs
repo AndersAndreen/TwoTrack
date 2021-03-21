@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Tests.ErrorsTests
 {
-    public class TtErrrorTests
+    public class TtErrorTests
     {
         [Theory]
         [InlineData(null, null)]

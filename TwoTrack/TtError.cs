@@ -70,7 +70,8 @@ namespace TwoTrackResult
                    && StackTrace == error.StackTrace;
         }
 
-        protected override string DefineToStringFormat() => $"ErrorLevel:{Level}, EventType:{Category}, Description:{Description}";
+        protected override string DefineToStringFormat() 
+            => $"ErrorLevel:{Level}, EventType:{Category}, Description:{Description}";
     }
 }
 

@@ -13,8 +13,6 @@ namespace Tests.ErrorsTests
         public void AddNullToSucceded_ExpectArgumentNullError()
         {
             // Arrange
-            var error = TtError.Make(ErrorLevel.Warning);
-
             // Act
             var result = TwoTrack.Ok().AddError(null);
 
@@ -26,8 +24,6 @@ namespace Tests.ErrorsTests
         public void AddNullToSucceded_ExpectImmutability()
         {
             // Arrange
-            var error = TtError.Make(ErrorLevel.Warning);
-
             // Act
             var result = TwoTrack.Ok();
             var result2 = result.AddError(null);
@@ -41,8 +37,6 @@ namespace Tests.ErrorsTests
         public void AddErrorToFailed_ExpectImmutability()
         {
             // Arrange
-            var error = TtError.Make(ErrorLevel.Warning);
-
             // Act
             var result = TwoTrack.Fail();
             var result2 = result.AddError(null);

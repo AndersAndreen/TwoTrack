@@ -5,7 +5,7 @@ namespace TwoTrackResult
 {
     public class TtResult : TtResultBase<TtResult>
     {
-        internal TtResult()
+        private TtResult()
         {
         }
 
@@ -13,7 +13,9 @@ namespace TwoTrackResult
         public TtResult AddErrors(IEnumerable<TtError> errors) => AddErrors(new TtResult(), errors);
         public TtResult AddErrors(TtResult result) => AddErrors(new TtResult(), result?.Errors);
 
-        public TtResult SetTryCatchFilter(Func<Exception, bool> exeptionFilter)
+        internal static TtResult Ok() => new TtResult();
+
+        public TtResult SetExceptionFilter(Func<Exception, bool> exeptionFilter)
         {
             if (exeptionFilter is null) return AddError(new TtResult(),null);
             ExceptionFilter = exeptionFilter;

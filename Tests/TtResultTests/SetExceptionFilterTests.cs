@@ -5,25 +5,25 @@ using Xunit;
 
 namespace Tests.TtResultTests
 {
-    public class SetTryCatchFilterTests
+    public class SetExceptionFilterTests
     {
         [Fact]
-        public void SetTryCatchFilter_nullArgument_NullArgumentError()
+        public void SetExceptionFilter_nullArgument_NullArgumentError()
         {
             // Arrange
             // Act
-            var result = TwoTrack.Ok().SetTryCatchFilter(null);
+            var result = TwoTrack.Ok().SetExceptionFilter(null);
 
             // Assert
             result.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.ArgumentNullError);
         }
 
         [Fact]
-        public void SetTryCatchFilter_ExpectOk()
+        public void SetExceptionFilter_ExpectOk()
         {
             // Arrange
             // Act
-            var result = TwoTrack.Ok().SetTryCatchFilter(ex => false);
+            var result = TwoTrack.Ok().SetExceptionFilter(ex => false);
 
             // Assert
             result.Succeeded.Should().BeTrue();

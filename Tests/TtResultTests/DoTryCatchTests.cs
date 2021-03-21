@@ -56,7 +56,7 @@ namespace Tests.TtResultTests
             // Arrange
             // Act
             var result = TwoTrack.Ok()
-                .SetTryCatchFilter(_argumentNullCatcher)
+                .SetExceptionFilter(_argumentNullCatcher)
                 .Do(_throwArgumentNullException);
 
             // Assert
@@ -69,7 +69,7 @@ namespace Tests.TtResultTests
         {
             // Arrange
             Action act = () => TwoTrack.Ok()
-                .SetTryCatchFilter(_argumentNullCatcher)
+                .SetExceptionFilter(_argumentNullCatcher)
                 .Do(_throwAccessViolationException);
 
             // Act

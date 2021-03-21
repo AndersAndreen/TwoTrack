@@ -33,7 +33,7 @@ namespace Tests.TtResultTests
             // Arrange
             // Act
             var result = TwoTrack.Ok()
-                .SetTryCatchFilter(ex => true)
+                .SetExceptionFilter(ex => true)
                 .Do(_throwAccessViolationException);
 
             // Assert
@@ -47,7 +47,7 @@ namespace Tests.TtResultTests
             // Arrange
             // Act
             var result = TwoTrack.Ok()
-                .SetTryCatchFilter(ex => true)
+                .SetExceptionFilter(ex => true)
                 .Do(_throwArgumentNullException);
 
             // Assert
