@@ -8,7 +8,7 @@ namespace Tests.CreationTests
     public class ResultGenericEncloseTests
     {
         [Fact]
-        public void ResultFactory_EncloseInt_ExpectSuccessStates()
+        public void TwoTrack_EncloseInt_ExpectSuccessStates()
         {
             // Arrange
 
@@ -21,7 +21,7 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_EncloseTtResultOfInt_ExpectSuccessStates()
+        public void TwoTrack_EncloseTtResultOfInt_ExpectSuccessStates()
         {
             // Arrange
 

@@ -8,7 +8,7 @@ namespace Tests.CreationTests
     public class ResultOkTests
     {
         [Fact]
-        public void ResultFactory_Ok_InitialStates()
+        public void TwoTrack_Ok_InitialStates()
         {
             // Arrange
 

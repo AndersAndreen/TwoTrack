@@ -11,11 +11,11 @@ namespace Tests.CreationTests
     public class ResultFailTests
     {
         // ----------------------------------------------------------------------------------------
-        // Summary
+        // Summary of all TwoTrack.Fail() overloads
         // ----------------------------------------------------------------------------------------
 
         [Fact]
-        public void ResultFactory_SummaryOfAllTestsBelow_ExpectFailedTtResults()
+        public void TwoTrack_SummaryOfAllTestsBelow_ExpectFailedTtResults()
         {
             // Arrange
             // Act
@@ -38,7 +38,7 @@ namespace Tests.CreationTests
         // Individual tests
         // ----------------------------------------------------------------------------------------
         [Fact]
-        public void ResultFactory_FailWithEmptyTtErrorList_ExpectedFailureStates()
+        public void TwoTrack_FailWithEmptyTtErrorList_ExpectedFailureStates()
         {
             // Arrange
 
@@ -51,7 +51,7 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_FailWithNullErrorList_ExpectedFailureStates()
+        public void TwoTrack_FailWithNullErrorList_ExpectedFailureStates()
         {
             // Arrange
 
@@ -64,7 +64,7 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_FailWithNullAsExceptionArgument_ExpectedFailureStates()
+        public void TwoTrack_FailWithNullAsExceptionArgument_ExpectedFailureStates()
         {
             // Arrange
 
@@ -77,7 +77,7 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_FailWithException_ExpectedFailureStates()
+        public void TwoTrack_FailWithException_ExpectedFailureStates()
         {
             // Arrange
 
@@ -90,7 +90,7 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_FailWithResult_ExpectedFailureStates()
+        public void TwoTrack_FailWithResult_ExpectedFailureStates()
         {
             // Arrange
             var result1 = TwoTrack.Fail();
@@ -104,7 +104,7 @@ namespace Tests.CreationTests
         }
 
         [Fact]
-        public void ResultFactory_Fail_ExpectedFailureStates()
+        public void TwoTrack_Fail_ExpectedFailureStates()
         {
             // Arrange
 
