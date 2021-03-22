@@ -21,22 +21,6 @@ namespace TwoTrackResult
             return this;
         }
 
-        public TtResult Do(Action action)
-        {
-            if (action is null) return AddError(new TtResult(), null);
-            if (Failed) return this;
-            try
-            {
-                action();
-                return this;
-            }
-            catch (Exception e) when (ExceptionFilter(e))
-            {
-                return new TtResult().AddError(TtError.Exception(e));
-            }
-
-        }
-
         #region Factory methods
         internal static TtResult Ok() => new TtResult();
 
@@ -54,7 +38,6 @@ namespace TwoTrackResult
                 ? new TtResult().AddError(TtError.ArgumentNullError())
                 : new TtResult().AddErrors(err);
         }
-
         #endregion
     }
 }

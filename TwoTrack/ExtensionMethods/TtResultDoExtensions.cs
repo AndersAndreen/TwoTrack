@@ -6,7 +6,7 @@ namespace TwoTrackResult
 {
     public static class DoExtensions
     {
-        public static TtResult<T> Do<T>(this TtResult<T> resultIn, Action action)
+        public static TtResult Do(this TtResult resultIn, Action action)
         {
             if (action is null) return resultIn.AddError(TtError.ArgumentNullError());
             if (resultIn.Failed) return resultIn;
