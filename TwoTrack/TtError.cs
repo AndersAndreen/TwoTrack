@@ -60,6 +60,17 @@ namespace TwoTrackResult
                 StackTrace = Environment.StackTrace
             };
         }
+        public static TtError ResultNullError()
+        {
+            StackFrame callStack = new StackFrame(1, true);
+            return new TtError
+            {
+                Level = ErrorLevel.Error,
+                Category = Defaults.Category.ResultNullError,
+                Description = $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}",
+                StackTrace = Environment.StackTrace
+            };
+        }
 
         // -------------------------------------------------------------------------------------------
         // Implementation of abstract methods

@@ -24,6 +24,7 @@ namespace TwoTrackResult
         public TtResult Do(Action action)
         {
             if (action is null) return AddError(new TtResult(), null);
+            if (Failed) return this;
             try
             {
                 action();
@@ -53,6 +54,7 @@ namespace TwoTrackResult
                 ? new TtResult().AddError(TtError.ArgumentNullError())
                 : new TtResult().AddErrors(err);
         }
+
         #endregion
     }
 }

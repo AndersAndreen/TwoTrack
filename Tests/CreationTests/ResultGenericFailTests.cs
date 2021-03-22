@@ -9,6 +9,36 @@ namespace Tests.CreationTests
 {
     public class ResultGenericFailTests
     {
+        // ----------------------------------------------------------------------------------------
+        // Summary
+        // ----------------------------------------------------------------------------------------
+
+        [Fact]
+        public void ResultFactory_SummaryOfAllTestsBelow_ExpectFailedTtResults()
+        {
+            // Arrange
+            // Act
+            var results = new List<TtResult<int>>
+            {
+                TwoTrack.Fail<int>(new List<TtError>()),
+                TwoTrack.Fail<int>(default(IEnumerable<TtError>)),
+                TwoTrack.Fail<int>(default(Exception)),
+                TwoTrack.Fail<int>(new ArgumentOutOfRangeException()),
+                TwoTrack.Fail<int>(TwoTrack.Enclose(()=>1).AddError(TtError.DefaultError())),
+                TwoTrack.Fail<int>(TwoTrack.Fail()),
+                TwoTrack.Fail<int>(),
+            };
+
+            // Assert
+            results.Should().AllBeEquivalentTo(TwoTrack.Fail(), 
+                opt => opt.Excluding(res => res.Errors).Excluding(res => res.ExceptionFilter));
+            results.ForEach(r => r.Errors.Count.Should().Be(1));
+        }
+
+        // ----------------------------------------------------------------------------------------
+        // Individual tests
+        // ----------------------------------------------------------------------------------------
+
         [Fact]
         public void ResultFactory_FailTWithEmptyTtErrorList_ExpectedFailureStates()
         {
@@ -62,10 +92,24 @@ namespace Tests.CreationTests
         }
 
         [Fact]
+        public void ResultFactory_FailTWithResultOfT_ExpectedFailureStates()
+        {
+            // Arrange
+            var result1 = TwoTrack.Enclose(() => 1).AddError(TtError.DefaultError());
+
+            // Act
+            var result2 = TwoTrack.Fail<int>(result1);
+
+            // Assert
+            result2.AssertBasicAppResultFailureCriteria();
+            result2.Errors.Count.Should().Be(1);
+        }
+
+        [Fact]
         public void ResultFactory_FailTWithResult_ExpectedFailureStates()
         {
             // Arrange
-            var result1 = TwoTrack.Ok().AddError(TtError.DefaultError());
+            var result1 = TwoTrack.Fail();
 
             // Act
             var result2 = TwoTrack.Fail<int>(result1);
@@ -79,7 +123,6 @@ namespace Tests.CreationTests
         public void ResultFactory_FailT_ExpectedFailureStates()
         {
             // Arrange
-            var result1 = TwoTrack.Ok().AddError(TtError.DefaultError());
 
             // Act
             var result2 = TwoTrack.Fail<int>();

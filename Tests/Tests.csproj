@@ -20,8 +20,4 @@
     <ProjectReference Include="..\TwoTrack\TwoTrackResult.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TtResultGenericTests\" />
-  </ItemGroup>
-
 </Project>

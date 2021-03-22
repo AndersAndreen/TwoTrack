@@ -1,6 +1,7 @@
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tests.TestHelpers;
 using TwoTrackResult;
 using Xunit;
@@ -9,6 +10,33 @@ namespace Tests.CreationTests
 {
     public class ResultFailTests
     {
+        // ----------------------------------------------------------------------------------------
+        // Summary
+        // ----------------------------------------------------------------------------------------
+
+        [Fact]
+        public void ResultFactory_SummaryOfAllTestsBelow_ExpectFailedTtResults()
+        {
+            // Arrange
+            // Act
+            var results = new List<TtResult>
+            {
+                TwoTrack.Fail(new List<TtError>()),
+                TwoTrack.Fail(default(IEnumerable<TtError>)),
+                TwoTrack.Fail(default(Exception)),
+                TwoTrack.Fail(new ArgumentOutOfRangeException()),
+                TwoTrack.Fail(TwoTrack.Fail()),
+                TwoTrack.Fail(),
+            };
+
+            // Assert
+            results.Should().AllBeEquivalentTo(TwoTrack.Fail(), opt => opt.Excluding(res => res.Errors));
+            results.ForEach(r => r.Errors.Count.Should().Be(1));
+        }
+
+        // ----------------------------------------------------------------------------------------
+        // Individual tests
+        // ----------------------------------------------------------------------------------------
         [Fact]
         public void ResultFactory_FailWithEmptyTtErrorList_ExpectedFailureStates()
         {
@@ -65,7 +93,7 @@ namespace Tests.CreationTests
         public void ResultFactory_FailWithResult_ExpectedFailureStates()
         {
             // Arrange
-            var result1 = TwoTrack.Ok().AddError(TtError.DefaultError());
+            var result1 = TwoTrack.Fail();
 
             // Act
             var result2 = TwoTrack.Fail(result1);

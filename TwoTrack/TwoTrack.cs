@@ -16,5 +16,9 @@ namespace TwoTrackResult
         public static TtResult<T> Fail<T>(Exception exception) => TtResult<T>.Fail(TtError.Exception(exception));
         public static TtResult<T> Fail<T>(IEnumerable<TtError> errors) => TtResult<T>.Fail(errors);
         public static TtResult<T> Fail<T>(TtResult result) => TtResult<T>.Fail(result?.Errors);
+        public static TtResult<T> Fail<T>(TtResult<T> result) => TtResult<T>.Fail(result?.Errors);
+
+        public static TtResult<T> Enclose<T>(Func<T> func) => TtResult<T>.Enclose(func);
+        public static TtResult<T> Enclose<T>(Func<TtResult<T>> func) => TtResult<T>.Enclose(func);
     }                                
 }

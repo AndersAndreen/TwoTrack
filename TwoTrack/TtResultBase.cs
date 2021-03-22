@@ -15,7 +15,7 @@ namespace TwoTrackResult
         public IReadOnlyCollection<TtError> Errors => new List<TtError>(_errors);
         public IReadOnlyCollection<TtConfirmation> Confirmations => new List<TtConfirmation>(_confirmations);
 
-        protected Func<Exception, bool> ExceptionFilter = ex => false;
+        public Func<Exception, bool> ExceptionFilter = ex => false;
         #region AddError
         protected T AddError(T result, TtError error)
         {

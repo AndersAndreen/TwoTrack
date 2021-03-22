@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Tests.ErrorsTests
 {
-    public class AddErrorsTests
+    public class TtResultAddErrorsTests
     {
         #region AddErrors(TtResult)
         [Fact]

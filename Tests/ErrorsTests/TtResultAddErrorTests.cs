@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Tests.ErrorsTests
 {
-    public class AddErrorTests
+    public class TtResultAddErrorTests
     {
         [Fact]
         public void AddNullToSucceded_ExpectArgumentNullError()
