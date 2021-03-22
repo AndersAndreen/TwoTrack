@@ -30,6 +30,7 @@ namespace Tests.CreationTests
             };
 
             // Assert
+            TwoTrack.Fail().Failed.Should().BeTrue();
             results.Should().AllBeEquivalentTo(TwoTrack.Fail(), 
                 opt => opt.Excluding(res => res.Errors).Excluding(res => res.ExceptionFilter));
             results.ForEach(r => r.Errors.Count.Should().Be(1));
