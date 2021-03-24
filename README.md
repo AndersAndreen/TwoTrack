@@ -5,13 +5,13 @@ A Railway-oriented approach to functional style result handling in .Net
 - Clear intent over verbose error handling
 - Injecting functionality over getting value out
 - Errors over exceptions
-- Async all the way - if you want it
 
 ## Features:
 - Automatic null check of inputs
-- Supports both error and confirmation messages
+- Built in optional and configurable catch and conversion of exceptions to errors
+- Supports both error messages and confirmation messages
 - Designed to support both Webb APIs and ASP .NET solutions
-- Error and confirmation levels are compatible with ILogger
+- Error and confirmation levels are compatible with ILogger for easy conversion
  
 # API Reference
 ## TtError 
@@ -27,3 +27,6 @@ parameters:
 - Description
 - StackTrace
 
+## TtError<T>
+- All the features of TtError
+- encapsulation of one result object/value.
