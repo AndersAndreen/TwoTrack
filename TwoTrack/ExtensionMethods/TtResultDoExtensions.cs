@@ -6,7 +6,7 @@ namespace TwoTrackResult
 {
     public static class DoExtensions
     {
-        public static TtResult Do(this TtResult resultIn, Action action)
+        public static ITwoTrack Do(this TtResult resultIn, Action action)
         {
             if (action is null) return resultIn.AddError(TtError.ArgumentNullError());
             if (resultIn.Failed) return resultIn;
@@ -21,7 +21,7 @@ namespace TwoTrackResult
             }
         }
 
-        public static TtResult<T2> Select<T, T2>(this TtResult<T> resultIn, Func<T2> func)
+        public static ITwoTrack<T2> Select<T, T2>(this TtResult<T> resultIn, Func<T2> func)
         {
             if (func is null) return TtResult<T2>.Fail(TtError.ArgumentNullError());
             if (resultIn.Failed) return TtResult<T2>.Fail(resultIn.Errors);

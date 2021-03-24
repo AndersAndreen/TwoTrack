@@ -19,7 +19,7 @@ namespace Tests.CreationTests
         {
             // Arrange
             // Act
-            var results = new List<TtResult>
+            var results = new List<ITwoTrack>
             {
                 TwoTrack.Fail(new List<TtError>()),
                 TwoTrack.Fail(default(IEnumerable<TtError>)),

@@ -5,7 +5,7 @@ using TwoTrackResult.Utilities;
 
 namespace TwoTrackResult
 {
-    public class TtResult<T> : TtResultBase<TtResult<T>>
+    public class TtResult<T> : TtResultBase<TtResult<T>>, ITwoTrack<T>
     {
         private T _value;
 
@@ -13,18 +13,33 @@ namespace TwoTrackResult
         {
         }
 
-        public TtResult<T> AddError(TtError error) => AddError(new TtResult<T>(), error);
-        public TtResult<T> AddErrors(IEnumerable<TtError> errors) => AddErrors(new TtResult<T>(), errors);
-        public TtResult<T> AddErrors(TtResult result) => AddErrors(new TtResult<T>(), result?.Errors);
+        public ITwoTrack<T> AddError(TtError error) => AddError(new TtResult<T>(), error);
+        public ITwoTrack<T> AddErrors(IEnumerable<TtError> errors) => AddErrors(new TtResult<T>(), errors);
+        public ITwoTrack<T> AddErrors(TtResult result) => AddErrors(new TtResult<T>(), result?.Errors);
 
-        public TtResult<T> SetExceptionFilter(Func<Exception, bool> exeptionFilter)
+        public ITwoTrack<T> SetExceptionFilter(Func<Exception, bool> exeptionFilter)
         {
             if (exeptionFilter is null) return AddError(new TtResult<T>(), TtError.ArgumentNullError());
             ExceptionFilter = exeptionFilter;
             return this;
         }
 
-        public TtResult<T> Do<T2>(Func<T, T2> func)
+        public ITwoTrack<T> Do(Action func)
+        {
+            if (func is null) return AddError(new TtResult<T>(), TtError.ArgumentNullError());
+            if (Failed) return this;
+            try
+            {
+                func();
+                return this;
+            }
+            catch (Exception e) when (ExceptionFilter(e))
+            {
+                return AddError(new TtResult<T>(), TtError.Exception(e));
+            }
+        }
+
+        public ITwoTrack<T> Do<T2>(Func<T, T2> func)
         {
             if (func is null) return AddError(new TtResult<T>(), TtError.ArgumentNullError());
             if (Failed) return this;
@@ -38,7 +53,9 @@ namespace TwoTrackResult
                 return AddError(new TtResult<T>(), TtError.Exception(e));
             }
         }
-        public TtResult<T2> Select<T2>(Func<T, T2> func)
+
+
+        public ITwoTrack<T2> Select<T2>(Func<T, T2> func)
         {
             if (func is null) return TtResult<T2>.Fail(TtError.ArgumentNullError());
             if (Failed) return TtResult<T2>.Fail(Errors);
@@ -56,16 +73,31 @@ namespace TwoTrackResult
             }
         }
 
+        public ITwoTrack<T2> Select<T2>(Func<T, ITwoTrack<T2>> func)
+        {
+            if (func is null) return TtResult<T2>.Fail(TtError.ArgumentNullError());
+            if (Failed) return TtResult<T2>.Fail(Errors);
+            var result = new TtResult<T2> { };
+            if (!Succeeded) return result.AddErrors(Errors);
+            try
+            {
+                return func(_value);
+            }
+            catch (Exception e) when (result.ExceptionFilter(e))
+            {
+                return TtResult<T2>.Fail(TtError.Exception(e));
+            }
+        }
 
         #region Factory methods
-        internal static TtResult<T> Fail(TtError defaultError)
+        internal static ITwoTrack<T> Fail(TtError defaultError)
         {
             return defaultError is null
                 ? new TtResult<T>().AddError(TtError.ArgumentNullError())
                 : new TtResult<T>().AddError(defaultError);
         }
 
-        internal static TtResult<T> Fail(IEnumerable<TtError> defaultError)
+        internal static ITwoTrack<T> Fail(IEnumerable<TtError> defaultError)
         {
             var err = defaultError?.ToList();
             return defaultError is null || !err.Any()
@@ -73,7 +105,7 @@ namespace TwoTrackResult
                 : new TtResult<T>().AddErrors(err);
         }
 
-        public static TtResult<T> Enclose(Func<T> func)
+        public static ITwoTrack<T> Enclose(Func<T> func)
         {
             if (func is null) return new TtResult<T>().AddError(TtError.ArgumentNullError());
             var result = new TtResult<T>();
@@ -89,8 +121,20 @@ namespace TwoTrackResult
             }
         }
 
-        public static TtResult<T> Enclose(Func<TtResult<T>> func) => Enclose(() => func()._value);
-
+        public static ITwoTrack<T> Enclose(Func<ITwoTrack<T>> func)
+        {
+            if (func is null) return new TtResult<T>().AddError(TtError.ArgumentNullError());
+            var result = new TtResult<T>();
+            try
+            {
+                var result2 = func();
+                return result2;
+            }
+            catch (Exception e) when (result.ExceptionFilter(e))
+            {
+                return new TtResult<T>().AddError(TtError.Exception(e));
+            }
+        }
         #endregion
 
     }

@@ -7,7 +7,7 @@ namespace Tests.TestHelpers
 {
     public static class BasicResultAssertions
     {
-        public static void AssertBasicSuccessCriteria(this TtResult result)
+        public static void AssertBasicSuccessCriteria(this ITwoTrack result)
         {
             using (new AssertionScope())
             {
@@ -19,7 +19,7 @@ namespace Tests.TestHelpers
             }
         }
 
-        public static void AssertBasicAppResultFailureCriteria(this TtResult result)
+        public static void AssertBasicAppResultFailureCriteria(this ITwoTrack result)
         {
             using (new AssertionScope())
             {
@@ -30,7 +30,7 @@ namespace Tests.TestHelpers
                     .Should().NotBeEmpty();
             }
         }
-        public static void AssertBasicSuccessCriteria(this TtResult<int> result)
+        public static void AssertBasicSuccessCriteria(this ITwoTrack<int> result)
         {
             using (new AssertionScope())
             {
@@ -42,7 +42,7 @@ namespace Tests.TestHelpers
             }
         }
 
-        public static void AssertBasicAppResultFailureCriteria(this TtResult<int> result)
+        public static void AssertBasicAppResultFailureCriteria(this ITwoTrack<int> result)
         {
             using (new AssertionScope())
             {
