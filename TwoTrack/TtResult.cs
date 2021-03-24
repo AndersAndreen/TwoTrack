@@ -21,51 +21,6 @@ namespace TwoTrackResult
             return this;
         }
 
-        public ITwoTrack Do(Action func)
-        {
-            if (func is null) return AddError(new TtResult(), TtError.ArgumentNullError());
-            if (Failed) return this;
-            try
-            {
-                func();
-                return this;
-            }
-            catch (Exception e) when (ExceptionFilter(e))
-            {
-                return AddError(new TtResult(), TtError.Exception(e));
-            }
-        }
-
-        public ITwoTrack Do<T>(Func<T> func)
-        {
-            if (func is null) return AddError(new TtResult(), TtError.ArgumentNullError());
-            if (Failed) return this;
-            try
-            {
-                _ = func();
-                return this;
-            }
-            catch (Exception e) when (ExceptionFilter(e))
-            {
-                return AddError(new TtResult(), TtError.Exception(e));
-            }
-        }
-
-        public ITwoTrack Do<T>(Func<ITwoTrack<T>> func)
-        {
-            if (func is null) return AddError(new TtResult(), TtError.ArgumentNullError());
-            if (Failed) return this;
-            try
-            {
-                var result = func();
-                return this.AddErrors(result.Errors);
-            }
-            catch (Exception e) when (ExceptionFilter(e))
-            {
-                return AddError(new TtResult(), TtError.Exception(e));
-            }
-        }
-
         #region Factory methods
         internal static ITwoTrack Ok() => new TtResult();
 

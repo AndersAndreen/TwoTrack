@@ -1,31 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TwoTrackResult
 {
     public static class DoExtensions
     {
-        public static ITwoTrack Do(this TtResult resultIn, Action action)
+        public static ITwoTrack Do(this ITwoTrack resultIn, Action action)
         {
             if (action is null) return resultIn.AddError(TtError.ArgumentNullError());
-            if (resultIn.Failed) return resultIn;
-            try
+            return resultIn.TryCatch(() =>
             {
                 action();
                 return resultIn;
+            });
+        }
+
+        public static ITwoTrack Do<T>(this ITwoTrack resultIn, Func<ITwoTrack<T>> func)
+        {
+            if (func is null) return resultIn.AddError(TtError.ArgumentNullError());
+            return resultIn.TryCatch(() =>
+            {
+                func();
+                return resultIn;
+            });
+        }
+
+        private static ITwoTrack TryCatch(this ITwoTrack resultIn, Func<ITwoTrack> func)
+        {
+            if (func is null) return resultIn.AddError(TtError.ArgumentNullError());
+            if (resultIn.Failed) return resultIn;
+            try
+            {
+                return func();
             }
             catch (Exception e) when (resultIn.ExceptionFilter(e))
             {
                 return resultIn.AddError(TtError.Exception(e));
             }
-        }
-
-        public static ITwoTrack<T2> Select<T, T2>(this TtResult<T> resultIn, Func<T2> func)
-        {
-            if (func is null) return TtResult<T2>.Fail(TtError.ArgumentNullError());
-            if (resultIn.Failed) return TtResult<T2>.Fail(resultIn.Errors);
-            return resultIn.Select(inp => func());
         }
     }
 }

@@ -24,21 +24,6 @@ namespace TwoTrackResult
             return this;
         }
 
-        public ITwoTrack<T> Do(Action func)
-        {
-            if (func is null) return AddError(new TtResult<T>(), TtError.ArgumentNullError());
-            if (Failed) return this;
-            try
-            {
-                func();
-                return this;
-            }
-            catch (Exception e) when (ExceptionFilter(e))
-            {
-                return AddError(new TtResult<T>(), TtError.Exception(e));
-            }
-        }
-
         public ITwoTrack<T> Do<T2>(Func<T, T2> func)
         {
             if (func is null) return AddError(new TtResult<T>(), TtError.ArgumentNullError());
@@ -97,12 +82,12 @@ namespace TwoTrackResult
                 : new TtResult<T>().AddError(defaultError);
         }
 
-        internal static ITwoTrack<T> Fail(IEnumerable<TtError> defaultError)
+        internal static ITwoTrack<T> Fail(IEnumerable<TtError> errors)
         {
-            var err = defaultError?.ToList();
-            return defaultError is null || !err.Any()
+            var errorList = errors?.ToList();
+            return errors is null || !errorList.Any()
                 ? new TtResult<T>().AddError(TtError.ArgumentNullError())
-                : new TtResult<T>().AddErrors(err);
+                : new TtResult<T>().AddErrors(errorList);
         }
 
         public static ITwoTrack<T> Enclose(Func<T> func)

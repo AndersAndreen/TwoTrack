@@ -22,47 +22,10 @@ namespace Tests.TtResultGenericTests
 
             // Assert
             result1.Succeeded.Should().BeTrue();
-            result2.Failed.Should().BeTrue();
-            result2.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.ArgumentNullError);
+            //result2.Failed.Should().BeTrue();
+            //result2.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.ArgumentNullError);
         }
 
-        //[Fact]
-        //public void Enclose_ThrowAccessViolationException_ExpectExceptionError()
-        //{
-        //    // Arrange
-        //    // Act
-        //    var result = TwoTrack.Ok()
-        //        .SetExceptionFilter(ex => true)
-        //        .Do(_throwAccessViolationException);
 
-        //    // Assert
-        //    result.Failed.Should().BeTrue();
-        //    result.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.Exception);
-        //}
-
-        //[Fact]
-        //public void Enclose_ThrowArgumentNullException_ExpectUncaughtException()
-        //{
-        //    // Arrange
-        //    // Act
-        //    var result = TwoTrack.Ok()
-        //        .SetExceptionFilter(ex => true)
-        //        .Do(_throwArgumentNullException);
-
-        //    // Assert
-        //    result.Failed.Should().BeTrue();
-        //    result.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.Exception);
-        //}
-
-        //[Fact]
-        //public void Enclose_AllOk_Succeeded()
-        //{
-        //    // Arrange
-        //    // Act
-        //    var result = TwoTrack.Ok().Do(_returnOne);
-
-        //    // Assert
-        //    result.Succeeded.Should().BeTrue();
-        //}
     }
 }

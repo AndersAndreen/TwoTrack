@@ -1,31 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TwoTrackResult
 {
     public static class TtResultGenericDoExtensions
     {
-        public static ITwoTrack<T> Do<T>(this TtResult<T> resultIn, Action action)
+        public static ITwoTrack<T> Do<T>(this ITwoTrack<T> resultIn, Action func)
         {
-            if (action is null) return resultIn.AddError(TtError.ArgumentNullError());
+            if (func is null) return resultIn.AddError(TtError.ArgumentNullError());
+            return resultIn.TryCatch(() =>
+            {
+                func();
+                return resultIn;
+            });
+        }
+
+        public static ITwoTrack<T> TryCatch<T>(this ITwoTrack<T> resultIn, Func<ITwoTrack<T>> func)
+        {
+            if (func is null) return resultIn.AddError(TtError.ArgumentNullError());
             if (resultIn.Failed) return resultIn;
             try
             {
-                action();
-                return resultIn;
+                return func();
             }
             catch (Exception e) when (resultIn.ExceptionFilter(e))
             {
                 return resultIn.AddError(TtError.Exception(e));
             }
-        }
-
-        public static ITwoTrack<T2> Select<T, T2>(this TtResult<T> resultIn, Func<T2> func)
-        {
-            if (func is null) return TtResult<T2>.Fail(TtError.ArgumentNullError());
-            if (resultIn.Failed) return TtResult<T2>.Fail(resultIn.Errors);
-            return resultIn.Select(inp => func());
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Tests.CreationTests
 
             // Assert
             TwoTrack.Fail().Failed.Should().BeTrue();
-            results.Should().AllBeEquivalentTo(TwoTrack.Fail(), opt => opt.Excluding(res => res.Errors));
+            results.Should().AllBeEquivalentTo(TwoTrack.Fail(), opt => opt.Excluding(res => res.Errors).Excluding(res=>res.ExceptionFilter));
             results.ForEach(r => r.Errors.Count.Should().Be(1));
         }
 
@@ -39,56 +39,24 @@ namespace Tests.CreationTests
         // Individual tests
         // ----------------------------------------------------------------------------------------
         [Fact]
-        public void TwoTrack_FailWithEmptyTtErrorList_ExpectedFailureStates()
-        {
-            // Arrange
-
-            // Act
-            var result = TwoTrack.Fail(new List<TtError>());
-
-            // Assert
-            result.AssertBasicAppResultFailureCriteria();
-            result.Errors.Count.Should().Be(1);
-        }
+        public void TwoTrack_FailWithEmptyTtErrorList_ExpectedFailureStates() 
+            => TestAssert(() => TwoTrack.Fail(new List<TtError>()));
 
         [Fact]
-        public void TwoTrack_FailWithNullErrorList_ExpectedFailureStates()
-        {
-            // Arrange
-
-            // Act
-            var result = TwoTrack.Fail(default(IEnumerable<TtError>));
-
-            // Assert
-            result.AssertBasicAppResultFailureCriteria();
-            result.Errors.Count.Should().Be(1);
-        }
+        public void TwoTrack_FailWithNullErrorList_ExpectedFailureStates() 
+            => TestAssert(() => TwoTrack.Fail(default(IEnumerable<TtError>)));
 
         [Fact]
         public void TwoTrack_FailWithNullAsExceptionArgument_ExpectedFailureStates()
-        {
-            // Arrange
-
-            // Act
-            var result = TwoTrack.Fail(default(Exception));
-
-            // Assert
-            result.AssertBasicAppResultFailureCriteria();
-            result.Errors.Count.Should().Be(1);
-        }
+            => TestAssert(() => TwoTrack.Fail(default(Exception)));
 
         [Fact]
-        public void TwoTrack_FailWithException_ExpectedFailureStates()
-        {
-            // Arrange
+        public void TwoTrack_FailWithException_ExpectedFailureStates() 
+            => TestAssert(() => TwoTrack.Fail(new ArgumentOutOfRangeException()));
 
-            // Act
-            var result = TwoTrack.Fail(new ArgumentOutOfRangeException());
-
-            // Assert
-            result.AssertBasicAppResultFailureCriteria();
-            result.Errors.Count.Should().Be(1);
-        }
+        [Fact]
+        public void TwoTrack_Fail_ExpectedFailureStates() 
+            => TestAssert(() => TwoTrack.Fail());
 
         [Fact]
         public void TwoTrack_FailWithResult_ExpectedFailureStates()
@@ -97,24 +65,17 @@ namespace Tests.CreationTests
             var result1 = TwoTrack.Fail();
 
             // Act
-            var result2 = TwoTrack.Fail(result1);
-
-            // Assert
-            result2.AssertBasicAppResultFailureCriteria();
-            result2.Errors.Count.Should().Be(1);
+            TestAssert(() => TwoTrack.Fail(result1));
         }
 
-        [Fact]
-        public void TwoTrack_Fail_ExpectedFailureStates()
+        private void TestAssert(Func<ITwoTrack> func)
         {
-            // Arrange
-
             // Act
-            var result2 = TwoTrack.Fail();
+            var result = func();
 
             // Assert
-            result2.AssertBasicAppResultFailureCriteria();
-            result2.Errors.Count.Should().Be(1);
+            result.AssertBasicAppResultFailureCriteria();
+            result.Errors.Count.Should().Be(1);
         }
     }
 }
