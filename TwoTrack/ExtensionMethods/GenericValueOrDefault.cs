@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TwoTrackResult.ExtensionMethods
 {
-    public static class TtResultGenericValueOrDefault
+    public static class GenericValueOrDefault
     {
         public static T ValueOrDefault<T>(this ITwoTrack<T> result, T defaultValue)
         {

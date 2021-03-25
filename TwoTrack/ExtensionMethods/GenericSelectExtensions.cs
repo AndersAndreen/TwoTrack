@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TwoTrackResult.ExtensionMethods
 {
-    static class TtResultGenericSelectExtensions
+    static class GenericSelectExtensions
     {
         public static ITwoTrack<T2> Select<T, T2>(this ITwoTrack<T> resultIn, Func<T2> func)
         {

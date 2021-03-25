@@ -2,19 +2,9 @@
 
 namespace TwoTrackResult
 {
-    public static class DoExtensions
+    public static class TwoTrackGenericDoExtensions
     {
-        public static ITwoTrack Do(this ITwoTrack resultIn, Action action)
-        {
-            if (action is null) return resultIn.AddError(TtError.ArgumentNullError());
-            return resultIn.TryCatch(() =>
-            {
-                action();
-                return resultIn;
-            });
-        }
-
-        public static ITwoTrack Do<T>(this ITwoTrack resultIn, Func<ITwoTrack<T>> func)
+        public static ITwoTrack<T> Do<T>(this ITwoTrack<T> resultIn, Action func)
         {
             if (func is null) return resultIn.AddError(TtError.ArgumentNullError());
             return resultIn.TryCatch(() =>
@@ -24,7 +14,7 @@ namespace TwoTrackResult
             });
         }
 
-        private static ITwoTrack TryCatch(this ITwoTrack resultIn, Func<ITwoTrack> func)
+        public static ITwoTrack<T> TryCatch<T>(this ITwoTrack<T> resultIn, Func<ITwoTrack<T>> func)
         {
             if (func is null) return resultIn.AddError(TtError.ArgumentNullError());
             if (resultIn.Failed) return resultIn;
