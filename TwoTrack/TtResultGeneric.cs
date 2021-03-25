@@ -74,6 +74,13 @@ namespace TwoTrackResult
             }
         }
 
+        public ITwoTrack<T> Do(Action onFailure, Action<T> onSuccess)
+        {
+            if (Failed) onFailure();
+            if (Succeeded) onSuccess(_value);
+            return this;
+        }
+
         #region Factory methods
         internal static ITwoTrack<T> Fail(TtError defaultError)
         {
@@ -90,7 +97,7 @@ namespace TwoTrackResult
                 : new TtResult<T>().AddErrors(errorList);
         }
 
-        public static ITwoTrack<T> Enclose(Func<T> func)
+        internal static ITwoTrack<T> Enclose(Func<T> func)
         {
             if (func is null) return new TtResult<T>().AddError(TtError.ArgumentNullError());
             var result = new TtResult<T>();
@@ -106,7 +113,7 @@ namespace TwoTrackResult
             }
         }
 
-        public static ITwoTrack<T> Enclose(Func<ITwoTrack<T>> func)
+        internal static ITwoTrack<T> Enclose(Func<ITwoTrack<T>> func)
         {
             if (func is null) return new TtResult<T>().AddError(TtError.ArgumentNullError());
             var result = new TtResult<T>();

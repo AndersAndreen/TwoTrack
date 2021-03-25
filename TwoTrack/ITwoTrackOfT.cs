@@ -17,5 +17,6 @@ namespace TwoTrackResult
         ITwoTrack<T> SetExceptionFilter(Func<Exception, bool> exeptionFilter);
         ITwoTrack<T> Do<T2>(Func<T, T2> func);
         ITwoTrack<T2> Select<T2>(Func<T, T2> func);
+        ITwoTrack<T> Do(Action onFailure, Action<T> onSuccess);
     }
 }
