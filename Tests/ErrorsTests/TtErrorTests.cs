@@ -21,7 +21,7 @@ namespace Tests.ErrorsTests
 
             // Assert
             error.Level.Should().Be(ErrorLevel.Error);
-            error.Category.Should().Be(Category.ArgumentNullError);
+            error.Category.Should().Be(ErrorCategory.ArgumentNullError);
             error.Description.Should().NotBeEmpty();
             error.StackTrace.Should().NotBeEmpty();
         }
@@ -62,7 +62,7 @@ namespace Tests.ErrorsTests
 
             // Assert
             error.Level.Should().Be(ErrorLevel.Error);
-            error.Category.Should().Be(Category.Exception);
+            error.Category.Should().Be(ErrorCategory.Exception);
             error.Description.Should().Be($"System.ArgumentNullException: {exception.Message}");
             error.StackTrace.Should().NotBeEmpty();
         }

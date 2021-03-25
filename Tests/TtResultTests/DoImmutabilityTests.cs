@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using TwoTrackResult;
+using TwoTrackResult.Defaults;
 using Xunit;
 
 namespace Tests.TtResultTests
@@ -23,7 +24,7 @@ namespace Tests.TtResultTests
             // Assert
             result1.Succeeded.Should().BeTrue();
             result2.Failed.Should().BeTrue();
-            result2.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.ArgumentNullError);
+            result2.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
         [Fact]
@@ -37,7 +38,7 @@ namespace Tests.TtResultTests
 
             // Assert
             result.Failed.Should().BeTrue();
-            result.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.Exception);
+            result.Errors.First().Category.Should().Be(ErrorCategory.Exception);
         }
 
         [Fact]
@@ -51,7 +52,7 @@ namespace Tests.TtResultTests
 
             // Assert
             result.Failed.Should().BeTrue();
-            result.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.Exception);
+            result.Errors.First().Category.Should().Be(ErrorCategory.Exception);
         }
 
         [Fact]

@@ -16,7 +16,7 @@ namespace Tests.ErrorsTests
             var result = TwoTrack.Ok().AddError(null);
 
             // Assert
-            result.Errors.First().Category.Should().Be(Category.ArgumentNullError);
+            result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
         [Fact]

@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using TwoTrackResult;
+using TwoTrackResult.Defaults;
 using Xunit;
 
 namespace Tests.TtResultGenericTests
@@ -22,8 +23,8 @@ namespace Tests.TtResultGenericTests
 
             // Assert
             result1.Succeeded.Should().BeTrue();
-            //result2.Failed.Should().BeTrue();
-            //result2.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.ArgumentNullError);
+            result2.Failed.Should().BeTrue();
+            result2.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
 

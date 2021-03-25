@@ -40,7 +40,7 @@ namespace TwoTrackResult
                : new TtError
                {
                    Level = ErrorLevel.Error,
-                   Category = Defaults.Category.Exception,
+                   Category = ErrorCategory.Exception,
                    Description = $"{exception.GetType()}: {exception.Message}",
                    StackTrace = exception.StackTrace
                };
@@ -55,7 +55,7 @@ namespace TwoTrackResult
             return new TtError
             {
                 Level = ErrorLevel.Error,
-                Category = Defaults.Category.ArgumentNullError,
+                Category = ErrorCategory.ArgumentNullError,
                 Description = $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}",
                 StackTrace = Environment.StackTrace
             };
@@ -66,7 +66,7 @@ namespace TwoTrackResult
             return new TtError
             {
                 Level = ErrorLevel.Error,
-                Category = Defaults.Category.ResultNullError,
+                Category = ErrorCategory.ResultNullError,
                 Description = $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}",
                 StackTrace = Environment.StackTrace
             };

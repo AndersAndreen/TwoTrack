@@ -19,7 +19,7 @@ namespace Tests.ErrorsTests
             var result = TwoTrack.Ok().AddErrors(default(TtResult));
 
             // Assert
-            result.Errors.First().Category.Should().Be(Category.ArgumentNullError);
+            result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace Tests.ErrorsTests
             var result = TwoTrack.Ok().AddErrors(default(IEnumerable<TtError>));
 
             // Assert
-            result.Errors.First().Category.Should().Be(Category.ArgumentNullError);
+            result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
         [Fact]

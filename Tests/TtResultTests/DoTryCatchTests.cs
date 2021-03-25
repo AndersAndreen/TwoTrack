@@ -3,6 +3,7 @@ using FluentAssertions;
 using System.Linq;
 using Tests.ValueObject;
 using TwoTrackResult;
+using TwoTrackResult.Defaults;
 using Xunit;
 
 namespace Tests.TtResultTests
@@ -23,7 +24,7 @@ namespace Tests.TtResultTests
 
             // Assert
             result.Failed.Should().BeTrue();
-            result.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.ArgumentNullError);
+            result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
         [Fact]
@@ -61,7 +62,7 @@ namespace Tests.TtResultTests
 
             // Assert
             result.Failed.Should().BeTrue();
-            result.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.Exception);
+            result.Errors.First().Category.Should().Be(ErrorCategory.Exception);
         }
 
         [Fact]

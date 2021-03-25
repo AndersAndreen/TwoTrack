@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using System.Linq;
 using TwoTrackResult;
+using TwoTrackResult.Defaults;
 using Xunit;
 
 namespace Tests.TtResultTests
@@ -15,7 +16,7 @@ namespace Tests.TtResultTests
             var result = TwoTrack.Ok().SetExceptionFilter(null);
 
             // Assert
-            result.Errors.First().Category.Should().Be(TwoTrackResult.Defaults.Category.ArgumentNullError);
+            result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
         [Fact]
