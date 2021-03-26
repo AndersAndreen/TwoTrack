@@ -11,14 +11,23 @@ namespace TwoTrackResult
         public string Category { get; private set; }
         public string Description { get; private set; }
         public string StackTrace { get; private set; }
-        // -------------------------------------------------------------------------------------------
-        // Constructors
-        // -------------------------------------------------------------------------------------------
 
         private TtError()
         {
         }
 
+        internal TtError Convert(ErrorLevel errorLevel, string description)
+        {
+            return new TtError
+            {
+                Level = errorLevel,
+                Category = Category,
+                Description = description,
+                StackTrace = StackTrace
+            };
+        }
+
+        #region Factory methods
         public static TtError Make(ErrorLevel errorLevel, string category, string description)
         {
             if (category is null || description is null) return ArgumentNullError();
@@ -71,10 +80,9 @@ namespace TwoTrackResult
                 StackTrace = Environment.StackTrace
             };
         }
+        #endregion
 
-        // -------------------------------------------------------------------------------------------
-        // Implementation of abstract methods
-        // -------------------------------------------------------------------------------------------
+        #region Implementation of abstract methods
         protected override bool ComparePropertiesForEquality(TtError error)
         {
             return Level == error.Level
@@ -85,6 +93,7 @@ namespace TwoTrackResult
 
         protected override string DefineToStringFormat()
             => $"ErrorLevel:{Level}, EventType:{Category}, Description:{Description}";
+        #endregion
     }
 }
 

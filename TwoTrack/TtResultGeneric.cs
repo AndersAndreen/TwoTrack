@@ -104,8 +104,9 @@ namespace TwoTrackResult
             try
             {
                 result._value = func();
-                if (result._value == null) result.AddError(TtError.ResultNullError());
-                return result;
+                return result._value == null
+                    ? result.AddError(TtError.ResultNullError())
+                    : result;
             }
             catch (Exception e) when (result.ExceptionFilter(e))
             {
@@ -119,8 +120,7 @@ namespace TwoTrackResult
             var result = new TtResult<T>();
             try
             {
-                var result2 = func();
-                return result2;
+                return func();
             }
             catch (Exception e) when (result.ExceptionFilter(e))
             {

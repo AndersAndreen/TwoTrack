@@ -1,0 +1,27 @@
+﻿@using DemoWebApp.Utils
+@using DemoWebApp.ViewModels
+@using Microsoft.AspNetCore.Mvc.ModelBinding
+@using TwoTrackResult
+@model IEnumerable<DemoWebApp.ViewModels.BookViewModel>
+@{
+    ViewData["Title"] = "Selected Books";
+}
+
+<div class="text-center">
+    <h1 class="display-4">My Selected Books</h1>
+    <div class="list-group">
+        <div class="list-group-item d-flex list-group-item-action active">
+            Books:
+        </div>
+        @foreach (var item in Model)
+        {
+            var book = (BookViewModel) item;
+            <div class="list-group-item list-group-item-action d-flex flex-row justify-content-start">
+                <div class="p-2"> @book.Author</div>
+                <div class="p-2">@book.Title</div>
+                <div class="p-2">Published: @book.PublicationYear</div>
+                <div class="p-2">Price: @book.PriceInSek</div>
+            </div>
+        }
+    </div>
+</div>

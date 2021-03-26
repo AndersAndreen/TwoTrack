@@ -1,0 +1,53 @@
+﻿@using DemoWebApp.Utils
+@using DemoWebApp.ViewModels
+@using Microsoft.AspNetCore.Mvc.ModelBinding
+@using TwoTrackResult
+@model IEnumerable<DemoWebApp.ViewModels.BookViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome To This Book Store Demo</h1>
+    <a asp-controller="Home"
+       asp-action="DisplayBook" 
+       asp-route-id="111">Open: 111</a>
+       @*asp-route-id="@Model.First().Isbn">Open: @Model.First().Isbn</a>*@
+    
+       @*<form>
+           <p>
+               Movie Title:<input type="text" name="SearchString">
+               <input type="submit" value="Filter"/>
+           </p>
+       </form>*@
+
+       <form asp-controller="Home" asp-action="Index">
+           <p>
+               Title: <input type="text" name="searchfor" />
+               <input type="submit" value="search"/>
+           </p>
+       </form>
+
+       <div class="list-group">
+        <div class="list-group-item d-flex list-group-item-action active">
+            Books:
+        </div>
+        @foreach (var item in Model)
+        {
+            var book = (BookViewModel) item;
+            <a class="list-group-item list-group-item-action d-flex flex-row justify-content-start"
+               asp-controller="Home"
+               asp-action="DisplayBook" 
+               asp-route-id="@item.Isbn">
+                <div class="p-2"> @book.Author</div>
+                <div class="p-2">@book.Title</div>
+                <div class="p-2">Published: @book.PublicationYear</div>
+                <div class="p-2">Price: @book.PriceInSek</div>
+            </a>
+        }
+    </div>
+</div>
