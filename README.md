@@ -15,7 +15,7 @@ In the summer of 2019 i came across a way of applying functional style result/er
 - Automatic null check of inputs
 - Built in optional and configurable catch and conversion of exceptions to errors
 - Supports both error messages and confirmation messages
-- Designed to support both Webb APIs and ASP .NET solutions
+- Designed to support both Web APIs and ASP .NET solutions
 - Error and confirmation levels are compatible with ILogger for easy conversion
  
 # API Reference
