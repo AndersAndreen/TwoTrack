@@ -21,12 +21,10 @@ namespace DemoWebApp.Controllers
 
         public IActionResult Index(string searchfor)
         {
-            var vm = (searchfor is null)
-                ? new List<BookViewModel>()
-                : _bookQueryService
-                    .Get(book => book.Author.ToLower().Contains(searchfor) || book.Title.ToLower().Contains(searchfor),
-                        BookViewModel.Map())
+            var books = _bookQueryService
+                    .Get(QueryFilters.FindInTitleAndAuthor(searchfor), BookViewModel.Map())
                     .ValueAndModelState(ModelState, new List<BookViewModel>());
+            var vm = new BookListingViewModel { Books = books, Searchfor = searchfor };
             return View(vm);
         }
 
@@ -37,6 +35,7 @@ namespace DemoWebApp.Controllers
                 .ValueAndModelState(ModelState, new BookViewModel());
             return View(vm);
         }
+
         public IActionResult Selections()
         {
             var vm = _bookQueryService

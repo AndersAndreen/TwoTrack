@@ -7,6 +7,7 @@ namespace DemoWebApp.ViewModels
 {
     public class BookListingViewModel
     {
+        public string Searchfor { get; set; }
         public ICollection<BookViewModel> Books = new List<BookViewModel>();
     }
 }
