@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace TwoTrack.UnitTests.TtResultTests
+namespace TwoTrack.Core.UnitTests.TtResultTests
 {
     public class DoOnlyIfSuccededTests
     {
@@ -21,7 +21,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Core.TwoTrack.Ok();
+            var result1 = global::TwoTrack.Core.TwoTrack.Ok();
             var result2 = result1.Do(_storeOne);
 
             // Assert
@@ -35,7 +35,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Core.TwoTrack.Fail();
+            var result1 = global::TwoTrack.Core.TwoTrack.Fail();
             var result2 = result1.Do(_storeOne);
 
             // Assert

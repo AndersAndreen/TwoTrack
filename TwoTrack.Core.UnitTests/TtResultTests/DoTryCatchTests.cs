@@ -4,7 +4,7 @@ using FluentAssertions;
 using TwoTrack.Core.Defaults;
 using Xunit;
 
-namespace TwoTrack.UnitTests.TtResultTests
+namespace TwoTrack.Core.UnitTests.TtResultTests
 {
     public class DoTryCatchTests
     {
@@ -18,7 +18,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok().Do(null);
+            var result = global::TwoTrack.Core.TwoTrack.Ok().Do(null);
 
             // Assert
             result.Failed.Should().BeTrue();
@@ -29,7 +29,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         public void Do_ThrowAccessViolationExceptionWithoutCatcher_ExpectUncaughtExeption()
         {
             // Arrange
-            Action act = () => TwoTrack.Core.TwoTrack.Ok().Do(_throwAccessViolationException);
+            Action act = () => global::TwoTrack.Core.TwoTrack.Ok().Do(_throwAccessViolationException);
 
             // Act
 
@@ -41,7 +41,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         public void Do_ThrowsArgumentNullWithoutCatcher_ExpectUncaughtExeption()
         {
             // Arrange
-            Action act = () => TwoTrack.Core.TwoTrack.Ok().Do(_throwArgumentNullException);
+            Action act = () => global::TwoTrack.Core.TwoTrack.Ok().Do(_throwArgumentNullException);
 
             // Act
 
@@ -54,7 +54,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok()
+            var result = global::TwoTrack.Core.TwoTrack.Ok()
                 .SetExceptionFilter(_argumentNullCatcher)
                 .Do(_throwArgumentNullException);
 
@@ -67,7 +67,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         public void Do_ThrowAccessViolationExceptionWithNullExceptionCatcher_ExpectUncaughtExeption()
         {
             // Arrange
-            Action act = () => TwoTrack.Core.TwoTrack.Ok()
+            Action act = () => global::TwoTrack.Core.TwoTrack.Ok()
                 .SetExceptionFilter(_argumentNullCatcher)
                 .Do(_throwAccessViolationException);
 
@@ -81,7 +81,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok().Do(_doNothing);
+            var result = global::TwoTrack.Core.TwoTrack.Ok().Do(_doNothing);
 
             // Assert
             result.Succeeded.Should().BeTrue();

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Xunit;
 
-namespace TwoTrack.UnitTests.ValueObject
+namespace TwoTrack.Core.UnitTests.ValueObject
 {
     public class ValueObjectToStringTests
     {

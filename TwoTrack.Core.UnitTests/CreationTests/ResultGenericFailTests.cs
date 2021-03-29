@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using TwoTrack.Core;
-using TwoTrack.UnitTests.TestHelpers;
+using TwoTrack.Core.UnitTests.TestHelpers;
 using Xunit;
 
-namespace TwoTrack.UnitTests.CreationTests
+namespace TwoTrack.Core.UnitTests.CreationTests
 {
     public class ResultGenericFailTests
     {
@@ -20,18 +19,18 @@ namespace TwoTrack.UnitTests.CreationTests
             // Act
             var results = new List<ITwoTrack<int>>
             {
-                TwoTrack.Core.TwoTrack.Fail<int>(new List<TtError>()),
-                TwoTrack.Core.TwoTrack.Fail<int>(default(IEnumerable<TtError>)),
-                TwoTrack.Core.TwoTrack.Fail<int>(default(Exception)),
-                TwoTrack.Core.TwoTrack.Fail<int>(new ArgumentOutOfRangeException()),
-                TwoTrack.Core.TwoTrack.Fail<int>(TwoTrack.Core.TwoTrack.Enclose(()=>1).AddError(TtError.DefaultError())),
-                TwoTrack.Core.TwoTrack.Fail<int>(TwoTrack.Core.TwoTrack.Fail()),
-                TwoTrack.Core.TwoTrack.Fail<int>(),
+                global::TwoTrack.Core.TwoTrack.Fail<int>(new List<TtError>()),
+                global::TwoTrack.Core.TwoTrack.Fail<int>(default(IEnumerable<TtError>)),
+                global::TwoTrack.Core.TwoTrack.Fail<int>(default(Exception)),
+                global::TwoTrack.Core.TwoTrack.Fail<int>(new ArgumentOutOfRangeException()),
+                global::TwoTrack.Core.TwoTrack.Fail<int>(global::TwoTrack.Core.TwoTrack.Enclose(()=>1).AddError(TtError.DefaultError())),
+                global::TwoTrack.Core.TwoTrack.Fail<int>(global::TwoTrack.Core.TwoTrack.Fail()),
+                global::TwoTrack.Core.TwoTrack.Fail<int>(),
             };
 
             // Assert
-            TwoTrack.Core.TwoTrack.Fail().Failed.Should().BeTrue();
-            results.Should().AllBeEquivalentTo(TwoTrack.Core.TwoTrack.Fail(), 
+            global::TwoTrack.Core.TwoTrack.Fail().Failed.Should().BeTrue();
+            results.Should().AllBeEquivalentTo(global::TwoTrack.Core.TwoTrack.Fail(), 
                 opt => opt.Excluding(res => res.Errors).Excluding(res => res.ExceptionFilter));
             results.ForEach(r => r.Errors.Count.Should().Be(1));
         }
@@ -46,7 +45,7 @@ namespace TwoTrack.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Core.TwoTrack.Fail<int>(new List<TtError>());
+            var result = global::TwoTrack.Core.TwoTrack.Fail<int>(new List<TtError>());
 
             // Assert
             result.AssertBasicAppResultFailureCriteria();
@@ -59,7 +58,7 @@ namespace TwoTrack.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Core.TwoTrack.Fail<int>(default(IEnumerable<TtError>));
+            var result = global::TwoTrack.Core.TwoTrack.Fail<int>(default(IEnumerable<TtError>));
 
             // Assert
             result.AssertBasicAppResultFailureCriteria();
@@ -72,7 +71,7 @@ namespace TwoTrack.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Core.TwoTrack.Fail<int>(default(Exception));
+            var result = global::TwoTrack.Core.TwoTrack.Fail<int>(default(Exception));
 
             // Assert
             result.AssertBasicAppResultFailureCriteria();
@@ -85,7 +84,7 @@ namespace TwoTrack.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Core.TwoTrack.Fail<int>(new ArgumentOutOfRangeException());
+            var result = global::TwoTrack.Core.TwoTrack.Fail<int>(new ArgumentOutOfRangeException());
 
             // Assert
             result.AssertBasicAppResultFailureCriteria();
@@ -96,10 +95,10 @@ namespace TwoTrack.UnitTests.CreationTests
         public void TwoTrack_FailTWithResultOfT_ExpectedFailureStates()
         {
             // Arrange
-            var result1 = TwoTrack.Core.TwoTrack.Enclose(() => 1).AddError(TtError.DefaultError());
+            var result1 = global::TwoTrack.Core.TwoTrack.Enclose(() => 1).AddError(TtError.DefaultError());
 
             // Act
-            var result2 = TwoTrack.Core.TwoTrack.Fail<int>(result1);
+            var result2 = global::TwoTrack.Core.TwoTrack.Fail<int>(result1);
 
             // Assert
             result2.AssertBasicAppResultFailureCriteria();
@@ -110,10 +109,10 @@ namespace TwoTrack.UnitTests.CreationTests
         public void TwoTrack_FailTWithResult_ExpectedFailureStates()
         {
             // Arrange
-            var result1 = TwoTrack.Core.TwoTrack.Fail();
+            var result1 = global::TwoTrack.Core.TwoTrack.Fail();
 
             // Act
-            var result2 = TwoTrack.Core.TwoTrack.Fail<int>(result1);
+            var result2 = global::TwoTrack.Core.TwoTrack.Fail<int>(result1);
 
             // Assert
             result2.AssertBasicAppResultFailureCriteria();
@@ -126,7 +125,7 @@ namespace TwoTrack.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result2 = TwoTrack.Core.TwoTrack.Fail<int>();
+            var result2 = global::TwoTrack.Core.TwoTrack.Fail<int>();
 
             // Assert
             result2.AssertBasicAppResultFailureCriteria();

@@ -3,7 +3,7 @@ using FluentAssertions;
 using TwoTrack.Core.Defaults;
 using Xunit;
 
-namespace TwoTrack.UnitTests.TtResultTests
+namespace TwoTrack.Core.UnitTests.TtResultTests
 {
     public class SetExceptionFilterTests
     {
@@ -12,7 +12,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok().SetExceptionFilter(null);
+            var result = global::TwoTrack.Core.TwoTrack.Ok().SetExceptionFilter(null);
 
             // Assert
             result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
@@ -23,7 +23,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok().SetExceptionFilter(ex => false);
+            var result = global::TwoTrack.Core.TwoTrack.Ok().SetExceptionFilter(ex => false);
 
             // Assert
             result.Succeeded.Should().BeTrue();

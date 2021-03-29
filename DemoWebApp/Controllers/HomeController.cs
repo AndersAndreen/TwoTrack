@@ -1,5 +1,4 @@
-﻿using DemoWebApp.Models;
-using DemoWebApp.Services;
+﻿using DemoWebApp.Services;
 using DemoWebApp.Utils;
 using DemoWebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;

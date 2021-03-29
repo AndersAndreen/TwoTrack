@@ -4,7 +4,7 @@ using FluentAssertions;
 using TwoTrack.Core.Defaults;
 using Xunit;
 
-namespace TwoTrack.UnitTests.TtResultTests
+namespace TwoTrack.Core.UnitTests.TtResultTests
 {
     public class DoImmutabilityTests
     {
@@ -17,7 +17,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Core.TwoTrack.Ok();
+            var result1 = global::TwoTrack.Core.TwoTrack.Ok();
             var result2 = result1.Do(null);
 
             // Assert
@@ -31,7 +31,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok()
+            var result = global::TwoTrack.Core.TwoTrack.Ok()
                 .SetExceptionFilter(ex => true)
                 .Do(_throwAccessViolationException);
 
@@ -45,7 +45,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok()
+            var result = global::TwoTrack.Core.TwoTrack.Ok()
                 .SetExceptionFilter(ex => true)
                 .Do(_throwArgumentNullException);
 
@@ -59,7 +59,7 @@ namespace TwoTrack.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok().Do(_doNothing);
+            var result = global::TwoTrack.Core.TwoTrack.Ok().Do(_doNothing);
 
             // Assert
             result.Succeeded.Should().BeTrue();

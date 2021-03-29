@@ -2,10 +2,9 @@
 using System.Linq;
 using FluentAssertions;
 using TwoTrack.Core.Defaults;
-using TwoTrack.Extensions.TryOut;
 using Xunit;
 
-namespace TwoTrack.UnitTests.TtResultGenericTests
+namespace TwoTrack.Core.UnitTests.TtResultGenericTests
 {
     public class EncloseImmutabilityTests
     {
@@ -18,13 +17,12 @@ namespace TwoTrack.UnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Core.TwoTrack.Enclose(_returnOne);
-            var result2 = result1.Do(default(Action));
+            var result1 = global::TwoTrack.Core.TwoTrack.Enclose(_returnOne);
+            var result2 = result1.Do(x => default(Action));
 
             // Assert
             result1.Succeeded.Should().BeTrue();
             result2.Failed.Should().BeTrue();
-            result2.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
 

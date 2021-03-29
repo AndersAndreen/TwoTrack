@@ -1,9 +1,8 @@
 ﻿using System;
 using FluentAssertions;
-using TwoTrack.Core;
 using Xunit;
 
-namespace TwoTrack.UnitTests.ConfirmationsTests
+namespace TwoTrack.Core.UnitTests.ConfirmationsTests
 {
     public class TtConfirmationTests
     {

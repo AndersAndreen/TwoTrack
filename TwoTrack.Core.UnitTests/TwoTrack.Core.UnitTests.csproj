@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TwoTrack.Extensions\TwoTrack.Extensions.csproj" />
     <ProjectReference Include="..\TwoTrack.Core\TwoTrack.Core.csproj" />
   </ItemGroup>
 

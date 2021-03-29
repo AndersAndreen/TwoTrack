@@ -1,10 +1,9 @@
 using System.Linq;
 using FluentAssertions;
-using TwoTrack.Core;
 using TwoTrack.Core.Defaults;
 using Xunit;
 
-namespace TwoTrack.UnitTests.ErrorsTests
+namespace TwoTrack.Core.UnitTests.ErrorsTests
 {
     public class TtResultAddErrorTests
     {
@@ -13,7 +12,7 @@ namespace TwoTrack.UnitTests.ErrorsTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok().AddError(null);
+            var result = global::TwoTrack.Core.TwoTrack.Ok().AddError(null);
 
             // Assert
             result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
@@ -24,7 +23,7 @@ namespace TwoTrack.UnitTests.ErrorsTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok();
+            var result = global::TwoTrack.Core.TwoTrack.Ok();
             var result2 = result.AddError(null);
 
             // Assert
@@ -37,7 +36,7 @@ namespace TwoTrack.UnitTests.ErrorsTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Core.TwoTrack.Fail();
+            var result = global::TwoTrack.Core.TwoTrack.Fail();
             var result2 = result.AddError(null);
 
             // Assert
@@ -54,7 +53,7 @@ namespace TwoTrack.UnitTests.ErrorsTests
             var error = TtError.Make(errrorLevel);
 
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok().AddError(error);
+            var result = global::TwoTrack.Core.TwoTrack.Ok().AddError(error);
 
             // Assert
             result.Errors.Count.Should().Be(1);
@@ -71,7 +70,7 @@ namespace TwoTrack.UnitTests.ErrorsTests
             var error = TtError.Make(errrorLevel);
 
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok().AddError(error);
+            var result = global::TwoTrack.Core.TwoTrack.Ok().AddError(error);
 
             // Assert
             result.Errors.Count.Should().Be(1);

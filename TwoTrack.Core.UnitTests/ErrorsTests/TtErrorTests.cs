@@ -1,10 +1,9 @@
 ﻿using System;
 using FluentAssertions;
-using TwoTrack.Core;
 using TwoTrack.Core.Defaults;
 using Xunit;
 
-namespace TwoTrack.UnitTests.ErrorsTests
+namespace TwoTrack.Core.UnitTests.ErrorsTests
 {
     public class TtErrorTests
     {

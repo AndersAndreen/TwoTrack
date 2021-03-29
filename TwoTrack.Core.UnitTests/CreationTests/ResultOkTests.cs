@@ -1,8 +1,8 @@
 using FluentAssertions;
-using TwoTrack.UnitTests.TestHelpers;
+using TwoTrack.Core.UnitTests.TestHelpers;
 using Xunit;
 
-namespace TwoTrack.UnitTests.CreationTests
+namespace TwoTrack.Core.UnitTests.CreationTests
 {
     public class ResultOkTests
     {
@@ -12,7 +12,7 @@ namespace TwoTrack.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Core.TwoTrack.Ok();
+            var result = global::TwoTrack.Core.TwoTrack.Ok();
 
             // Assert
             result.AssertBasicSuccessCriteria();

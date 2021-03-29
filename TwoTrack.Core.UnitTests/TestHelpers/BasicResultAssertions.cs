@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using TwoTrack.Core;
 
-namespace TwoTrack.UnitTests.TestHelpers
+namespace TwoTrack.Core.UnitTests.TestHelpers
 {
     public static class BasicResultAssertions
     {

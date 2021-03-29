@@ -31,23 +31,23 @@ namespace TwoTrack.Core.Internal
             CloneAndSet(_value).ExceptionFilter = exeptionFilter;
             return this;
         }
+
         public ITwoTrack<T> Do(Action onFailure, Action<T> onSuccess)
         {
             if (onFailure is null || onSuccess is null) return CloneAndSet(_value, TtError.ArgumentNullError());
             if (Failed) onFailure();
-            if (Succeeded) TryCatch(() =>
+            if (Succeeded) return AddErrors(TryCatch(() =>
             {
                 onSuccess(_value);
                 return this;
-            });
+            }).Errors);
             return this;
         }
 
         public ITwoTrack<T> Do<T2>(Func<T2> func)
         {
             if (func is null) return CloneAndSet(_value, TtError.ArgumentNullError());
-            if (Succeeded) TryCatch(func);
-            return this;
+            return Succeeded ? AddErrors(TryCatch(func).Errors) : this;
         }
 
         public ITwoTrack<T> Do<T2>(Func<T, T2> func) => Do(() => func(_value));

@@ -1,8 +1,8 @@
 using FluentAssertions;
-using TwoTrack.UnitTests.TestHelpers;
+using TwoTrack.Core.UnitTests.TestHelpers;
 using Xunit;
 
-namespace TwoTrack.UnitTests.CreationTests
+namespace TwoTrack.Core.UnitTests.CreationTests
 {
     public class ResultGenericEncloseTests
     {
@@ -12,7 +12,7 @@ namespace TwoTrack.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Core.TwoTrack.Enclose(() => 3);
+            var result = global::TwoTrack.Core.TwoTrack.Enclose(() => 3);
 
             // Assert
             result.AssertBasicSuccessCriteria();
@@ -25,7 +25,7 @@ namespace TwoTrack.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Core.TwoTrack.Enclose(() => TwoTrack.Core.TwoTrack.Enclose(()=>3));
+            var result = global::TwoTrack.Core.TwoTrack.Enclose(() => global::TwoTrack.Core.TwoTrack.Enclose(()=>3));
 
             // Assert
             result.AssertBasicSuccessCriteria();

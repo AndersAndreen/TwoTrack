@@ -1,6 +1,4 @@
-﻿using TwoTrack.Core;
-
-namespace TwoTrack.UnitTests.ValueObject
+﻿namespace TwoTrack.Core.UnitTests.ValueObject
 {
     class ValueObjectStringMock : ValueObject<ValueObjectStringMock>
     {

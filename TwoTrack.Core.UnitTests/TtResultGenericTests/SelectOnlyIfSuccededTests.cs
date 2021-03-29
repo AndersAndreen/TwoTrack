@@ -1,20 +1,23 @@
 ﻿using System;
 using FluentAssertions;
-using TwoTrack.Extensions.TryOut;
 using Xunit;
 
-namespace TwoTrack.UnitTests.TtResultGenericTests
+namespace TwoTrack.Core.UnitTests.TtResultGenericTests
 {
-    public class DoOnlyIfSuccededTests
+    public class SelectOnlyIfSuccededTests
     {
         private readonly Action _throwAccessViolationException = () => throw new AccessViolationException();
         private readonly Action _throwArgumentNullException = () => throw new ArgumentNullException();
-        private readonly Action _updateMockValue;
+        private readonly Func<int,int> _storeMock;
         private int _mockValue = 0;
 
-        public DoOnlyIfSuccededTests()
+        public SelectOnlyIfSuccededTests()
         {
-            _updateMockValue = () => { _mockValue = 1; };
+            _storeMock = inp =>
+            {
+                _mockValue = inp;
+                return inp;
+            };
         }
 
         [Fact]
@@ -22,13 +25,12 @@ namespace TwoTrack.UnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Core.TwoTrack.Enclose(() => "#");
-            //var result2 = result1.Do(_updateMockValue);
+            var result1 = global::TwoTrack.Core.TwoTrack.Enclose(() => 1);
 
             // Assert
+            _ = result1.Do(_storeMock);
             result1.Succeeded.Should().BeTrue();
-            //result2.Succeeded.Should().BeTrue();
-            //_mockValue.Should().Be(1);
+            _mockValue.Should().Be(1);
         }
 
         [Fact]
@@ -36,8 +38,8 @@ namespace TwoTrack.UnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Core.TwoTrack.Fail<string>();
-            var result2 = result1.Do(_updateMockValue);
+            var result1 = global::TwoTrack.Core.TwoTrack.Fail<int>();
+            var result2 = result1.Do(_storeMock);
 
             // Assert
             result1.Failed.Should().BeTrue();
