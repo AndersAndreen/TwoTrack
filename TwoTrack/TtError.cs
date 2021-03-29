@@ -60,7 +60,7 @@ namespace TwoTrackResult
 
         public static TtError ArgumentNullError()
         {
-            StackFrame callStack = new StackFrame(1, true);
+            var callStack = new StackFrame(1, true);
             return new TtError
             {
                 Level = ErrorLevel.Error,
@@ -69,14 +69,39 @@ namespace TwoTrackResult
                 StackTrace = Environment.StackTrace
             };
         }
+
         public static TtError ResultNullError()
         {
-            StackFrame callStack = new StackFrame(1, true);
+            var callStack = new StackFrame(1, true);
             return new TtError
             {
                 Level = ErrorLevel.Error,
                 Category = ErrorCategory.ResultNullError,
                 Description = $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}",
+                StackTrace = Environment.StackTrace
+            };
+        }
+
+        public static TtError DesignBugError()
+        {
+            var callStack = new StackFrame(1, true);
+            return new TtError
+            {
+                Level = ErrorLevel.Error,
+                Category = ErrorCategory.DesignBugError,
+                Description = $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}",
+                StackTrace = Environment.StackTrace
+            };
+        }
+
+        public static TtError ValidationError(string description)
+        {
+            var callStack = new StackFrame(1, true);
+            return new TtError
+            {
+                Level = ErrorLevel.ReportError,
+                Category = ErrorCategory.ValidationError,
+                Description = description,
                 StackTrace = Environment.StackTrace
             };
         }

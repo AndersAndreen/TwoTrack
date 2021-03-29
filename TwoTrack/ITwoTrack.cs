@@ -3,13 +3,17 @@ using System.Collections.Generic;
 
 namespace TwoTrackResult
 {
-    public interface ITwoTrack : ITwoTrackResult
+    public interface ITwoTrack : ITtCloneable
     {
-        Func<Exception, bool> ExceptionFilter { get; }
+        ITwoTrack SetExceptionFilter(Func<Exception, bool> exeptionFilter);
 
         ITwoTrack AddError(TtError error);
         ITwoTrack AddErrors(IEnumerable<TtError> errors);
-        ITwoTrack AddErrors(ITwoTrack result);
-        ITwoTrack SetExceptionFilter(Func<Exception, bool> exeptionFilter);
+        ITwoTrack AddConfirmation(TtConfirmation confirmation);
+        ITwoTrack AddConfirmations(IEnumerable<TtConfirmation> confirmations);
+
+        ITwoTrack Do(Action action);
+        ITwoTrack Do(Func<ITwoTrack> func);
+        ITwoTrack Do<T>(Func<ITwoTrack<T>> func);
     }
 }

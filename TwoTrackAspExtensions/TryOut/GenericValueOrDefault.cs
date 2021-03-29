@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TwoTrackResult.ExtensionMethods
+namespace TwoTrackResult
 {
     public static class GenericValueOrDefault
     {

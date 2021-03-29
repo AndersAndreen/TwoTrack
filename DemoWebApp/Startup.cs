@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DemoWebApp.EntityModels;
 using DemoWebApp.Services;
 
 namespace DemoWebApp
@@ -27,6 +28,7 @@ namespace DemoWebApp
             services.AddControllersWithViews();
             services.AddScoped<BookQueryService>();
             services.AddScoped<OrderCommandService>();
+            services.AddScoped<FakeDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

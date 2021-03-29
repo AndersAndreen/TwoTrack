@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TwoTrackAspExtensions\TwoTrackAspExtensions.csproj" />
     <ProjectReference Include="..\TwoTrack\TwoTrackResult.csproj" />
   </ItemGroup>
 

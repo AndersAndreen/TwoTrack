@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using TwoTrackResult;
-using TwoTrackResult.ExtensionMethods;
 
 namespace DemoWebApp.Utils
 {

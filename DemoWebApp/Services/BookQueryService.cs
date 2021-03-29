@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
+using DemoWebApp.BusinessRules;
 using TwoTrackResult;
 using TwoTrackResult.Defaults;
 
@@ -11,43 +13,45 @@ namespace DemoWebApp.Services
 {
     public class BookQueryService
     {
+        private readonly FakeDbContext _fakeDbContext;
+
+        public BookQueryService(FakeDbContext fakeDbContext)
+        {
+            _fakeDbContext = fakeDbContext;
+        }
+
         public ITwoTrack<ICollection<T>> Get<T>(Expression<Func<Book, bool>> filter, Expression<Func<Book, T>> mapper)
         {
-            return TwoTrack.Enclose(() => FakeRepoGetBooks()
+            return TwoTrack.Enclose(() => _fakeDbContext.Books
                 .Where(filter)
                 .Select(mapper)
                 .ToList());
         }
 
         public ITwoTrack<T> GetByIsbn<T>(string isbn, Expression<Func<Book, T>> mapper)
-            => TwoTrack.Enclose(() => FakeRepoGetBooks()
-                .Where(book => book.Isbn == isbn)
-                .Select(mapper)
-                .FirstOrDefault())
-                .ReplaceNullResultWithErrorMessage(ErrorDescriptions.ItemNotFound);
+        {
+            var result = TwoTrack.Enclose(() => isbn, IsbnValidator.Validate, TtError.ValidationError($"incorrect ISBN format: {isbn}"))
+                .Enclose(nr => _fakeDbContext.Books
+                    .Where(book => book.Isbn == nr)
+                    .Select(mapper)
+                    .FirstOrDefault())
+                .Select(tuple => tuple.Item2);
+                //.ReplaceNullResultWithErrorMessage(ErrorDescriptions.ItemNotFound);
+            return result;
+        }
 
-        private IQueryable<Book> FakeRepoGetBooks() =>
-            new List<Book>
-            {
-                Book.Create( "Laura Ingalls Wilder",  "Little House in the Big Woods", 1932,"4412345678",75m),
-                Book.Create( "Laura Ingalls Wilder",  "Farmer Boy", 1933,"4412345679",75m),
-                Book.Create( "Laura Ingalls Wilder",  "Little House on the Prairie", 1935,"4412345680",59m),
-                Book.Create( "Laura Ingalls Wilder",  "On the Banks of Plum Creek", 1937,"4412345681",75m),
-                Book.Create( "Jack London",  "The Game", 1905,"451234500234",75m),
-                Book.Create( "Jack London",  "The Call of the Wild", 1903,"452234503235",60m),
-                Book.Create( "Isaac Asimov",  "The Caves of Steel", 1954,"452234503236",75m),
-                Book.Create( "Isaac Asimov",  "The Currents of Space", 1952,"452234503237",102m),
-                Book.Create( "Ursula K. Le Guin",  "A Wizard of Earthsea", 1968,"452234500137",120m),
-                Book.Create( "Ursula K. Le Guin",  "The Left Hand of Darkness", 1969,"452234500137",115m),
-            }.AsQueryable();
-
-        private IQueryable<OrderViewModel> FakeRepoGetOrders()
-            => new List<OrderViewModel>
-            {
-                new OrderViewModel{ID = 1, Amonunt = 1, TotalPrice = 1.2m},
-                new OrderViewModel{ID = 1, Amonunt = 1, TotalPrice = 1.2m},
-                new OrderViewModel{ID = 1, Amonunt = 1, TotalPrice = 1.2m},
-            }.AsQueryable();
+        public ITwoTrack<T> GetByIsbn2<T>(string isbn, Expression<Func<Book, T>> mapper)
+        {
+            //var x = TwoTrack.Enclose(() => "#").Enclose(xx => 34);
+            var result = TwoTrack.Ok()
+                //.ValidateAlways(() => IsbnValidator.Validate(isbn + "#"), $"incorrect ISBN format")
+                .Enclose(() => _fakeDbContext.Books
+                    .Where(book => book.Isbn == isbn)
+                    .Select(mapper)
+                    .FirstOrDefault());
+                //.ReplaceNullResultWithErrorMessage(ErrorDescriptions.ItemNotFound);
+            return result;
+        }
     }
 }
 

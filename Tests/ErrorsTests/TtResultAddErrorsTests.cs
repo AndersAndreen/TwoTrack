@@ -16,7 +16,7 @@ namespace Tests.ErrorsTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Ok().AddErrors(default(TtResult));
+            var result = TwoTrack.Ok().AddError(default);
 
             // Assert
             result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
@@ -27,7 +27,7 @@ namespace Tests.ErrorsTests
         {
             // Arrange
             var result = TwoTrack.Ok();
-            var result2 = TwoTrack.Fail().AddErrors(default(TtResult));
+            var result2 = TwoTrack.Fail().AddError(default);
 
             // Act
             var result3 = result.AddErrors(result2.Errors);
@@ -48,7 +48,7 @@ namespace Tests.ErrorsTests
             var result2 = TwoTrack.Fail().AddError(error);
 
             // Act
-            var result3 = result.AddErrors(result2);
+            var result3 = result.AddErrors(result2.Errors);
 
             // Assert
             result.Succeeded.Should().BeTrue();
@@ -64,7 +64,7 @@ namespace Tests.ErrorsTests
 
             // Act
             var result1 = TwoTrack.Ok();
-            var result2 = TwoTrack.Ok().AddErrors(result1);
+            var result2 = TwoTrack.Ok().AddErrors(result1.Errors);
 
             // Assert
             result2.Succeeded.Should().BeTrue();

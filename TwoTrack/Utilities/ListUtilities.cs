@@ -6,6 +6,6 @@ namespace TwoTrackResult.Utilities
 {
     internal static class ListUtilities
     {
-        public static List<T> ToList<T>(this T value) => new List<T> {value};
+        public static List<T> ValueToList<T>(this T value) => new List<T> {value};
     }
 }

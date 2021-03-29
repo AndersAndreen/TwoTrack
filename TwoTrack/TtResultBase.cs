@@ -2,56 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using TwoTrackResult.Utilities;
+using System.Runtime.CompilerServices;
 
 namespace TwoTrackResult
 {
-    public abstract class TtResultBase<T> where T : TtResultBase<T>
+    public abstract class TtResultBase<TChildClass> where TChildClass : TtResultBase<TChildClass>
     {
-        private readonly List<TtError> _errors = new List<TtError>();
-        private readonly List<TtConfirmation> _confirmations = new List<TtConfirmation>();
+        protected readonly List<TtError> ErrorsList = new List<TtError>();
+        protected readonly List<TtConfirmation> ConfirmationsList = new List<TtConfirmation>();
 
-        public bool Failed => Errors.Any(error => error.Level != ErrorLevel.Warning && error.Level != ErrorLevel.ReportWarning);
-        public bool Succeeded => !Failed;
-        public IReadOnlyCollection<TtError> Errors => new List<TtError>(_errors);
-        public IReadOnlyCollection<TtConfirmation> Confirmations => new List<TtConfirmation>(_confirmations);
+
+        public IReadOnlyCollection<TtError> Errors => new List<TtError>(ErrorsList);
+        public IReadOnlyCollection<TtConfirmation> Confirmations => new List<TtConfirmation>(ConfirmationsList);
 
         public Func<Exception, bool> ExceptionFilter { get; protected set; } = (ex => false);
-        #region AddError
-        protected T AddError(T result, TtError error)
+
+        protected TtResultBase()
         {
-            error = error ?? TtError.ArgumentNullError();
-            result._errors.AddRange(Errors);
-            result._errors.Add(error);
-            return result;
         }
 
-        protected T AddErrors(T result, IEnumerable<TtError> errors)
+        #region Append errors and confirmations fluent style
+        // These methods simplifies AddError and AddConfirmation methods
+        protected TChildClass AppendError(TtError error)
         {
-            errors = errors ?? TtError.ArgumentNullError().ToList();
-            result._errors.AddRange(Errors);
-            result._errors.AddRange(errors);
-            return result;
+            error ??= TtError.ArgumentNullError();
+            ErrorsList.Add(error);
+            return (TChildClass)this;
+        }
+
+        protected TChildClass AppendErrors(IEnumerable<TtError> errors)
+        {
+            var ttErrors = errors?.ToList() ?? TtError.ArgumentNullError().ValueToList();
+            ErrorsList.AddRange(ttErrors);
+            return (TChildClass)this;
+        }
+
+        protected TChildClass AppendConfirmation(TtConfirmation confirmation)
+        {
+            ConfirmationsList.Add(confirmation);
+            return (TChildClass)this;
+        }
+
+        protected TChildClass AppendConfirmations(IEnumerable<TtConfirmation> confirmations)
+        {
+            ConfirmationsList.AddRange(confirmations);
+            return (TChildClass)this;
         }
         #endregion
 
-        #region AddConfirmation
-        protected T AddConfirmation(T result, TtConfirmation confirmation)
-        {
-            if (result is null) throw new ArgumentNullException(nameof(result));
-            if (confirmation is null) return AddErrors(result, Errors);
-            result._confirmations.AddRange(Confirmations);
-            result._confirmations.Add(confirmation);
-            return result;
-        }
-
-        protected T AddConfirmations(T result, IEnumerable<TtConfirmation> confirmations)
-        {
-            if (result is null) throw new ArgumentNullException(nameof(result));
-            if (confirmations is null) return AddErrors(result, Errors);
-            result._confirmations.AddRange(Confirmations);
-            result._confirmations.AddRange(confirmations);
-            return result;
-        }
-        #endregion
     }
 }

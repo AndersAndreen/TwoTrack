@@ -1,133 +1,167 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TwoTrackResult.Utilities;
+using System.Runtime.CompilerServices;
 
 namespace TwoTrackResult
 {
-    public class TtResult<T> : TtResultBase<TtResult<T>>, ITwoTrack<T>
+
+
+    internal class TtResult<T> : TtResultBase<TtResult<T>>, ITwoTrack<T>, ITtCloneable
     {
         private T _value;
+
+        public bool Failed => Errors.Any(error => error.Level != ErrorLevel.Warning && error.Level != ErrorLevel.ReportWarning)
+
+        ;
+        public bool Succeeded => !Failed;
 
         private TtResult()
         {
         }
 
-        public ITwoTrack<T> AddError(TtError error) => AddError(new TtResult<T>(), error);
-        public ITwoTrack<T> AddErrors(IEnumerable<TtError> errors) => AddErrors(new TtResult<T>(), errors);
-        public ITwoTrack<T> AddErrors(TtResult result) => AddErrors(new TtResult<T>(), result?.Errors);
+        public ITwoTrack<T> AddError(TtError error) => CloneAndSet(_value).AppendError(error);
+        public ITwoTrack<T> AddErrors(IEnumerable<TtError> errors) => CloneAndSet(_value).AppendErrors(errors);
+
+        public ITwoTrack<T> AddConfirmation(TtConfirmation confirmation) => CloneAndSet(_value).AppendConfirmation(confirmation);
+        public ITwoTrack<T> AddConfirmations(IEnumerable<TtConfirmation> confirmations) => CloneAndSet(_value).AppendConfirmations(confirmations);
+
 
         public ITwoTrack<T> SetExceptionFilter(Func<Exception, bool> exeptionFilter)
         {
-            if (exeptionFilter is null) return AddError(new TtResult<T>(), TtError.ArgumentNullError());
-            ExceptionFilter = exeptionFilter;
+            if (exeptionFilter is null) return CloneAndSet(_value, TtError.ArgumentNullError());
+            CloneAndSet(_value).ExceptionFilter = exeptionFilter;
+            return this;
+        }
+        public ITwoTrack<T> Do(Action onFailure, Action<T> onSuccess)
+        {
+            if (onFailure is null || onSuccess is null) return CloneAndSet(_value, TtError.ArgumentNullError());
+            if (Failed) onFailure();
+            if (Succeeded) TryCatch(() =>
+            {
+                onSuccess(_value);
+                return this;
+            });
             return this;
         }
 
-        public ITwoTrack<T> Do<T2>(Func<T, T2> func)
+        public ITwoTrack<T> Do<T2>(Func<T2> func)
         {
-            if (func is null) return AddError(new TtResult<T>(), TtError.ArgumentNullError());
-            if (Failed) return this;
+            if (func is null) return CloneAndSet(_value, TtError.ArgumentNullError());
+            if (Succeeded) TryCatch(func);
+            return this;
+        }
+
+        public ITwoTrack<T> Do<T2>(Func<T, T2> func) => Do(() => func(_value));
+
+
+
+        public ITwoTrack<T2> Select<T2>(Func<T2> func)
+        {
+            if (func is null) return CloneAndSet(default(T2), TtError.ArgumentNullError());
+            return Failed
+                ? CloneAndSet(default(T2), TtError.ArgumentNullError())
+                : TryCatch(func);
+        }
+
+        public ITwoTrack<T2> Select<T2>(Func<T, T2> func) => Select(() => func(_value));
+
+        public ITwoTrack<T2> Select<T2>(Func<ITwoTrack<T2>> func)
+        {
+            if (func is null) return CloneAndSet(default(T2), TtError.ArgumentNullError());
+            return Failed
+                ? CloneAndSet(default(T2), TtError.ArgumentNullError())
+                : TryCatch(() =>
+                {
+                    T2 value = default;
+                    func().Do(val => value = val);
+                    return value;
+                });
+
+        }
+
+        public ITwoTrack<T2> Select<T2>(Func<T, ITwoTrack<T2>> func) => Select(() => func(_value));
+
+
+        protected ITwoTrack<T2> TryCatch<T2>(Func<T2> func)
+        {
             try
             {
-                _ = func(_value);
-                return this;
+                return CloneAndSet(func(), TtError.ResultNullError());
             }
             catch (Exception e) when (ExceptionFilter(e))
             {
-                return AddError(new TtResult<T>(), TtError.Exception(e));
+                return CloneAndSet(default(T2), TtError.Exception(e));
             }
         }
 
 
-        public ITwoTrack<T2> Select<T2>(Func<T, T2> func)
+        protected TtResult<T> ErrorIfNullOrTupleContainsNull(T input, TtError error)
         {
-            if (func is null) return TtResult<T2>.Fail(TtError.ArgumentNullError());
-            if (Failed) return TtResult<T2>.Fail(Errors);
-            var result = new TtResult<T2> { };
-            if (!Succeeded) return result.AddErrors(Errors);
-            try
+            var tupleHasNull = false;
+            if (input is ITuple tuple)
             {
-                result._value = func(_value);
-                if (result._value == null) result.AddError(TtError.ResultNullError());
-                return result;
+                for (var i = 0; i < tuple.Length; i++)
+                {
+                    tupleHasNull = tupleHasNull || tuple[i] is null;
+                }
             }
-            catch (Exception e) when (result.ExceptionFilter(e))
+            if (input is null || tupleHasNull)
             {
-                return TtResult<T2>.Fail(TtError.Exception(e));
+                AppendError(error);
             }
-        }
-
-        public ITwoTrack<T2> Select<T2>(Func<T, ITwoTrack<T2>> func)
-        {
-            if (func is null) return TtResult<T2>.Fail(TtError.ArgumentNullError());
-            if (Failed) return TtResult<T2>.Fail(Errors);
-            var result = new TtResult<T2> { };
-            if (!Succeeded) return result.AddErrors(Errors);
-            try
-            {
-                return func(_value);
-            }
-            catch (Exception e) when (result.ExceptionFilter(e))
-            {
-                return TtResult<T2>.Fail(TtError.Exception(e));
-            }
-        }
-
-        public ITwoTrack<T> Do(Action onFailure, Action<T> onSuccess)
-        {
-            if (Failed) onFailure();
-            if (Succeeded) onSuccess(_value);
             return this;
         }
 
-        #region Factory methods
-        internal static ITwoTrack<T> Fail(TtError defaultError)
+
+        private TtResult<T2> CloneAndSet<T2>(T2 value, TtError error = default)
         {
-            return defaultError is null
-                ? new TtResult<T>().AddError(TtError.ArgumentNullError())
-                : new TtResult<T>().AddError(defaultError);
+            var clone = new TtResult<T2>
+            {
+                ExceptionFilter = this.ExceptionFilter,
+            };
+            clone.ErrorsList.AddRange(Errors);
+            clone.ConfirmationsList.AddRange(Confirmations);
+            clone._value = value;
+            return clone.Succeeded
+                ? clone.ErrorIfNullOrTupleContainsNull(value, error ?? TtError.DesignBugError())
+                : clone;
+        }
+
+        #region Factory methods
+        public static ITwoTrack<T> Enclose(Func<T> func) => new TtResult<T>().Select(func);
+        public static ITwoTrack<T> Enclose(Func<ITwoTrack<T>> func) => new TtResult<T>().Select(func);
+        public static ITwoTrack<T> Enclose(Func<T> func, Func<T, bool> validator) => new TtResult<T>().Select(func); // TODO: implement validator!
+        public static ITwoTrack<T> Enclose(ITwoTrack source, Func<T> func) => new TtResult<T>().Select(func);
+
+        internal static ITwoTrack<T> Fail(TtError error)
+        {
+            return error is null
+                ? new TtResult<T>().AppendError(TtError.ArgumentNullError())
+                : new TtResult<T>().AppendError(error);
         }
 
         internal static ITwoTrack<T> Fail(IEnumerable<TtError> errors)
         {
             var errorList = errors?.ToList();
             return errors is null || !errorList.Any()
-                ? new TtResult<T>().AddError(TtError.ArgumentNullError())
-                : new TtResult<T>().AddErrors(errorList);
+                ? new TtResult<T>().AppendError(TtError.ArgumentNullError())
+                : new TtResult<T>().AppendErrors(errorList);
         }
 
-        internal static ITwoTrack<T> Enclose(Func<T> func)
+        internal static ITwoTrack<T> Fail(ITtCloneable source, TtError error = default)
         {
-            if (func is null) return new TtResult<T>().AddError(TtError.ArgumentNullError());
-            var result = new TtResult<T>();
-            try
+            var clone = new TtResult<T>
             {
-                result._value = func();
-                return result._value == null
-                    ? result.AddError(TtError.ResultNullError())
-                    : result;
-            }
-            catch (Exception e) when (result.ExceptionFilter(e))
-            {
-                return new TtResult<T>().AddError(TtError.Exception(e));
-            }
-        }
-
-        internal static ITwoTrack<T> Enclose(Func<ITwoTrack<T>> func)
-        {
-            if (func is null) return new TtResult<T>().AddError(TtError.ArgumentNullError());
-            var result = new TtResult<T>();
-            try
-            {
-                return func();
-            }
-            catch (Exception e) when (result.ExceptionFilter(e))
-            {
-                return new TtResult<T>().AddError(TtError.Exception(e));
-            }
+                ExceptionFilter = source.ExceptionFilter,
+            };
+            clone.ErrorsList.AddRange(source.Errors);
+            clone.ConfirmationsList.AddRange(source.Confirmations);
+            if (source.Succeeded) return clone.AppendError(error ?? TtError.DefaultError());
+            return error is null
+                ? clone
+                : clone.AddError(error);
         }
         #endregion
-
     }
 }
