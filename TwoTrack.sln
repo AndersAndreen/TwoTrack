@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackResult", "TwoTrack\TwoTrackResult.csproj", "{A13BB4EA-E5DD-4532-B880-1F46B321BCE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrack.Core", "TwoTrack.Core\TwoTrack.Core.csproj", "{A13BB4EA-E5DD-4532-B880-1F46B321BCE2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{7F222B1D-3354-4326-8B9B-8A8B275C8134}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrack.UnitTests", "TwoTrack.UnitTests\TwoTrack.UnitTests.csproj", "{7F222B1D-3354-4326-8B9B-8A8B275C8134}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebApp", "DemoWebApp\DemoWebApp.csproj", "{E3EC71ED-B112-46D2-91D3-D148225D39AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoTrackAspExtensions", "TwoTrackAspExtensions\TwoTrackAspExtensions.csproj", "{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoTrack.Extensions", "TwoTrack.Extensions\TwoTrack.Extensions.csproj", "{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoTrack.UseCaseScenarioTests", "TwoTrack.UseCaseScenarioTests\TwoTrack.UseCaseScenarioTests.csproj", "{7777E12D-A5BF-45ED-AB60-6B0775B1442B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7777E12D-A5BF-45ED-AB60-6B0775B1442B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7777E12D-A5BF-45ED-AB60-6B0775B1442B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7777E12D-A5BF-45ED-AB60-6B0775B1442B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7777E12D-A5BF-45ED-AB60-6B0775B1442B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

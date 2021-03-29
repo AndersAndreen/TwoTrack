@@ -6,8 +6,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using DemoWebApp.BusinessRules;
-using TwoTrackResult;
-using TwoTrackResult.Defaults;
+using TwoTrack.Core;
+using TwoTrack.Core.ExtensionMethods;
 
 namespace DemoWebApp.Services
 {
@@ -22,7 +22,7 @@ namespace DemoWebApp.Services
 
         public ITwoTrack<ICollection<T>> Get<T>(Expression<Func<Book, bool>> filter, Expression<Func<Book, T>> mapper)
         {
-            return TwoTrack.Enclose(() => _fakeDbContext.Books
+            return TwoTrack.Core.TwoTrack.Enclose(() => _fakeDbContext.Books
                 .Where(filter)
                 .Select(mapper)
                 .ToList());
@@ -30,7 +30,7 @@ namespace DemoWebApp.Services
 
         public ITwoTrack<T> GetByIsbn<T>(string isbn, Expression<Func<Book, T>> mapper)
         {
-            var result = TwoTrack.Enclose(() => isbn, IsbnValidator.Validate, TtError.ValidationError($"incorrect ISBN format: {isbn}"))
+            var result = TwoTrack.Core.TwoTrack.Enclose(() => isbn, IsbnValidator.Validate, TtError.ValidationError($"incorrect ISBN format: {isbn}"))
                 .Enclose(nr => _fakeDbContext.Books
                     .Where(book => book.Isbn == nr)
                     .Select(mapper)
@@ -43,7 +43,7 @@ namespace DemoWebApp.Services
         public ITwoTrack<T> GetByIsbn2<T>(string isbn, Expression<Func<Book, T>> mapper)
         {
             //var x = TwoTrack.Enclose(() => "#").Enclose(xx => 34);
-            var result = TwoTrack.Ok()
+            var result = TwoTrack.Core.TwoTrack.Ok()
                 //.ValidateAlways(() => IsbnValidator.Validate(isbn + "#"), $"incorrect ISBN format")
                 .Enclose(() => _fakeDbContext.Books
                     .Where(book => book.Isbn == isbn)
