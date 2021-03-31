@@ -21,7 +21,7 @@ namespace TwoTrack.Core.UnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = global::TwoTrack.Core.TwoTrack.Enclose(() => "#");
+            var result1 = TwoTrack.Enclose(() => "#");
             //var result2 = result1.Do(_updateMockValue);
 
             // Assert
@@ -35,7 +35,7 @@ namespace TwoTrack.Core.UnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = global::TwoTrack.Core.TwoTrack.Fail<string>();
+            var result1 = TwoTrack.Fail<string>();
             var result2 = result1.Do(x => _updateMockValue);
 
             // Assert

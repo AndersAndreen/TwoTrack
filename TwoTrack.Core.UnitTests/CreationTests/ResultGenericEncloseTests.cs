@@ -12,7 +12,7 @@ namespace TwoTrack.Core.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = global::TwoTrack.Core.TwoTrack.Enclose(() => 3);
+            var result = TwoTrack.Enclose(() => 3);
 
             // Assert
             result.AssertBasicSuccessCriteria();
@@ -25,7 +25,7 @@ namespace TwoTrack.Core.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = global::TwoTrack.Core.TwoTrack.Enclose(() => global::TwoTrack.Core.TwoTrack.Enclose(()=>3));
+            var result = TwoTrack.Enclose(() => TwoTrack.Enclose(()=>3));
 
             // Assert
             result.AssertBasicSuccessCriteria();

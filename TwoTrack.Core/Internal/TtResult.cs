@@ -13,10 +13,23 @@ namespace TwoTrack.Core.Internal
         {
         }
 
-        public ITwoTrack AddError(TtError error) => Clone().AppendError(error);
-        public ITwoTrack AddErrors(IEnumerable<TtError> errors) => Clone().AppendErrors(errors);
-        public ITwoTrack AddConfirmation(TtConfirmation confirmation) => Clone().AppendConfirmation(confirmation);
-        public ITwoTrack AddConfirmations(IEnumerable<TtConfirmation> confirmations) => Clone().AppendConfirmations(confirmations);
+        public ITwoTrack AddError(TtError error) => TryCatch(() => Clone().AppendError(error)); //Todo: if exception add a designbug error also
+        public ITwoTrack AddErrors(IEnumerable<TtError> errors) => TryCatch(() => Clone().AppendErrors(errors)); //Todo: if exception add a designbug error also
+        public ITwoTrack AddConfirmation(TtConfirmation confirmation)
+        {
+            if (confirmation is null) return Clone().AppendError(TtError.ArgumentNullError());
+            return Failed
+                ? this
+                : TryCatch(() => Clone().AppendConfirmation(confirmation));
+        }
+
+        public ITwoTrack AddConfirmations(IEnumerable<TtConfirmation> confirmations)
+        {
+            if (confirmations is null) return Clone().AppendError(TtError.ArgumentNullError());
+            return Failed
+                ? this
+                : TryCatch(() => Clone().AppendConfirmations(confirmations));
+        }
 
         public ITwoTrack SetExceptionFilter(Func<Exception, bool> exeptionFilter)
         {
@@ -27,9 +40,9 @@ namespace TwoTrack.Core.Internal
 
         public ITwoTrack Do(Action action)
         {
-            if (action is null) return AddError(TtError.ArgumentNullError());
             if (Failed) return this;
-            return TryCatch(()=>
+            if (action is null) return AddError(TtError.ArgumentNullError());
+            return TryCatch(() =>
             {
                 action();
                 return this;
@@ -38,14 +51,15 @@ namespace TwoTrack.Core.Internal
 
         public ITwoTrack Do(Func<ITwoTrack> func)
         {
+            if (Failed) return this;
             if (func is null) return AddError(TtError.ArgumentNullError());
-            return Failed ? this : TryCatch(func);
+            return TryCatch(func);
         }
 
         public ITwoTrack Do<T>(Func<ITwoTrack<T>> func)
         {
-            if (func is null) return AddError(TtError.ArgumentNullError());
             if (Failed) return this;
+            if (func is null) return AddError(TtError.ArgumentNullError());
             return TryCatch(() =>
             {
                 var result = func();
@@ -55,20 +69,19 @@ namespace TwoTrack.Core.Internal
 
         private ITwoTrack TryCatch(Func<ITwoTrack> func)
         {
-            if (Failed) return this;
             try
             {
                 return func();
             }
             catch (Exception e) when (ExceptionFilter(e))
             {
-                return Clone().AppendError(TtError.Exception(e));
+                return AddError(TtError.Exception(e));
             }
         }
 
         private TtResult Clone()
         {
-            var clone =new TtResult
+            var clone = new TtResult
             {
                 ExceptionFilter = this.ExceptionFilter,
             };

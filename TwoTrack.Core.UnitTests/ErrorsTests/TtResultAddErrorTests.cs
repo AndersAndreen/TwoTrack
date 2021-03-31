@@ -12,7 +12,7 @@ namespace TwoTrack.Core.UnitTests.ErrorsTests
         {
             // Arrange
             // Act
-            var result = global::TwoTrack.Core.TwoTrack.Ok().AddError(null);
+            var result = TwoTrack.Ok().AddError(null);
 
             // Assert
             result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
@@ -23,7 +23,7 @@ namespace TwoTrack.Core.UnitTests.ErrorsTests
         {
             // Arrange
             // Act
-            var result = global::TwoTrack.Core.TwoTrack.Ok();
+            var result = TwoTrack.Ok();
             var result2 = result.AddError(null);
 
             // Assert
@@ -36,7 +36,7 @@ namespace TwoTrack.Core.UnitTests.ErrorsTests
         {
             // Arrange
             // Act
-            var result = global::TwoTrack.Core.TwoTrack.Fail();
+            var result = TwoTrack.Fail();
             var result2 = result.AddError(null);
 
             // Assert
@@ -53,7 +53,7 @@ namespace TwoTrack.Core.UnitTests.ErrorsTests
             var error = TtError.Make(errrorLevel);
 
             // Act
-            var result = global::TwoTrack.Core.TwoTrack.Ok().AddError(error);
+            var result = TwoTrack.Ok().AddError(error);
 
             // Assert
             result.Errors.Count.Should().Be(1);
@@ -70,7 +70,7 @@ namespace TwoTrack.Core.UnitTests.ErrorsTests
             var error = TtError.Make(errrorLevel);
 
             // Act
-            var result = global::TwoTrack.Core.TwoTrack.Ok().AddError(error);
+            var result = TwoTrack.Ok().AddError(error);
 
             // Assert
             result.Errors.Count.Should().Be(1);

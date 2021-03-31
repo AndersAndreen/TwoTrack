@@ -21,7 +21,7 @@ namespace TwoTrack.Core.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = global::TwoTrack.Core.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.Do(_storeOne);
 
             // Assert
@@ -35,7 +35,7 @@ namespace TwoTrack.Core.UnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = global::TwoTrack.Core.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.Do(_storeOne);
 
             // Assert

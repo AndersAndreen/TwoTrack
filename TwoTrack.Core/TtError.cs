@@ -54,7 +54,7 @@ namespace TwoTrack.Core
                };
 
         public static TtError DefaultError()
-            => Make(ErrorLevel.Error, "", ErrorDescriptions.DefaultError);
+            => Make(ErrorLevel.Error, ErrorCategory.Unspecified, ErrorDescriptions.DefaultError);
 
 
         public static TtError ArgumentNullError()

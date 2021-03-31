@@ -12,7 +12,7 @@ namespace TwoTrack.Core.UnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = global::TwoTrack.Core.TwoTrack.Ok();
+            var result = TwoTrack.Ok();
 
             // Assert
             result.AssertBasicSuccessCriteria();

@@ -25,7 +25,7 @@ namespace TwoTrack.Core.UnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = global::TwoTrack.Core.TwoTrack.Enclose(() => 1);
+            var result1 = TwoTrack.Enclose(() => 1);
 
             // Assert
             _ = result1.Do(_storeMock);
@@ -38,7 +38,7 @@ namespace TwoTrack.Core.UnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = global::TwoTrack.Core.TwoTrack.Fail<int>();
+            var result1 = TwoTrack.Fail<int>();
             var result2 = result1.Do(_storeMock);
 
             // Assert

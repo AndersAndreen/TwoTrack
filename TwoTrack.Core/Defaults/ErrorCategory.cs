@@ -2,6 +2,7 @@
 {
     public class ErrorCategory
     {
+        public static string Unspecified => nameof(Unspecified);
         public static string ArgumentNullError => nameof(ArgumentNullError);
         public static string DesignBugError => nameof(DesignBugError);
         public static string Exception => nameof(Exception);
