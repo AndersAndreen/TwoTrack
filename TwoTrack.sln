@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrack.Core", "TwoTrack.Core\TwoTrack.Core.csproj", "{A13BB4EA-E5DD-4532-B880-1F46B321BCE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackCore", "TwoTrackCore\TwoTrackCore.csproj", "{A13BB4EA-E5DD-4532-B880-1F46B321BCE2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrack.Core.UnitTests", "TwoTrack.Core.UnitTests\TwoTrack.Core.UnitTests.csproj", "{7F222B1D-3354-4326-8B9B-8A8B275C8134}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackCoreUnitTests", "TwoTrackCoreUnitTests\TwoTrackCoreUnitTests.csproj", "{7F222B1D-3354-4326-8B9B-8A8B275C8134}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoWebApp", "DemoWebApp\DemoWebApp.csproj", "{E3EC71ED-B112-46D2-91D3-D148225D39AB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrack.Extensions", "TwoTrack.Extensions\TwoTrack.Extensions.csproj", "{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackExtensions", "TwoTrackExtensions\TwoTrackExtensions.csproj", "{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrack.UseCaseScenarioTests", "TwoTrack.UseCaseScenarioTests\TwoTrack.UseCaseScenarioTests.csproj", "{7777E12D-A5BF-45ED-AB60-6B0775B1442B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackUseCaseScenarioTests", "TwoTrackUseCaseScenarioTests\TwoTrackUseCaseScenarioTests.csproj", "{7777E12D-A5BF-45ED-AB60-6B0775B1442B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

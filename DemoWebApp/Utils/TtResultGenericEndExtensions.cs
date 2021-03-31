@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using TwoTrack.Core;
-using TwoTrack.Extensions.TryOut;
+using TwoTrackCore;
+using TwoTrackExtensions.TryOut;
 
 namespace DemoWebApp.Utils
 {

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using TwoTrack.Core;
-using TwoTrack.Core.Defaults;
+using TwoTrackCore;
+using TwoTrackCore.Defaults;
 
 namespace DemoWebApp.Utils
 {
