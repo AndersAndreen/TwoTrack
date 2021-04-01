@@ -1,9 +1,11 @@
 using System;
+using System.Text;
 using FluentAssertions;
+using TwoTrackCore;
 using Xunit;
 using TwoTrackCore.Defaults;
 
-namespace TwoTrack.Core.UseCaseScenarioTests
+namespace TwoTrackUseCaseScenarioTests
 {
     public class UnitTest1
     {
@@ -12,12 +14,14 @@ namespace TwoTrack.Core.UseCaseScenarioTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
-            var result2 = result1.Do((Action)default);
-
+            var finalValue = "";
+            var result1 = TwoTrack.Enclose(() => 3)
+                .Select(nr => new StringBuilder().Insert(0, "bla.", nr).ToString())
+                .Select(value=>value.ToUpper())
+                .Do(value => finalValue = value);
+            var x = "abc";
             // Assert
-            result1.Errors.Count.Should().Be(0);
-            result2.Errors.Count.Should().Be(1);
+            finalValue.Should().Be("BLA.BLA.BLA.");
         }
 
         [Fact]

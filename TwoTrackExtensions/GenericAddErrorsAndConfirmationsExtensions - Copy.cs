@@ -1,6 +1,6 @@
 ﻿using TwoTrackCore;
 
-namespace TwoTrackExtensions.TryOut
+namespace TwoTrackExtensions
 {
     public static class GenericAddErrorsExtensions
     {

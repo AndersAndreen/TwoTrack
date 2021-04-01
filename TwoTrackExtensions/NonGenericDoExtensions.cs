@@ -1,4 +1,4 @@
-﻿namespace TwoTrackExtensions.TryOut
+﻿namespace TwoTrackExtensions
 {
     public static class NonGenericDoExtensions
     {

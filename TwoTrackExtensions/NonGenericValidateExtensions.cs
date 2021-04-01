@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using TwoTrackCore;
 
-namespace TwoTrackExtensions.TryOut
+namespace TwoTrackExtensions
 {
     public static class NonGenericValidateExtensions
     {

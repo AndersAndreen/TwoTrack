@@ -1,7 +1,7 @@
 ﻿using System;
 using TwoTrackCore;
 
-namespace TwoTrackExtensions.TryOut
+namespace TwoTrackExtensions
 {
     public static class TwoTrackGenericDoExtensions
     {
