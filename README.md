@@ -8,6 +8,13 @@ As a developer I have always struggled with writing readable code describing a c
 
 In the summer of 2019 i came across a way of applying functional style result/error handling in .net called [Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/). Using this method you encapsulate all return values in a result object that holds the value, if there is one, as well as two collections: Errors and Confirmations. TwoTrack is my C# implementation of Railway Oriented Programming. It is still in it's infancy, but feel free to check it out! I have included some use case scenarios in the form of unit tests, and a demo web app to show some of the functionality that I've implemented so far.
 
+## Features:
+- Automatic null check of inputs
+- Built in optional and configurable try-catch and conversion of exceptions to errors
+- Supports both error messages and confirmation messages
+- Error and confirmation levels are compatible with ILogger for easy conversion
+- Designed to support both Web APIs and ASP .NET solutions
+
 ## Principles:
 TwoTrack generally follows these four principles:
 - Clear intent over verbose error handling
@@ -41,27 +48,6 @@ Let's take a look at how it all works. Below is an example taken from one of the
 
 ```
 
-## Features:
-- Automatic null check of inputs
-- Built in optional and configurable catch and conversion of exceptions to errors
-- Supports both error messages and confirmation messages
-- Designed to support both Web APIs and ASP .NET solutions
-- Error and confirmation levels are compatible with ILogger for easy conversion
- 
-# API Reference
-## TtError 
-parameters:
-- ErrorLevel
-  - For logging: Warning, Error, Critical
-  - For APIs: ReportWarning, ReportError
-  - For ASP .Net Views: ReportWarning, ReportError
-- Category
-  - For logging: "Exception", "DatabareError" etc. 
-  - For APIs: "Status400BadRequest",  "Status500InternalServerError" etc. 
-  - For ASP .Net Views: "UserName", "Telephone", "Password" etc.
-- Description
-- StackTrace
 
-## TtError<T>
-- All the features of TtError
-- encapsulation of one result object/value.
+ 
+
