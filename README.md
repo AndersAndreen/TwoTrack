@@ -38,7 +38,9 @@ Let's take a look at how it all works. Below is an example taken from one of the
 
 ```
 
-Using TwoTrack we get 6 steps in 6 simple lines. First two setup steps and then all action. Let's compare this to some code with corresponding functionality and error handling, but without using TwoTrack:
+Using TwoTrack we get 6 steps in 6 simple lines. First two setup steps and then all actions. All exception handling is implicit, and if a function returns a null value TwoTrack automatically prevents subsequent function calls. 
+
+Let's compare this to some code with corresponding functionality and error handling, but without using TwoTrack:
 
 ```C#
             User user = default; // step 1 (arrange):
@@ -47,7 +49,7 @@ Using TwoTrack we get 6 steps in 6 simple lines. First two setup steps and then 
             {
                 user = _context.Users.FirstOrDefault(user1 => user1.UserName == userName); // step 3 (act)
                 if( user is null) Log(TtError.ResultNullError()); // step 5 (logging)
-                orders = _context.Orders.Where(order => order.UserId == user?.UserId).ToList(); // step 4 (act)
+                else orders = _context.Orders.Where(order => order.UserId == user?.UserId).ToList(); // step 4 (act)
             }
             catch (Exception e) when (e is SomeExceptionThownByDatabase) // step 2 (arrange)
             {
@@ -56,4 +58,6 @@ Using TwoTrack we get 6 steps in 6 simple lines. First two setup steps and then 
             user ??= User.Empty(); // step 6 (nullcheck)
             orders ??= new List<Order>(); // step 6 (final nullcheck)
 ```
-Here we get 14 lines with explicit try-catch and null coalescing. Also we have to remeber to log errors in two places instead of one.
+Here we get 14 lines with explicit try-catch and null coalescing. And one if-else statement. And we also have to remeber to log errors in two places instead of one.
+
+
