@@ -12,6 +12,7 @@ namespace TwoTrackCore
         ITwoTrack<T> AddConfirmation(TtConfirmation confirmation);
         ITwoTrack<T> AddConfirmations(IEnumerable<TtConfirmation> confirmations);
 
+        ITwoTrack<T> Do(Action<T> func);
         ITwoTrack<T> Do<T2>(Func<T, T2> func);
         ITwoTrack<T> Do(Action onFailure, Action<T> onSuccess);
 

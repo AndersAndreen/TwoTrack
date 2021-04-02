@@ -52,7 +52,16 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack<T> Do<T2>(Func<T, T2> func) => Do(() => func(_value));
 
-
+        public ITwoTrack<T> Do(Action<T> func)
+        {
+            if (func is null) return CloneAndSet(_value, TtError.ArgumentNullError());
+            if (Succeeded) return AddErrors(TryCatch(() =>
+                {
+                    func(_value);
+                    return _value;
+                }).Errors);
+            return this;
+        }
 
         public ITwoTrack<T2> Select<T2>(Func<T2> func)
         {
