@@ -93,6 +93,10 @@ namespace TwoTrackCore.Internal
         #region Factory methods
         internal static ITwoTrack Ok() => new TtResult();
 
+        internal static ITwoTrack Enclose(Func<ITwoTrack> func) => new TtResult().Do(func);
+        internal static ITwoTrack Enclose(Action action) => new TtResult().Do(action);
+
+
         internal static ITwoTrack Fail(TtError error)
         {
             return error is null
