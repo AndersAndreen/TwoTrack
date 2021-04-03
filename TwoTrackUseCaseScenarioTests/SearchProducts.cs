@@ -13,9 +13,16 @@ namespace TwoTrackUseCaseScenarioTests
 {
     public class SearchProducts
     {
-        private readonly FakeShopContext _context = new FakeShopContext();
-        private readonly UserRepository _userRepository = new UserRepository();
-        private readonly OrderRepository _orderRepository = new OrderRepository();
+        private readonly FakeShopContext _context;
+        private readonly UserRepository _userRepository;
+        private readonly OrderRepository _orderRepository;
+
+        public SearchProducts()
+        {
+            _context = new FakeShopContext();
+            _userRepository = new UserRepository(_context);
+            _orderRepository = new OrderRepository(_context);
+        }
 
         [Fact]
         public void SearchProductsWithNameContainingString()

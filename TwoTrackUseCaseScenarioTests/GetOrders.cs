@@ -12,9 +12,16 @@ namespace TwoTrackUseCaseScenarioTests
 {
     public class GetOrders
     {
-        private readonly UserRepository _userRepository = new UserRepository();
-        private readonly OrderRepository _orderRepository = new OrderRepository();
+        private readonly UserRepository _userRepository;
+        private readonly OrderRepository _orderRepository;
         private readonly Logger _logger = new Logger();
+
+        public GetOrders()
+        {
+            var context = new FakeShopContext();
+            _userRepository = new UserRepository(context);
+            _orderRepository = new OrderRepository(context);
+        }
 
         [Fact]
         public void GetOrdersByUserNameUsigRepositories()
@@ -27,7 +34,7 @@ namespace TwoTrackUseCaseScenarioTests
                 .SetExceptionFilter(ex => ex is SomeExceptionThownByDatabase) // step 2 (arrange)
                 .Select(_userRepository.GetByUserName) // step 3 (db call)
                 .Enclose(_orderRepository.GetOrders) // step 4 (db call)
-                .LogErrors(errors => _logger.Log(errors.ToArray())) // step 5 (logging)
+                .LogErrors(_logger.Log) // step 5 (logging)
                 .ValueOrDefault((User.Empty(), new List<Order>())); // step 6 (final null handling)
 
             // Assert
@@ -54,8 +61,8 @@ namespace TwoTrackUseCaseScenarioTests
             {
                 _logger.Log(TtError.Exception(e)); // step 5 (logging)
             }
-            user ??= User.Empty(); // step 6 (nullcheck)
-            orders ??= new List<Order>(); // step 6 (final nullcheck)
+            user ??= User.Empty(); // step 6 (final null handling)
+            orders ??= new List<Order>(); // step 6 (final null handling)
 
             // Assert
             user.UserId.Should().Be(1);

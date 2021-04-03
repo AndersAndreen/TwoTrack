@@ -7,7 +7,7 @@ namespace TwoTrackUseCaseScenarioTests.PersistenceModel
 {
     internal class FakeShopContext
     {
-        public IEnumerable<User> Users =>
+        public ICollection<User> Users =>
             new List<User>
             {
                 new User(1, "ClarkKent"),
@@ -16,7 +16,7 @@ namespace TwoTrackUseCaseScenarioTests.PersistenceModel
                 new User(6, "Mxyzptlk"),
             };
 
-        public IEnumerable<Product> Products =>
+        public ICollection<Product> Products =>
             new List<Product>
             {
                 // pc = piece, up = unit package, m = meters, kg = kilo gram
@@ -25,7 +25,7 @@ namespace TwoTrackUseCaseScenarioTests.PersistenceModel
                 new Product(3, "black suit", "pc"),
                 new Product(4, "Pencil", "up"),
                 new Product(5, "blue notebook", "pc"),
-                new Product(6, "plue spandex", "m"),
+                new Product(6, "blue spandex", "m"),
                 new Product(7, "red spandex", "m"),
                 new Product(7, "bowler hat", "pc"),
                 new Product(10, "Kryptonite, green", "kg"),
@@ -35,18 +35,10 @@ namespace TwoTrackUseCaseScenarioTests.PersistenceModel
             };
 
 
-        public IEnumerable<Order> Orders =>
-            new List<Order>
-            {
-                new Order(100,1,LineItems.Where(item=>new []{1,2,4,5}.Contains(item.LineItemId)).ToList()),
-                new Order(101,1,LineItems.Where(item=>new []{8,9}.Contains(item.LineItemId)).ToList()),
-                new Order(102,4,LineItems.Where(item=>new []{10,11}.Contains(item.LineItemId)).ToList()),
-                new Order(103,5,LineItems.Where(item=>new []{4,5}.Contains(item.LineItemId)).ToList()),
-                new Order(104,5,LineItems.Where(item=>new []{6,7}.Contains(item.LineItemId)).ToList()),
-                new Order(105,6,LineItems.Where(item=>new []{12}.Contains(item.LineItemId)).ToList()),
-            };
+        public ICollection<Order> Orders { get; set; }
 
-        public IEnumerable<LineItem> LineItems =>
+
+        public ICollection<LineItem> LineItems =>
             new List<LineItem>
             {
                 new LineItem(1,1,1),
@@ -62,5 +54,20 @@ namespace TwoTrackUseCaseScenarioTests.PersistenceModel
                 new LineItem(11,5,7),
                 new LineItem(12,7,1),
             };
+
+        public FakeShopContext()
+        {
+            Orders = new List<Order>
+            {
+                new Order(100,1,LineItems.Where(item=>new []{1,2,4,5}.Contains(item.LineItemId)).ToList()),
+                new Order(101,1,LineItems.Where(item=>new []{8,9}.Contains(item.LineItemId)).ToList()),
+                new Order(102,4,LineItems.Where(item=>new []{10,11}.Contains(item.LineItemId)).ToList()),
+                new Order(103,5,LineItems.Where(item=>new []{4,5}.Contains(item.LineItemId)).ToList()),
+                new Order(104,5,LineItems.Where(item=>new []{6,7}.Contains(item.LineItemId)).ToList()),
+                new Order(105,6,LineItems.Where(item=>new []{12}.Contains(item.LineItemId)).ToList()),
+            };
+        }
+
+
     }
 }
