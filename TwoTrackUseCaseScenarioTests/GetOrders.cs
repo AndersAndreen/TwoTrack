@@ -10,6 +10,9 @@ using Xunit;
 
 namespace TwoTrackUseCaseScenarioTests
 {
+    /// <summary>
+    /// These tests demonstrate the difference between code using TwoTrack and equivalent code that doesn't.
+    /// </summary>
     public class GetOrders
     {
         private readonly UserRepository _userRepository;
@@ -24,7 +27,7 @@ namespace TwoTrackUseCaseScenarioTests
         }
 
         [Fact]
-        public void GetOrdersByUserNameUsigRepositories()
+        public void GetOrdersByUserNameWithTwoTrack()
         {
             // Arrange
             var userName = "ClarkKent";
@@ -43,7 +46,7 @@ namespace TwoTrackUseCaseScenarioTests
         }
 
         [Fact]
-        public void GetOrdersByUserName_WithoutTwoTrackUsingRepositories()
+        public void GetOrdersByUserName_WithoutUsingTwoTrack()
         {
             // Arrange
             var userName = "ClarkKent";
