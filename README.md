@@ -28,35 +28,35 @@ As you probably noticed all principles are written in the same form as the agile
 Let's take a look at how it all works. Below is an example taken from one of the use case scenarios (taken from TwoTrackUseCaseScenarioTests.UsersAndOrders.cs):
 
 ```C#
-            var (user, orders) = TwoTrack.Ok() // step 1 (arrange)
+            var (user, orders) = TwoTrack.Enclose(() => userName) // step 1 (arrange)
                 .SetExceptionFilter(ex => ex is SomeExceptionThownByDatabase) // step 2 (arrange)
-                .Enclose(() => _context.Users.FirstOrDefault(user1 => user1.UserName == userName)) // step 3 (act)
-                .Enclose(user1 => _context.Orders.Where(order => order.UserId == user1.UserId).ToList()) // step 4 (act)
-                .LogErrors(errors => Log(errors.ToArray())) // step 5 (act)
-                .ValueOrDefault((User.Empty(), new List<Order>())); // step 6 (final nullcheck)
+                .Select(_userRepository.GetByUserName) // step 3 (db call)
+                .Enclose(_orderRepository.GetOrders) // step 4 (db call)
+                .LogErrors(errors => Log(errors.ToArray())) // step 5 (logging)
+                .ValueOrDefault((User.Empty(), new List<Order>())); // step 6 (final null handling)
         }
 
 ```
 
-Using TwoTrack we get 6 steps in 6 simple lines. First two setup steps and then all actions. All exception handling is implicit, and if a function returns a null value TwoTrack automatically prevents subsequent function calls. 
+Using TwoTrack we get 6 steps in 6 simple lines. First two setup steps, then two database calls and finally some logging before returning the values. All exception handling is implicit, and if `_userRepository.GetByUserName` returns a null value TwoTrack automatically prevents `_orderRepository.GetOrders` from running. 
 
 Let's compare this to some code with corresponding functionality and error handling, but without using TwoTrack:
 
 ```C#
             User user = default; // step 1 (arrange):
-            List<Order> orders = default; // step 1 (arrange):
+            ICollection<Order> orders = default; // step 1 (arrange):
             try
             {
-                user = _context.Users.FirstOrDefault(user1 => user1.UserName == userName); // step 3 (act)
-                if( user is null) Log(TtError.ResultNullError()); // step 5 (logging)
-                else orders = _context.Orders.Where(order => order.UserId == user?.UserId).ToList(); // step 4 (act)
+                user = _userRepository.GetByUserName(userName); // step 3 (act)
+                if (user is null) Log(TtError.ResultNullError()); // step 5 (logging)
+                else orders = _orderRepository.GetOrders(user); // step 4 (act)
             }
             catch (Exception e) when (e is SomeExceptionThownByDatabase) // step 2 (arrange)
             {
                 Log(TtError.Exception(e)); // step 5 (logging)
             }
-            user ??= User.Empty(); // step 6 (nullcheck)
-            orders ??= new List<Order>(); // step 6 (final nullcheck)
+            user ??= User.Empty(); // step 6 (final null handling)
+            orders ??= new List<Order>(); // step 6 (final null handling)
 ```
 Here we get 14 lines with explicit try-catch and null coalescing. And one if-else statement. And we also have to remeber to log errors in two places instead of one.
 
