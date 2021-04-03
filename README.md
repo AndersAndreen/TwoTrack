@@ -25,14 +25,14 @@ TwoTrack generally follows these four principles:
 As you probably noticed all principles are written in the same form as the agile manifesto. While there is evident value in the approches on the right, TwoTrack  value the approaches on the left more.
 
 ## A first Example
-Let's take a look at how it all works. Below is an example taken from one of the use case scenarios (taken from TwoTrackUseCaseScenarioTests.UsersAndOrders.cs):
+Let's take a look at how it all works. Below is an example taken from one of the included test use case scenarios (taken from TwoTrackUseCaseScenarioTests.UsersAndOrders.cs):
 
 ```C#
             var (user, orders) = TwoTrack.Enclose(() => userName) // step 1 (arrange)
                 .SetExceptionFilter(ex => ex is SomeExceptionThownByDatabase) // step 2 (arrange)
                 .Select(_userRepository.GetByUserName) // step 3 (db call)
                 .Enclose(_orderRepository.GetOrders) // step 4 (db call)
-                .LogErrors(errors => Log(errors.ToArray())) // step 5 (logging)
+                .LogErrors(_logger.Log) // step 5 (logging)
                 .ValueOrDefault((User.Empty(), new List<Order>())); // step 6 (final null handling)
         }
 
@@ -48,12 +48,12 @@ Let's compare this to some code with corresponding functionality and error handl
             try
             {
                 user = _userRepository.GetByUserName(userName); // step 3 (act)
-                if (user is null) Log(TtError.ResultNullError()); // step 5 (logging)
+                if (user is null) _logger.Log(TtError.ResultNullError()); // step 5 (logging)
                 else orders = _orderRepository.GetOrders(user); // step 4 (act)
             }
             catch (Exception e) when (e is SomeExceptionThownByDatabase) // step 2 (arrange)
             {
-                Log(TtError.Exception(e)); // step 5 (logging)
+                _logger.Log(TtError.Exception(e)); // step 5 (logging)
             }
             user ??= User.Empty(); // step 6 (final null handling)
             orders ??= new List<Order>(); // step 6 (final null handling)
