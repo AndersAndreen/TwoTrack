@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using TwoTrackCore;
 using TwoTrackCore.Defaults;
 using Xunit;
 
@@ -13,7 +14,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok().SetExceptionFilter(null);
+            var result = TwoTrack.Ok().SetExceptionFilter(null);
 
             // Assert
             result.Errors.Single().Category.Should().Be(ErrorCategory.ArgumentNullError);
@@ -24,7 +25,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok().SetExceptionFilter(ex => false);
+            var result = TwoTrack.Ok().SetExceptionFilter(ex => false);
 
             // Assert
             result.Succeeded.Should().BeTrue();
@@ -35,7 +36,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            Action act = () => TwoTrackCore.TwoTrack.Ok().Do(() => throw new ArgumentNullException());
+            Action act = () => TwoTrack.Ok().Do(() => throw new ArgumentNullException());
 
             // Assert
             act.Should().Throw<ArgumentNullException>();
@@ -46,7 +47,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            Action act = () => TwoTrackCore.TwoTrack.Ok()
+            Action act = () => TwoTrack.Ok()
                 .SetExceptionFilter(ex => false)
                 .Do(() => throw new Exception());
 
@@ -59,7 +60,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok()
+            var result = TwoTrack.Ok()
                 .SetExceptionFilter(ex => true)
                 .Do(() => throw new Exception());
 
@@ -72,11 +73,11 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok()
+            var result1 = TwoTrack.Ok()
                 .SetExceptionFilter(ex => ex is ArgumentNullException || ex is ApplicationException)
                 .Do(() => throw new ArgumentNullException());
 
-            var result2 = TwoTrackCore.TwoTrack.Ok()
+            var result2 = TwoTrack.Ok()
                 .SetExceptionFilter(ex => ex is ArgumentNullException || ex is ApplicationException)
                 .Do(() => throw new ApplicationException());
 
@@ -93,7 +94,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            Action act = () => TwoTrackCore.TwoTrack.Ok()
+            Action act = () => TwoTrack.Ok()
                 .SetExceptionFilter(ex => ex is ArgumentNullException || ex is ArgumentException)
                 .Do(() => throw new ApplicationException());
 

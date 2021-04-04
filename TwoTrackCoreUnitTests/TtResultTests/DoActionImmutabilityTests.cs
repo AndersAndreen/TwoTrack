@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using TwoTrackCore;
 using TwoTrackCore.Defaults;
 using Xunit;
 
@@ -32,7 +33,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.Do((Action)default);
 
             // Assert
@@ -45,7 +46,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok().SetExceptionFilter(ex => ex is ArgumentNullException);
+            var result1 = TwoTrack.Ok().SetExceptionFilter(ex => ex is ArgumentNullException);
             var result2 = result1.Do(_throwArgumentNullException);
 
             // Assert
@@ -59,7 +60,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.Do(() => _changeState(this));
 
             // Assert
@@ -75,7 +76,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.Do((Action)default);
 
             // Assert
@@ -89,7 +90,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail().SetExceptionFilter(ex => ex is ArgumentNullException);
+            var result1 = TwoTrack.Fail().SetExceptionFilter(ex => ex is ArgumentNullException);
             var result2 = result1.Do(_throwArgumentNullException);
 
             // Assert
@@ -103,7 +104,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.Do(() => _changeState(this));
 
             // Assert

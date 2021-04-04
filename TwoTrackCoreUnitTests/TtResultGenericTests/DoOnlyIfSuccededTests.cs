@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentAssertions;
+using TwoTrackCore;
 using Xunit;
 
 namespace TwoTrackCoreUnitTests.TtResultGenericTests
@@ -21,7 +22,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Enclose(() => "#");
+            var result1 = TwoTrack.Enclose(() => "#");
             //var result2 = result1.Do(_updateMockValue);
 
             // Assert
@@ -35,7 +36,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail<string>();
+            var result1 = TwoTrack.Fail<string>();
             var result2 = result1.Do(x => _updateMockValue);
 
             // Assert

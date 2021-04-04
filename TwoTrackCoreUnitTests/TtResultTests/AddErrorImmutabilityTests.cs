@@ -25,7 +25,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.AddError((TtError)null);
 
             // Assert
@@ -38,7 +38,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.AddError(TtError.DefaultError());
 
             // Assert
@@ -53,7 +53,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.AddError((TtError)null);
 
             // Assert
@@ -66,7 +66,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.AddError(TtError.DefaultError());
 
             // Assert

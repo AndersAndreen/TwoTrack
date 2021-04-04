@@ -1,4 +1,5 @@
 using FluentAssertions;
+using TwoTrackCore;
 using TwoTrackCoreUnitTests.TestHelpers;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace TwoTrackCoreUnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrackCore.TwoTrack.Enclose(() => 3);
+            var result = TwoTrack.Enclose(() => 3);
 
             // Assert
             result.AssertBasicSuccessCriteria();
@@ -25,7 +26,7 @@ namespace TwoTrackCoreUnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrackCore.TwoTrack.Enclose(() => TwoTrackCore.TwoTrack.Enclose(()=>3));
+            var result = TwoTrack.Enclose(() => TwoTrack.Enclose(()=>3));
 
             // Assert
             result.AssertBasicSuccessCriteria();

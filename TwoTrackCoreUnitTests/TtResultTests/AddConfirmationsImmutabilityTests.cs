@@ -35,7 +35,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.AddConfirmations((IEnumerable<TtConfirmation>)null);
 
             // Assert
@@ -51,7 +51,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.AddConfirmations(TwoConfirmations);
 
             // Assert
@@ -70,7 +70,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.AddConfirmations((IEnumerable<TtConfirmation>)null);
 
             // Assert
@@ -86,7 +86,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.AddConfirmations(TwoConfirmations);
 
             // Assert
@@ -105,7 +105,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok().AddConfirmation(Confirmation1);
+            var result1 = TwoTrack.Ok().AddConfirmation(Confirmation1);
             var result2 = result1.AddConfirmations((IEnumerable<TtConfirmation>)null);
 
             // Assert
@@ -121,7 +121,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok().AddConfirmation(Confirmation1);
+            var result1 = TwoTrack.Ok().AddConfirmation(Confirmation1);
             var result2 = result1.AddConfirmations(TwoConfirmations);
 
             // Assert
@@ -140,7 +140,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok().AddConfirmation(Confirmation1).AddError(TtError.DefaultError());
+            var result1 = TwoTrack.Ok().AddConfirmation(Confirmation1).AddError(TtError.DefaultError());
             var result2 = result1.AddConfirmations((IEnumerable<TtConfirmation>)null);
 
             // Assert
@@ -156,7 +156,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok().AddConfirmation(Confirmation1).AddError(TtError.DefaultError());
+            var result1 = TwoTrack.Ok().AddConfirmation(Confirmation1).AddError(TtError.DefaultError());
             var result2 = result1.AddConfirmations(TwoConfirmations);
 
             // Assert

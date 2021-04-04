@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FluentAssertions;
+using TwoTrackCore;
 using TwoTrackCore.Defaults;
 using Xunit;
 
@@ -18,7 +19,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok().Do(null);
+            var result = TwoTrack.Ok().Do(null);
 
             // Assert
             result.Failed.Should().BeTrue();
@@ -29,7 +30,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         public void Do_ThrowAccessViolationExceptionWithoutCatcher_ExpectUncaughtExeption()
         {
             // Arrange
-            Action act = () => TwoTrackCore.TwoTrack.Ok().Do(_throwAccessViolationException);
+            Action act = () => TwoTrack.Ok().Do(_throwAccessViolationException);
 
             // Act
 
@@ -41,7 +42,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         public void Do_ThrowsArgumentNullWithoutCatcher_ExpectUncaughtExeption()
         {
             // Arrange
-            Action act = () => TwoTrackCore.TwoTrack.Ok().Do(_throwArgumentNullException);
+            Action act = () => TwoTrack.Ok().Do(_throwArgumentNullException);
 
             // Act
 
@@ -54,7 +55,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok()
+            var result = TwoTrack.Ok()
                 .SetExceptionFilter(_argumentNullCatcher)
                 .Do(_throwArgumentNullException);
 
@@ -67,7 +68,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         public void Do_ThrowAccessViolationExceptionWithNullExceptionCatcher_ExpectUncaughtExeption()
         {
             // Arrange
-            Action act = () => TwoTrackCore.TwoTrack.Ok()
+            Action act = () => TwoTrack.Ok()
                 .SetExceptionFilter(_argumentNullCatcher)
                 .Do(_throwAccessViolationException);
 
@@ -81,7 +82,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok().Do(_doNothing);
+            var result = TwoTrack.Ok().Do(_doNothing);
 
             // Assert
             result.Succeeded.Should().BeTrue();

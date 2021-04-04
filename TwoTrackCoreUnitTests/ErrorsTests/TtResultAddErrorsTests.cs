@@ -16,7 +16,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
             // Arrange
 
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok().AddError(default);
+            var result = TwoTrack.Ok().AddError(default);
 
             // Assert
             result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
@@ -26,8 +26,8 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         public void AddNullToSucceded_TtResult_ExpectImmutability()
         {
             // Arrange
-            var result = TwoTrackCore.TwoTrack.Ok();
-            var result2 = TwoTrackCore.TwoTrack.Fail().AddError(default);
+            var result = TwoTrack.Ok();
+            var result2 = TwoTrack.Fail().AddError(default);
 
             // Act
             var result3 = result.AddErrors(result2.Errors);
@@ -44,8 +44,8 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         {
             // Arrange
             var error = TtError.Make(ErrorLevel.Warning);
-            var result = TwoTrackCore.TwoTrack.Ok();
-            var result2 = TwoTrackCore.TwoTrack.Fail().AddError(error);
+            var result = TwoTrack.Ok();
+            var result2 = TwoTrack.Fail().AddError(error);
 
             // Act
             var result3 = result.AddErrors(result2.Errors);
@@ -63,8 +63,8 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
             // Arrange
 
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
-            var result2 = TwoTrackCore.TwoTrack.Ok().AddErrors(result1.Errors);
+            var result1 = TwoTrack.Ok();
+            var result2 = TwoTrack.Ok().AddErrors(result1.Errors);
 
             // Assert
             result2.Succeeded.Should().BeTrue();
@@ -79,7 +79,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
             // Arrange
 
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok().AddErrors(default(IEnumerable<TtError>));
+            var result = TwoTrack.Ok().AddErrors(default(IEnumerable<TtError>));
 
             // Assert
             result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
@@ -89,8 +89,8 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         public void AddNullToSucceded_IenumerableOfTtError_ExpectImmutability()
         {
             // Arrange
-            var result = TwoTrackCore.TwoTrack.Ok();
-            var result2 = TwoTrackCore.TwoTrack.Fail().AddErrors(default(IEnumerable<TtError>));
+            var result = TwoTrack.Ok();
+            var result2 = TwoTrack.Fail().AddErrors(default(IEnumerable<TtError>));
 
             // Act
             var result3 = result.AddErrors(result2.Errors);
@@ -107,8 +107,8 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         {
             // Arrange
             var error = TtError.Make(ErrorLevel.Warning);
-            var result = TwoTrackCore.TwoTrack.Ok();
-            var result2 = TwoTrackCore.TwoTrack.Fail().AddError(error);
+            var result = TwoTrack.Ok();
+            var result2 = TwoTrack.Fail().AddError(error);
 
             // Act
             var result3 = result.AddErrors(result2.Errors);
@@ -126,7 +126,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
             // Arrange
 
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok().AddErrors(new List<TtError>());
+            var result = TwoTrack.Ok().AddErrors(new List<TtError>());
 
             // Assert
             result.Succeeded.Should().BeTrue();

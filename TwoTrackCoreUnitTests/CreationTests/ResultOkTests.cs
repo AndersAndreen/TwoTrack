@@ -1,4 +1,5 @@
 using FluentAssertions;
+using TwoTrackCore;
 using TwoTrackCoreUnitTests.TestHelpers;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace TwoTrackCoreUnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrackCore.TwoTrack.Ok();
+            var result = TwoTrack.Ok();
 
             // Assert
             result.AssertBasicSuccessCriteria();

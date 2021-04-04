@@ -24,8 +24,8 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         private string StateTestValue = "";
         private readonly Func<ITwoTrack> _throwAccessViolationException = () => throw new AccessViolationException();
         private readonly Func<ITwoTrack> _throwArgumentNullException = () => throw new ArgumentNullException();
-        private readonly Func<ITwoTrack> _fail = TwoTrackCore.TwoTrack.Fail;
-        private readonly Func<ITwoTrack> _succeed = TwoTrackCore.TwoTrack.Ok;
+        private readonly Func<ITwoTrack> _fail = TwoTrack.Fail;
+        private readonly Func<ITwoTrack> _succeed = TwoTrack.Ok;
 
         // 1: --------------------------------------------------------------------------------------------
         [Fact]
@@ -33,7 +33,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.Do((Func<ITwoTrack>)default);
 
             // Assert
@@ -46,7 +46,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok().SetExceptionFilter(ex => ex is ArgumentNullException);
+            var result1 = TwoTrack.Ok().SetExceptionFilter(ex => ex is ArgumentNullException);
             var result2 = result1.Do(_throwArgumentNullException);
 
             // Assert
@@ -60,7 +60,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.Do(() => _fail());
 
             // Assert
@@ -73,7 +73,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Ok();
+            var result1 = TwoTrack.Ok();
             var result2 = result1.Do(() => _succeed());
 
             // Assert
@@ -87,7 +87,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.Do((Func<ITwoTrack>)default);
 
             // Assert
@@ -101,7 +101,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail().SetExceptionFilter(ex => ex is ArgumentNullException);
+            var result1 = TwoTrack.Fail().SetExceptionFilter(ex => ex is ArgumentNullException);
             var result2 = result1.Do(_throwArgumentNullException);
 
             // Assert
@@ -115,7 +115,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.Do(() => _fail());
 
             // Assert
@@ -130,7 +130,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrackCore.TwoTrack.Fail();
+            var result1 = TwoTrack.Fail();
             var result2 = result1.Do(() => _succeed());
 
             // Assert

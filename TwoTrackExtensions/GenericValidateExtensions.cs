@@ -10,8 +10,8 @@ namespace TwoTrackExtensions
         {
             var callStack = new StackFrame(1, true);
             var result = source.Do(value => predicate(value)
-                ? TwoTrackCore.TwoTrack.Ok()
-                : TwoTrackCore.TwoTrack.Fail(TtError.ValidationError(predicate.Method.Name)).AddErrors(source.Errors));
+                ? TwoTrack.Ok()
+                : TwoTrack.Fail(TtError.ValidationError(predicate.Method.Name)).AddErrors(source.Errors));
             return result;
         }
 
@@ -20,8 +20,8 @@ namespace TwoTrackExtensions
             var callStack = new StackFrame(1, true);
             var result = source.Do(value
                 => predicate(value)
-                    ? TwoTrackCore.TwoTrack.Ok()
-                    : TwoTrackCore.TwoTrack.Fail(TtError.ValidationError(message)).AddErrors(source.Errors));
+                    ? TwoTrack.Ok()
+                    : TwoTrack.Fail(TtError.ValidationError(message)).AddErrors(source.Errors));
             return result;
         }
     }

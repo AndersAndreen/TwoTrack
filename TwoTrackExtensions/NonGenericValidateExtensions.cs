@@ -9,8 +9,8 @@ namespace TwoTrackExtensions
         public static ITwoTrack ValidateAlways(this ITwoTrack source, Func<bool> predicate, string errorDescription)
         {
             var result = source.Do(() => predicate()
-                ? TwoTrackCore.TwoTrack.Ok()
-                : TwoTrackCore.TwoTrack.Fail(TtError.ValidationError(errorDescription)).AddErrors(source.Errors));
+                ? TwoTrack.Ok()
+                : TwoTrack.Fail(TtError.ValidationError(errorDescription)).AddErrors(source.Errors));
             return result;
         }
 
@@ -18,8 +18,8 @@ namespace TwoTrackExtensions
         {
             var callStack = new StackFrame(1, true);
             var result = source.Do(() => predicate()
-                ? TwoTrackCore.TwoTrack.Ok()
-                : TwoTrackCore.TwoTrack.Fail(TtError.ValidationError(predicate.Method.Name)).AddErrors(source.Errors));
+                ? TwoTrack.Ok()
+                : TwoTrack.Fail(TtError.ValidationError(predicate.Method.Name)).AddErrors(source.Errors));
             return result;
         }
     }
