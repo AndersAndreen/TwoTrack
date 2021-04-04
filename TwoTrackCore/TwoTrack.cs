@@ -24,7 +24,6 @@ namespace TwoTrackCore
         public static ITwoTrack Enclose(Func<ITwoTrack> func) => TtResult.Enclose(func);
         public static ITwoTrack<T> Enclose<T>(Func<T> func) => TtResult<T>.Enclose(func);
         public static ITwoTrack<T> Enclose<T>(Func<ITwoTrack<T>> func) => TtResult<T>.Enclose(func);
-        public static ITwoTrack<T> Enclose<T>(Func<T> func, Func<T, bool> validator, TtError errorIfFail) => TtResult<T>.Enclose(func, validator);
 
     }
 }

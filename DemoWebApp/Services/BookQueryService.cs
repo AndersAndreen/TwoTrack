@@ -21,34 +21,35 @@ namespace DemoWebApp.Services
 
         public ITwoTrack<ICollection<T>> Get<T>(Expression<Func<Book, bool>> filter, Expression<Func<Book, T>> mapper)
         {
-            return TwoTrackCore.TwoTrack.Enclose(() => _fakeDbContext.Books
+            return TwoTrack.Enclose(() => _fakeDbContext.Books
                 .Where(filter)
                 .Select(mapper)
                 .ToList());
         }
 
-        public ITwoTrack<T> GetByIsbn<T>(string isbn, Expression<Func<Book, T>> mapper)
+        public ITwoTrack<T> GetByIsbn<T>(string isbnNr, Expression<Func<Book, T>> mapper)
         {
-            var result = TwoTrackCore.TwoTrack.Enclose(() => isbn, IsbnValidator.Validate, TtError.ValidationError($"incorrect ISBN format: {isbn}"))
+            var result = TwoTrack.Enclose(() => isbnNr)
+                .Do(Validator.ValidateIsbn)
                 .Enclose(nr => _fakeDbContext.Books
                     .Where(book => book.Isbn == nr)
                     .Select(mapper)
                     .FirstOrDefault())
                 .Select(tuple => tuple.Item2);
-                //.ReplaceNullResultWithErrorMessage(ErrorDescriptions.ItemNotFound);
+            //.ReplaceNullResultsWithErrorMessage(ErrorDescriptions.ItemNotFound);
             return result;
         }
 
         public ITwoTrack<T> GetByIsbn2<T>(string isbn, Expression<Func<Book, T>> mapper)
         {
             //var x = TwoTrack.Enclose(() => "#").Enclose(xx => 34);
-            var result = TwoTrackCore.TwoTrack.Ok()
+            var result = TwoTrack.Ok()
                 //.ValidateAlways(() => IsbnValidator.Validate(isbn + "#"), $"incorrect ISBN format")
                 .Enclose(() => _fakeDbContext.Books
                     .Where(book => book.Isbn == isbn)
                     .Select(mapper)
                     .FirstOrDefault());
-                //.ReplaceNullResultWithErrorMessage(ErrorDescriptions.ItemNotFound);
+            //.ReplaceNullResultWithErrorMessage(ErrorDescriptions.ItemNotFound);
             return result;
         }
     }

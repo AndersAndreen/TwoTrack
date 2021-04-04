@@ -138,7 +138,6 @@ namespace TwoTrackCore.Internal
         #region Factory methods
         public static ITwoTrack<T> Enclose(Func<T> func) => new TtResult<T>().Select(func);
         public static ITwoTrack<T> Enclose(Func<ITwoTrack<T>> func) => new TtResult<T>().Select(func);
-        public static ITwoTrack<T> Enclose(Func<T> func, Func<T, bool> validator) => new TtResult<T>().Select(func); // TODO: implement validator!
 
         internal static ITwoTrack<T> Fail(TtError error)
         {
