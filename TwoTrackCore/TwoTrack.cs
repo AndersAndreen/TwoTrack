@@ -9,12 +9,12 @@ namespace TwoTrackCore
         public static ITwoTrack Ok() => TtResult.Ok();
 
         public static ITwoTrack Fail(Exception exception) => TtResult.Fail(TwoTrackError.Exception(exception));
-        public static ITwoTrack Fail(TtError error) => TtResult.Fail(error);
-        public static ITwoTrack Fail(ITtCloneable result, TtError error = default) => TtResult.Fail(result, error);
+        public static ITwoTrack Fail(TwoTrackError error) => TtResult.Fail(error);
+        public static ITwoTrack Fail(ITtCloneable result, TwoTrackError error = default) => TtResult.Fail(result, error);
 
         public static ITwoTrack<T> Fail<T>(Exception exception) => TtResult<T>.Fail(TwoTrackError.Exception(exception));
-        public static ITwoTrack<T> Fail<T>(TtError error) => TtResult<T>.Fail(error);
-        public static ITwoTrack<T> Fail<T>(ITtCloneable result, TtError error = default) => TtResult<T>.Fail(result, error);
+        public static ITwoTrack<T> Fail<T>(TwoTrackError error) => TtResult<T>.Fail(error);
+        public static ITwoTrack<T> Fail<T>(ITtCloneable result, TwoTrackError error = default) => TtResult<T>.Fail(result, error);
 
         public static ITwoTrack Enclose(Action action) => TtResult.Enclose(action);
         public static ITwoTrack Enclose(Func<ITwoTrack> func) => TtResult.Enclose(func);

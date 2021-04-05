@@ -50,7 +50,7 @@ namespace TwoTrackUseCaseScenarioTests
                 .Do(count => _orderRepository.SaveChanges())
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "order", "Order saved"))
                 .LogErrors(_logger.Log);
-
+            
             var savedOrders = TwoTrack.Enclose(() => userName)
                 .Select(_userRepository.GetByUserName)
                 .Select(_orderRepository.GetOrders)

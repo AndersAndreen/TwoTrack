@@ -13,8 +13,8 @@ namespace TwoTrackCore.Internal
         {
         }
 
-        public ITwoTrack AddError(TtError error) => TryCatch(() => Clone().AppendError(error)); //Todo: if exception add a designbug error also
-        public ITwoTrack AddErrors(IEnumerable<TtError> errors) => TryCatch(() => Clone().AppendErrors(errors)); //Todo: if exception add a designbug error also
+        public ITwoTrack AddError(TwoTrackError error) => TryCatch(() => Clone().AppendError(error)); //Todo: if exception add a designbug error also
+        public ITwoTrack AddErrors(IEnumerable<TwoTrackError> errors) => TryCatch(() => Clone().AppendErrors(errors)); //Todo: if exception add a designbug error also
         public ITwoTrack AddConfirmation(TtConfirmation confirmation)
         {
             if (confirmation is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
@@ -97,14 +97,14 @@ namespace TwoTrackCore.Internal
         internal static ITwoTrack Enclose(Action action) => new TtResult().Do(action);
 
 
-        internal static ITwoTrack Fail(TtError error)
+        internal static ITwoTrack Fail(TwoTrackError error)
         {
             return error is null
                 ? new TtResult().AppendError(TwoTrackError.ArgumentNullError())
                 : new TtResult().AppendError(error);
         }
 
-        internal static ITwoTrack Fail(IEnumerable<TtError> errors)
+        internal static ITwoTrack Fail(IEnumerable<TwoTrackError> errors)
         {
             var ttErrors = errors?.ToList();
             return errors is null || !ttErrors.Any()
@@ -112,7 +112,7 @@ namespace TwoTrackCore.Internal
                 : new TtResult().AppendErrors(ttErrors);
         }
 
-        internal static ITwoTrack Fail(ITtCloneable source, TtError error = default)
+        internal static ITwoTrack Fail(ITtCloneable source, TwoTrackError error = default)
         {
             var clone = new TtResult
             {

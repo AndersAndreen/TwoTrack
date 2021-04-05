@@ -4,15 +4,32 @@ using TwoTrackCore.Defaults;
 
 namespace TwoTrackCore
 {
-    public class TwoTrackError : TtError
+    public class TwoTrackError : TwoTrackErrorBase
     {
-        public static TtError Error(ErrorLevel errorLevel, string category, string description)
-            => TtError.MakeError(errorLevel, category, description, Environment.StackTrace);
+        private static TwoTrackError MakeError(ErrorLevel errorLevel, string category, string description, string stackTrace)
+        {
+            if (category is null || description is null) return MakeArgumentNullError();
+            return new TwoTrackError
+            {
+                Level = errorLevel,
+                Category = category,
+                Description = description,
+                StackTrace = stackTrace
+            };
+        }
+        private static TwoTrackError MakeArgumentNullError()
+        {
+            var callStack = new StackFrame(1, true);
+            return MakeError(ErrorLevel.Error, ErrorCategory.ArgumentNullError, $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}", Environment.StackTrace);
+        }
 
-        public static TtError Error(ErrorLevel errorLevel)
+        public static TwoTrackError Error(ErrorLevel errorLevel, string category, string description)
+            => MakeError(errorLevel, category, description, Environment.StackTrace);
+
+        public static TwoTrackError Error(ErrorLevel errorLevel)
             => Error(errorLevel, "", ErrorDescriptions.DefaultError);
 
-        public static TtError Exception(Exception exception)
+        public static TwoTrackError Exception(Exception exception)
             => exception == null
                ? ArgumentNullError()
                : MakeError(ErrorLevel.Error,
@@ -20,12 +37,12 @@ namespace TwoTrackCore
                    $"{exception.GetType()}: {exception.Message}",
                    exception.StackTrace);
 
-        public static TtError DefaultError()
+        public static TwoTrackError DefaultError()
             => Error(ErrorLevel.Error, ErrorCategory.Unspecified, ErrorDescriptions.DefaultError);
 
-        public static TtError ArgumentNullError() => TtError.MakeArgumentNullError();
+        public static TwoTrackError ArgumentNullError() => MakeArgumentNullError();
 
-        public static TtError ResultNullError()
+        public static TwoTrackError ResultNullError()
         {
             var callStack = new StackFrame(1, true);
             return Error(ErrorLevel.Error,
@@ -33,7 +50,7 @@ namespace TwoTrackCore
                 $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}");
         }
 
-        public static TtError DesignBugError()
+        public static TwoTrackError DesignBugError()
         {
             var callStack = new StackFrame(1, true);
             return Error(ErrorLevel.Error,
@@ -41,7 +58,7 @@ namespace TwoTrackCore
                  $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}");
         }
 
-        public static TtError ValidationError(string description)
+        public static TwoTrackError ValidationError(string description)
         {
             return Error(ErrorLevel.ReportError,
                  ErrorCategory.ValidationError,

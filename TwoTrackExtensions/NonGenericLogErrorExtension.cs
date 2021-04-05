@@ -6,7 +6,7 @@ namespace TwoTrackExtensions
 {
     public static class NonGenericLogErrorExtension
     {
-        public static ITwoTrack LogErrors(this ITwoTrack source, Action<IEnumerable<TtError>> logger)
+        public static ITwoTrack LogErrors(this ITwoTrack source, Action<IEnumerable<TwoTrackError>> logger)
         {
             if (source.Failed) logger(source.Errors);
             return source;

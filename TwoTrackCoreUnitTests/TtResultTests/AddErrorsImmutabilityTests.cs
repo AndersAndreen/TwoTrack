@@ -22,7 +22,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
      */
     public class AddErrorsImmutabilityTests
     {
-        private readonly IEnumerable<TtError> _twoErrors = new List<TtError> { TwoTrackError.DefaultError(), TwoTrackError.ArgumentNullError() };
+        private readonly IEnumerable<TwoTrackError> _twoErrors = new List<TwoTrackError> { TwoTrackError.DefaultError(), TwoTrackError.ArgumentNullError() };
 
         // 1: --------------------------------------------------------------------------------------------
         [Fact]
@@ -31,7 +31,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
             // Arrange
             // Act
             var result1 = TwoTrack.Ok();
-            var result2 = result1.AddErrors((IEnumerable<TtError>)null);
+            var result2 = result1.AddErrors((IEnumerable<TwoTrackError>)null);
 
             // Assert
             result1.Errors.Count.Should().Be(0);
@@ -61,7 +61,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
             // Arrange
             // Act
             var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
-            var result2 = result1.AddErrors((IEnumerable<TtError>)null);
+            var result2 = result1.AddErrors((IEnumerable<TwoTrackError>)null);
 
             // Assert
             result1.Errors.Count.Should().Be(1);

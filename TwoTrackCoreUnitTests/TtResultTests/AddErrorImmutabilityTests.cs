@@ -26,7 +26,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
             // Arrange
             // Act
             var result1 = TwoTrack.Ok();
-            var result2 = result1.AddError((TtError)null);
+            var result2 = result1.AddError((TwoTrackError)null);
 
             // Assert
             result1.Errors.Count.Should().Be(0);
@@ -54,7 +54,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
             // Arrange
             // Act
             var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
-            var result2 = result1.AddError((TtError)null);
+            var result2 = result1.AddError((TwoTrackError)null);
 
             // Assert
             result1.Errors.Count.Should().Be(1);

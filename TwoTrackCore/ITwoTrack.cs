@@ -7,8 +7,8 @@ namespace TwoTrackCore
     {
         ITwoTrack SetExceptionFilter(Func<Exception, bool> exeptionFilter);
 
-        ITwoTrack AddError(TtError error);
-        ITwoTrack AddErrors(IEnumerable<TtError> errors);
+        ITwoTrack AddError(TwoTrackError error);
+        ITwoTrack AddErrors(IEnumerable<TwoTrackError> errors);
 
         /// <summary> If succeeded: Add a confirmation.</summary>
         ITwoTrack AddConfirmation(TtConfirmation confirmation);

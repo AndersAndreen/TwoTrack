@@ -18,8 +18,8 @@ namespace TwoTrackCore.Internal
         {
         }
 
-        public ITwoTrack<T> AddError(TtError error) => CloneAndSet(_value).AppendError(error);
-        public ITwoTrack<T> AddErrors(IEnumerable<TtError> errors) => CloneAndSet(_value).AppendErrors(errors);
+        public ITwoTrack<T> AddError(TwoTrackError error) => CloneAndSet(_value).AppendError(error);
+        public ITwoTrack<T> AddErrors(IEnumerable<TwoTrackError> errors) => CloneAndSet(_value).AppendErrors(errors);
 
         public ITwoTrack<T> AddConfirmation(TtConfirmation confirmation) => CloneAndSet(_value).AppendConfirmation(confirmation);
         public ITwoTrack<T> AddConfirmations(IEnumerable<TtConfirmation> confirmations) => CloneAndSet(_value).AppendConfirmations(confirmations);
@@ -103,7 +103,7 @@ namespace TwoTrackCore.Internal
         }
 
 
-        protected TtResult<T> ErrorIfNullOrTupleContainsNull(T input, TtError error)
+        protected TtResult<T> ErrorIfNullOrTupleContainsNull(T input, TwoTrackError error)
         {
             var tupleHasNull = false;
             if (input is ITuple tuple)
@@ -121,7 +121,7 @@ namespace TwoTrackCore.Internal
         }
 
 
-        private TtResult<T2> CloneAndSet<T2>(T2 value, TtError error = default)
+        private TtResult<T2> CloneAndSet<T2>(T2 value, TwoTrackError error = default)
         {
             var clone = new TtResult<T2>
             {
@@ -139,14 +139,14 @@ namespace TwoTrackCore.Internal
         public static ITwoTrack<T> Enclose(Func<T> func) => new TtResult<T>().Select(func);
         public static ITwoTrack<T> Enclose(Func<ITwoTrack<T>> func) => new TtResult<T>().Select(func);
 
-        internal static ITwoTrack<T> Fail(TtError error)
+        internal static ITwoTrack<T> Fail(TwoTrackError error)
         {
             return error is null
                 ? new TtResult<T>().AppendError(TwoTrackError.ArgumentNullError())
                 : new TtResult<T>().AppendError(error);
         }
 
-        internal static ITwoTrack<T> Fail(IEnumerable<TtError> errors)
+        internal static ITwoTrack<T> Fail(IEnumerable<TwoTrackError> errors)
         {
             var errorList = errors?.ToList();
             return errors is null || !errorList.Any()
@@ -154,7 +154,7 @@ namespace TwoTrackCore.Internal
                 : new TtResult<T>().AppendErrors(errorList);
         }
 
-        internal static ITwoTrack<T> Fail(ITtCloneable source, TtError error = default)
+        internal static ITwoTrack<T> Fail(ITtCloneable source, TwoTrackError error = default)
         {
             var clone = new TtResult<T>
             {

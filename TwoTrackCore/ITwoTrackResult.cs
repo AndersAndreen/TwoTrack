@@ -6,7 +6,7 @@ namespace TwoTrackCore
     {
         bool Failed { get; }
         bool Succeeded { get; }
-        IReadOnlyCollection<TtError> Errors { get; }
+        IReadOnlyCollection<TwoTrackError> Errors { get; }
         IReadOnlyCollection<TtConfirmation> Confirmations { get; }
     }
 }

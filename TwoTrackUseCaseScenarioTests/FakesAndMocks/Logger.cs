@@ -7,12 +7,12 @@ namespace TwoTrackUseCaseScenarioTests.FakesAndMocks
 {
     internal class Logger
     {
-        public void Log(IEnumerable<TtError> errors)
+        public void Log(IEnumerable<TwoTrackError> errors)
         {
 
         }
 
-        public void Log(params TtError[] errors)
+        public void Log(params TwoTrackError[] errors)
         {
 
         }

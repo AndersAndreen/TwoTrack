@@ -6,11 +6,11 @@ namespace TwoTrackCore.Internal
 {
     internal abstract class TtResultBase<TChildClass> where TChildClass : TtResultBase<TChildClass>
     {
-        protected readonly List<TtError> ErrorsList = new List<TtError>();
+        protected readonly List<TwoTrackError> ErrorsList = new List<TwoTrackError>();
         protected readonly List<TtConfirmation> ConfirmationsList = new List<TtConfirmation>();
 
 
-        public IReadOnlyCollection<TtError> Errors => new List<TtError>(ErrorsList);
+        public IReadOnlyCollection<TwoTrackError> Errors => new List<TwoTrackError>(ErrorsList);
         public IReadOnlyCollection<TtConfirmation> Confirmations => new List<TtConfirmation>(ConfirmationsList);
 
         public Func<Exception, bool> ExceptionFilter { get; protected set; } = ExceptionFilters.CatchNone;
@@ -21,16 +21,16 @@ namespace TwoTrackCore.Internal
 
         #region Append errors and confirmations fluent style
         // These methods simplifies AddError and AddConfirmation methods
-        protected TChildClass AppendError(TtError error)
+        protected TChildClass AppendError(TwoTrackError error)
         {
             error ??= TwoTrackError.ArgumentNullError();
             ErrorsList.Add(error);
             return (TChildClass)this;
         }
 
-        protected TChildClass AppendErrors(IEnumerable<TtError> errors)
+        protected TChildClass AppendErrors(IEnumerable<TwoTrackError> errors)
         {
-            var ttErrors = errors?.ToList() ?? new List<TtError> { TwoTrackError.ArgumentNullError() }; ;
+            var ttErrors = errors?.ToList() ?? new List<TwoTrackError> { TwoTrackError.ArgumentNullError() }; ;
             ErrorsList.AddRange(ttErrors);
             return (TChildClass)this;
         }
