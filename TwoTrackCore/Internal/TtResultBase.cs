@@ -23,14 +23,14 @@ namespace TwoTrackCore.Internal
         // These methods simplifies AddError and AddConfirmation methods
         protected TChildClass AppendError(TtError error)
         {
-            error ??= TtError.ArgumentNullError();
+            error ??= TwoTrackError.ArgumentNullError();
             ErrorsList.Add(error);
             return (TChildClass)this;
         }
 
         protected TChildClass AppendErrors(IEnumerable<TtError> errors)
         {
-            var ttErrors = errors?.ToList() ?? new List<TtError> { TtError.ArgumentNullError() }; ;
+            var ttErrors = errors?.ToList() ?? new List<TtError> { TwoTrackError.ArgumentNullError() }; ;
             ErrorsList.AddRange(ttErrors);
             return (TChildClass)this;
         }

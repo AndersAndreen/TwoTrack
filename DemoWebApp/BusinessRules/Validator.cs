@@ -8,7 +8,7 @@ namespace DemoWebApp.BusinessRules
         public static ITwoTrack ValidateIsbn(string isbnNumber)
             => Regex.IsMatch(isbnNumber, @"^[\d\s]*$")
                     ? TwoTrack.Ok()
-                    : TwoTrack.Fail(TtError.ValidationError($"incorrect ISBN format: {isbnNumber}"));
+                    : TwoTrack.Fail(TwoTrackError.ValidationError($"incorrect ISBN format: {isbnNumber}"));
         }
 }
 

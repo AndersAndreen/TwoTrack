@@ -76,7 +76,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail();
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
             var result2 = result1.Do((Action)default);
 
             // Assert
@@ -90,7 +90,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail().SetExceptionFilter(ex => ex is ArgumentNullException);
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError()).SetExceptionFilter(ex => ex is ArgumentNullException);
             var result2 = result1.Do(_throwArgumentNullException);
 
             // Assert
@@ -104,7 +104,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail();
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
             var result2 = result1.Do(() => _changeState(this));
 
             // Assert

@@ -24,7 +24,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         private string StateTestValue = "";
         private readonly Func<ITwoTrack> _throwAccessViolationException = () => throw new AccessViolationException();
         private readonly Func<ITwoTrack> _throwArgumentNullException = () => throw new ArgumentNullException();
-        private readonly Func<ITwoTrack> _fail = TwoTrack.Fail;
+        private readonly Func<ITwoTrack> _fail = ()=> TwoTrack.Fail(TwoTrackError.DefaultError());
         private readonly Func<ITwoTrack> _succeed = TwoTrack.Ok;
 
         // 1: --------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail();
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
             var result2 = result1.Do((Func<ITwoTrack>)default);
 
             // Assert
@@ -101,7 +101,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail().SetExceptionFilter(ex => ex is ArgumentNullException);
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError()).SetExceptionFilter(ex => ex is ArgumentNullException);
             var result2 = result1.Do(_throwArgumentNullException);
 
             // Assert
@@ -115,7 +115,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail();
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
             var result2 = result1.Do(() => _fail());
 
             // Assert
@@ -130,7 +130,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail();
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
             var result2 = result1.Do(() => _succeed());
 
             // Assert

@@ -22,10 +22,6 @@ namespace TwoTrackCoreUnitTests.TtResultTests
      */
     public class AddConfirmationImmutabilityTests
     {
-        private readonly Action _throwAccessViolationException = () => throw new AccessViolationException();
-        private readonly Action _throwArgumentNullException = () => throw new ArgumentNullException();
-        private readonly Action _doNothing = () => { };
-
         private readonly TtConfirmation _confirmation1 = TtConfirmation.Make(ConfirmationLevel.Report, "cat", "miaow");
         private readonly TtConfirmation _confirmation2 = TtConfirmation.Make(ConfirmationLevel.Report, "dog", "woof");
         // 1
@@ -70,7 +66,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail();
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
             var result2 = result1.AddConfirmation((TtConfirmation)null);
 
             // Assert
@@ -86,7 +82,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail();
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
             var result2 = result1.AddConfirmation(_confirmation1);
 
             // Assert
@@ -140,7 +136,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Ok().AddConfirmation(_confirmation1).AddError(TtError.DefaultError());
+            var result1 = TwoTrack.Ok().AddConfirmation(_confirmation1).AddError(TwoTrackError.DefaultError());
             var result2 = result1.AddConfirmation((TtConfirmation)null);
 
             // Assert
@@ -156,7 +152,7 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Ok().AddConfirmation(_confirmation1).AddError(TtError.DefaultError());
+            var result1 = TwoTrack.Ok().AddConfirmation(_confirmation1).AddError(TwoTrackError.DefaultError());
             var result2 = result1.AddConfirmation(_confirmation2);
 
             // Assert

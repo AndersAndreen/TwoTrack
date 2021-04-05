@@ -20,31 +20,21 @@ namespace TwoTrackCoreUnitTests.CreationTests
             // Act
             var results = new List<ITwoTrack>
             {
-                TwoTrack.Fail(new List<TtError>()),
-                TwoTrack.Fail(default(IEnumerable<TtError>)),
                 TwoTrack.Fail(default(Exception)),
                 TwoTrack.Fail(new ArgumentOutOfRangeException()),
-                TwoTrack.Fail(TwoTrack.Fail()),
-                TwoTrack.Fail(),
+                TwoTrack.Fail(TwoTrack.Fail(TwoTrackError.DefaultError())),
+                TwoTrack.Fail(TwoTrackError.DefaultError()),
             };
 
             // Assert
-            TwoTrack.Fail().Failed.Should().BeTrue();
-            results.Should().AllBeEquivalentTo(TwoTrack.Fail(), opt => opt.Excluding(res => res.Errors).Excluding(res=>res.ExceptionFilter));
+            TwoTrack.Fail(TwoTrackError.DefaultError()).Failed.Should().BeTrue();
+            results.Should().AllBeEquivalentTo(TwoTrack.Fail(TwoTrackError.DefaultError()), opt => opt.Excluding(res => res.Errors).Excluding(res=>res.ExceptionFilter));
             results.ForEach(r => r.Errors.Count.Should().Be(1));
         }
 
         // ----------------------------------------------------------------------------------------
         // Individual tests
         // ----------------------------------------------------------------------------------------
-        [Fact]
-        public void TwoTrack_FailWithEmptyTtErrorList_ExpectedFailureStates() 
-            => TestAssert(() => TwoTrack.Fail(new List<TtError>()));
-
-        [Fact]
-        public void TwoTrack_FailWithNullErrorList_ExpectedFailureStates() 
-            => TestAssert(() => TwoTrack.Fail(default(IEnumerable<TtError>)));
-
         [Fact]
         public void TwoTrack_FailWithNullAsExceptionArgument_ExpectedFailureStates()
             => TestAssert(() => TwoTrack.Fail(default(Exception)));
@@ -55,13 +45,13 @@ namespace TwoTrackCoreUnitTests.CreationTests
 
         [Fact]
         public void TwoTrack_Fail_ExpectedFailureStates() 
-            => TestAssert(() => TwoTrack.Fail());
+            => TestAssert(() => TwoTrack.Fail(TwoTrackError.DefaultError()));
 
         [Fact]
         public void TwoTrack_FailWithResult_ExpectedFailureStates()
         {
             // Arrange
-            var result1 = TwoTrack.Fail();
+            var result1 = TwoTrack.Fail(TwoTrackError.DefaultError());
 
             // Act
             TestAssert(() => TwoTrack.Fail(result1));

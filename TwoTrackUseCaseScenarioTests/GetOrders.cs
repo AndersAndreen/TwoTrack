@@ -57,12 +57,12 @@ namespace TwoTrackUseCaseScenarioTests
             try
             {
                 user = _userRepository.GetByUserName(userName); // step 3 (act)
-                if (user is null) _logger.Log(TtError.ResultNullError()); // step 5 (logging)
+                if (user is null) _logger.Log(TwoTrackError.ResultNullError()); // step 5 (logging)
                 else orders = _orderRepository.GetOrders(user); // step 4 (act)
             }
             catch (Exception e) when (e is SomeExceptionThownByDatabase) // step 2 (arrange)
             {
-                _logger.Log(TtError.Exception(e)); // step 5 (logging)
+                _logger.Log(TwoTrackError.Exception(e)); // step 5 (logging)
             }
             user ??= User.Empty(); // step 6 (final null handling)
             orders ??= new List<Order>(); // step 6 (final null handling)

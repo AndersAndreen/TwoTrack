@@ -37,7 +37,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         {
             // Arrange
             // Act
-            var result = TwoTrack.Fail();
+            var result = TwoTrack.Fail(TwoTrackError.DefaultError());
             var result2 = result.AddError(null);
 
             // Assert
@@ -51,7 +51,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         public void AddWarnings_ExpectResultSucceeded(ErrorLevel errrorLevel)
         {
             // Arrange
-            var error = TtError.Make(errrorLevel);
+            var error = TwoTrackError.Error(errrorLevel);
 
             // Act
             var result = TwoTrack.Ok().AddError(error);
@@ -68,7 +68,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         public void AddWarnings_ExpectResultFailed(ErrorLevel errrorLevel)
         {
             // Arrange
-            var error = TtError.Make(errrorLevel);
+            var error = TwoTrackError.Error(errrorLevel);
 
             // Act
             var result = TwoTrack.Ok().AddError(error);

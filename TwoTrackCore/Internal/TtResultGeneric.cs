@@ -27,14 +27,14 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack<T> SetExceptionFilter(Func<Exception, bool> exeptionFilter)
         {
-            if (exeptionFilter is null) return CloneAndSet(_value, TtError.ArgumentNullError());
+            if (exeptionFilter is null) return CloneAndSet(_value, TwoTrackError.ArgumentNullError());
             CloneAndSet(_value).ExceptionFilter = exeptionFilter;
             return this;
         }
 
         public ITwoTrack<T> Do(Action onFailure, Action<T> onSuccess)
         {
-            if (onFailure is null || onSuccess is null) return CloneAndSet(_value, TtError.ArgumentNullError());
+            if (onFailure is null || onSuccess is null) return CloneAndSet(_value, TwoTrackError.ArgumentNullError());
             if (Failed) onFailure();
             if (Succeeded) return AddErrors(TryCatch(() =>
             {
@@ -46,7 +46,7 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack<T> Do<T2>(Func<T2> func)
         {
-            if (func is null) return CloneAndSet(_value, TtError.ArgumentNullError());
+            if (func is null) return CloneAndSet(_value, TwoTrackError.ArgumentNullError());
             return Succeeded ? AddErrors(TryCatch(func).Errors) : this;
         }
 
@@ -54,7 +54,7 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack<T> Do(Action<T> func)
         {
-            if (func is null) return CloneAndSet(_value, TtError.ArgumentNullError());
+            if (func is null) return CloneAndSet(_value, TwoTrackError.ArgumentNullError());
             if (Succeeded) return AddErrors(TryCatch(() =>
                 {
                     func(_value);
@@ -65,9 +65,9 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack<T2> Select<T2>(Func<T2> func)
         {
-            if (func is null) return CloneAndSet(default(T2), TtError.ArgumentNullError());
+            if (func is null) return CloneAndSet(default(T2), TwoTrackError.ArgumentNullError());
             return Failed
-                ? CloneAndSet(default(T2), TtError.ArgumentNullError())
+                ? CloneAndSet(default(T2), TwoTrackError.ArgumentNullError())
                 : TryCatch(func);
         }
 
@@ -75,9 +75,9 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack<T2> Select<T2>(Func<ITwoTrack<T2>> func)
         {
-            if (func is null) return CloneAndSet(default(T2), TtError.ArgumentNullError());
+            if (func is null) return CloneAndSet(default(T2), TwoTrackError.ArgumentNullError());
             return Failed
-                ? CloneAndSet(default(T2), TtError.ArgumentNullError())
+                ? CloneAndSet(default(T2), TwoTrackError.ArgumentNullError())
                 : TryCatch(() =>
                 {
                     T2 value = default;
@@ -94,11 +94,11 @@ namespace TwoTrackCore.Internal
         {
             try
             {
-                return CloneAndSet(func(), TtError.ResultNullError());
+                return CloneAndSet(func(), TwoTrackError.ResultNullError());
             }
             catch (Exception e) when (ExceptionFilter(e))
             {
-                return CloneAndSet(default(T2), TtError.Exception(e));
+                return CloneAndSet(default(T2), TwoTrackError.Exception(e));
             }
         }
 
@@ -131,7 +131,7 @@ namespace TwoTrackCore.Internal
             clone.ConfirmationsList.AddRange(Confirmations);
             clone._value = value;
             return clone.Succeeded
-                ? clone.ErrorIfNullOrTupleContainsNull(value, error ?? TtError.DesignBugError())
+                ? clone.ErrorIfNullOrTupleContainsNull(value, error ?? TwoTrackError.DesignBugError())
                 : clone;
         }
 
@@ -142,7 +142,7 @@ namespace TwoTrackCore.Internal
         internal static ITwoTrack<T> Fail(TtError error)
         {
             return error is null
-                ? new TtResult<T>().AppendError(TtError.ArgumentNullError())
+                ? new TtResult<T>().AppendError(TwoTrackError.ArgumentNullError())
                 : new TtResult<T>().AppendError(error);
         }
 
@@ -150,7 +150,7 @@ namespace TwoTrackCore.Internal
         {
             var errorList = errors?.ToList();
             return errors is null || !errorList.Any()
-                ? new TtResult<T>().AppendError(TtError.ArgumentNullError())
+                ? new TtResult<T>().AppendError(TwoTrackError.ArgumentNullError())
                 : new TtResult<T>().AppendErrors(errorList);
         }
 
@@ -162,7 +162,7 @@ namespace TwoTrackCore.Internal
             };
             clone.ErrorsList.AddRange(source.Errors);
             clone.ConfirmationsList.AddRange(source.Confirmations);
-            if (source.Succeeded) return clone.AppendError(error ?? TtError.DefaultError());
+            if (source.Succeeded) return clone.AppendError(error ?? TwoTrackError.DefaultError());
             return error is null
                 ? clone
                 : clone.AddError(error);

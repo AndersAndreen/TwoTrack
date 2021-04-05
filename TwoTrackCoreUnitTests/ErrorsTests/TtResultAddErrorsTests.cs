@@ -27,7 +27,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         {
             // Arrange
             var result = TwoTrack.Ok();
-            var result2 = TwoTrack.Fail().AddError(default);
+            var result2 = TwoTrack.Fail(TwoTrackError.DefaultError()).AddError(default);
 
             // Act
             var result3 = result.AddErrors(result2.Errors);
@@ -43,9 +43,9 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         public void AddErrorsToSucceded_TtResult_ExpectImmutability()
         {
             // Arrange
-            var error = TtError.Make(ErrorLevel.Warning);
+            var error = TwoTrackError.Error(ErrorLevel.Warning);
             var result = TwoTrack.Ok();
-            var result2 = TwoTrack.Fail().AddError(error);
+            var result2 = TwoTrack.Fail(TwoTrackError.DefaultError()).AddError(error);
 
             // Act
             var result3 = result.AddErrors(result2.Errors);
@@ -90,7 +90,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         {
             // Arrange
             var result = TwoTrack.Ok();
-            var result2 = TwoTrack.Fail().AddErrors(default(IEnumerable<TtError>));
+            var result2 = TwoTrack.Fail(TwoTrackError.DefaultError()).AddErrors(default(IEnumerable<TtError>));
 
             // Act
             var result3 = result.AddErrors(result2.Errors);
@@ -106,9 +106,9 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         public void AddErrorsToSucceded_IenumerableOfTtError_ExpectImmutability()
         {
             // Arrange
-            var error = TtError.Make(ErrorLevel.Warning);
+            var error = TwoTrackError.Error(ErrorLevel.Warning);
             var result = TwoTrack.Ok();
-            var result2 = TwoTrack.Fail().AddError(error);
+            var result2 = TwoTrack.Fail(TwoTrackError.DefaultError()).AddError(error);
 
             // Act
             var result3 = result.AddErrors(result2.Errors);

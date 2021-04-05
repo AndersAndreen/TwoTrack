@@ -11,7 +11,7 @@ namespace TwoTrackExtensions
             var callStack = new StackFrame(1, true);
             var result = source.Do(value => predicate(value)
                 ? TwoTrack.Ok()
-                : TwoTrack.Fail(TtError.ValidationError(predicate.Method.Name)).AddErrors(source.Errors));
+                : TwoTrack.Fail(TwoTrackError.ValidationError(predicate.Method.Name)).AddErrors(source.Errors));
             return result;
         }
 
@@ -21,7 +21,7 @@ namespace TwoTrackExtensions
             var result = source.Do(value
                 => predicate(value)
                     ? TwoTrack.Ok()
-                    : TwoTrack.Fail(TtError.ValidationError(message)).AddErrors(source.Errors));
+                    : TwoTrack.Fail(TwoTrackError.ValidationError(message)).AddErrors(source.Errors));
             return result;
         }
     }

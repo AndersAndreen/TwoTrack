@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using DemoWebApp.BusinessRules;
 using TwoTrackCore;
 using TwoTrackExtensions;
+using TwoTrackCore.Defaults;
 
 namespace DemoWebApp.Services
 {
@@ -35,8 +36,8 @@ namespace DemoWebApp.Services
                     .Where(book => book.Isbn == nr)
                     .Select(mapper)
                     .FirstOrDefault())
-                .Select(tuple => tuple.Item2);
-            //.ReplaceNullResultsWithErrorMessage(ErrorDescriptions.ItemNotFound);
+                .Select(tuple => tuple.Item2)
+            .ReplaceNullResultsWithErrorMessage("", ErrorDescriptions.ItemNotFound);
             return result;
         }
 

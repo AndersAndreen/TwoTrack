@@ -26,7 +26,7 @@ namespace TwoTrackCore
 
         public string StackTrace { get; private set; }
 
-        private TtError()
+        protected TtError()
         {
         }
 
@@ -41,84 +41,22 @@ namespace TwoTrackCore
             };
         }
 
-        #region Factory methods
-        public static TtError Make(ErrorLevel errorLevel, string category, string description)
+        protected static TtError MakeError(ErrorLevel errorLevel, string category, string description, string stackTrace)
         {
-            if (category is null || description is null) return ArgumentNullError();
+            if (category is null || description is null) return MakeArgumentNullError();
             return new TtError
             {
                 Level = errorLevel,
                 Category = category,
                 Description = description,
-                StackTrace = Environment.StackTrace
+                StackTrace = stackTrace
             };
         }
-
-        public static TtError Make(ErrorLevel errorLevel)
-            => Make(errorLevel, "", ErrorDescriptions.DefaultError);
-
-        public static TtError Exception(Exception exception)
-            => exception == null
-               ? ArgumentNullError()
-               : new TtError
-               {
-                   Level = ErrorLevel.Error,
-                   Category = ErrorCategory.Exception,
-                   Description = $"{exception.GetType()}: {exception.Message}",
-                   StackTrace = exception.StackTrace
-               };
-
-        public static TtError DefaultError()
-            => Make(ErrorLevel.Error, ErrorCategory.Unspecified, ErrorDescriptions.DefaultError);
-
-
-        public static TtError ArgumentNullError()
+        protected static TtError MakeArgumentNullError()
         {
             var callStack = new StackFrame(1, true);
-            return new TtError
-            {
-                Level = ErrorLevel.Error,
-                Category = ErrorCategory.ArgumentNullError,
-                Description = $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}",
-                StackTrace = Environment.StackTrace
-            };
+            return MakeError(ErrorLevel.Error, ErrorCategory.ArgumentNullError, $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}", Environment.StackTrace);
         }
-
-        public static TtError ResultNullError()
-        {
-            var callStack = new StackFrame(1, true);
-            return new TtError
-            {
-                Level = ErrorLevel.Error,
-                Category = ErrorCategory.ResultNullError,
-                Description = $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}",
-                StackTrace = Environment.StackTrace
-            };
-        }
-
-        public static TtError DesignBugError()
-        {
-            var callStack = new StackFrame(1, true);
-            return new TtError
-            {
-                Level = ErrorLevel.Error,
-                Category = ErrorCategory.DesignBugError,
-                Description = $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}",
-                StackTrace = Environment.StackTrace
-            };
-        }
-
-        public static TtError ValidationError(string description)
-        {
-            return new TtError
-            {
-                Level = ErrorLevel.ReportError,
-                Category = ErrorCategory.ValidationError,
-                Description = description,
-                StackTrace = Environment.StackTrace
-            };
-        }
-        #endregion
 
         #region Implementation of abstract methods
         protected override bool ComparePropertiesForEquality(TtError error)

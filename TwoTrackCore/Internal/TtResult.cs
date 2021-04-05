@@ -17,7 +17,7 @@ namespace TwoTrackCore.Internal
         public ITwoTrack AddErrors(IEnumerable<TtError> errors) => TryCatch(() => Clone().AppendErrors(errors)); //Todo: if exception add a designbug error also
         public ITwoTrack AddConfirmation(TtConfirmation confirmation)
         {
-            if (confirmation is null) return Clone().AppendError(TtError.ArgumentNullError());
+            if (confirmation is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
             return Failed
                 ? this
                 : TryCatch(() => Clone().AppendConfirmation(confirmation));
@@ -25,7 +25,7 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack AddConfirmations(IEnumerable<TtConfirmation> confirmations)
         {
-            if (confirmations is null) return Clone().AppendError(TtError.ArgumentNullError());
+            if (confirmations is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
             return Failed
                 ? this
                 : TryCatch(() => Clone().AppendConfirmations(confirmations));
@@ -33,7 +33,7 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack SetExceptionFilter(Func<Exception, bool> exeptionFilter)
         {
-            if (exeptionFilter is null) return Clone().AppendError(TtError.ArgumentNullError());
+            if (exeptionFilter is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
             ExceptionFilter = exeptionFilter;
             return this;
         }
@@ -41,7 +41,7 @@ namespace TwoTrackCore.Internal
         public ITwoTrack Do(Action action)
         {
             if (Failed) return this;
-            if (action is null) return AddError(TtError.ArgumentNullError());
+            if (action is null) return AddError(TwoTrackError.ArgumentNullError());
             return TryCatch(() =>
             {
                 action();
@@ -52,14 +52,14 @@ namespace TwoTrackCore.Internal
         public ITwoTrack Do(Func<ITwoTrack> func)
         {
             if (Failed) return this;
-            if (func is null) return AddError(TtError.ArgumentNullError());
+            if (func is null) return AddError(TwoTrackError.ArgumentNullError());
             return TryCatch(func);
         }
 
         public ITwoTrack Do<T>(Func<ITwoTrack<T>> func)
         {
             if (Failed) return this;
-            if (func is null) return AddError(TtError.ArgumentNullError());
+            if (func is null) return AddError(TwoTrackError.ArgumentNullError());
             return TryCatch(() =>
             {
                 var result = func();
@@ -75,7 +75,7 @@ namespace TwoTrackCore.Internal
             }
             catch (Exception e) when (ExceptionFilter(e))
             {
-                return AddError(TtError.Exception(e));
+                return AddError(TwoTrackError.Exception(e));
             }
         }
 
@@ -100,7 +100,7 @@ namespace TwoTrackCore.Internal
         internal static ITwoTrack Fail(TtError error)
         {
             return error is null
-                ? new TtResult().AppendError(TtError.ArgumentNullError())
+                ? new TtResult().AppendError(TwoTrackError.ArgumentNullError())
                 : new TtResult().AppendError(error);
         }
 
@@ -108,7 +108,7 @@ namespace TwoTrackCore.Internal
         {
             var ttErrors = errors?.ToList();
             return errors is null || !ttErrors.Any()
-                ? new TtResult().AppendError(TtError.ArgumentNullError())
+                ? new TtResult().AppendError(TwoTrackError.ArgumentNullError())
                 : new TtResult().AppendErrors(ttErrors);
         }
 
@@ -120,7 +120,7 @@ namespace TwoTrackCore.Internal
             };
             clone.ErrorsList.AddRange(source.Errors);
             clone.ConfirmationsList.AddRange(source.Confirmations);
-            if (source.Succeeded) return clone.AppendError(error ?? TtError.DefaultError());
+            if (source.Succeeded) return clone.AppendError(error ?? TwoTrackError.DefaultError());
             return error is null
                 ? clone
                 : clone.AddError(error);

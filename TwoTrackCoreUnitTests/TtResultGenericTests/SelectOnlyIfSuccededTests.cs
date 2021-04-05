@@ -7,8 +7,6 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
 {
     public class SelectOnlyIfSuccededTests
     {
-        private readonly Action _throwAccessViolationException = () => throw new AccessViolationException();
-        private readonly Action _throwArgumentNullException = () => throw new ArgumentNullException();
         private readonly Func<int,int> _storeMock;
         private int _mockValue = 0;
 
@@ -39,7 +37,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Fail<int>();
+            var result1 = TwoTrack.Fail<int>(TwoTrackError.DefaultError());
             var result2 = result1.Do(_storeMock);
 
             // Assert

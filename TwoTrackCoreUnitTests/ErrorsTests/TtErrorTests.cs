@@ -17,7 +17,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
             // Arrange
 
             // Act
-            var error = TtError.Make(ErrorLevel.Warning, category, description);
+            var error = TwoTrackError.Error(ErrorLevel.Warning, category, description);
 
             // Assert
             error.Level.Should().Be(ErrorLevel.Error);
@@ -34,7 +34,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
             var description = "desc";
 
             // Act
-            var error = TtError.Make(ErrorLevel.Error, category, description);
+            var error = TwoTrackError.Error(ErrorLevel.Error, category, description);
 
             // Assert
             error.Level.Should().Be(ErrorLevel.Error);
@@ -58,7 +58,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
             }
 
             // Act
-            var error = TtError.Exception(exception);
+            var error = TwoTrackError.Exception(exception);
 
             // Assert
             error.Level.Should().Be(ErrorLevel.Error);
@@ -74,7 +74,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
             var category = "cat";
             var description = "desc";
             // Act
-            var error = TtError.Make(ErrorLevel.Error, category, description);
+            var error = TwoTrackError.Error(ErrorLevel.Error, category, description);
 
             // Assert
             error.ToString().Should().Be($"ErrorLevel:{ErrorLevel.Error}, EventType:{category}, Description:{description}");
@@ -90,8 +90,8 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         public void Equality_ExpectResultFailed(ErrorLevel eLevel1, string cat1, string desc1, ErrorLevel eLevel2, string cat2, string desc2)
         {
             // Arrange
-            var error1 = TtError.Make(eLevel1, cat1, desc1);
-            var error2 = TtError.Make(eLevel2, cat2, desc2);
+            var error1 = TwoTrackError.Error(eLevel1, cat1, desc1);
+            var error2 = TwoTrackError.Error(eLevel2, cat2, desc2);
 
             // Act
             var result = (error1 == error2);

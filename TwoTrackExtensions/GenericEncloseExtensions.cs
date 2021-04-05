@@ -7,12 +7,12 @@ namespace TwoTrackExtensions
     {
         public static ITwoTrack<T> Enclose<T>(this ITwoTrack source, Func<T> func)
             => source.Failed
-                ? TwoTrack.Fail<T>(source.Errors)
+                ? TwoTrack.Fail<T>(source)
                 : TwoTrack.Enclose(func);
 
         public static ITwoTrack<T> Enclose<T>(this ITwoTrack source, Func<ITwoTrack<T>> func)
             => source.Failed
-                ? TwoTrack.Fail<T>(source.Errors)
+                ? TwoTrack.Fail<T>(source)
                 : TwoTrack.Enclose(func);
 
         public static ITwoTrack<(T1, T2)> Enclose<T1, T2>(this ITwoTrack<T1> result1, Func<T1, T2> @delegate)

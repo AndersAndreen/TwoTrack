@@ -10,7 +10,6 @@ namespace TwoTrackCore
         ITwoTrack<T> AddError(TtError error);
         ITwoTrack<T> AddErrors(IEnumerable<TtError> errors);
         ITwoTrack<T> AddConfirmation(TtConfirmation confirmation);
-        ITwoTrack<T> AddConfirmations(IEnumerable<TtConfirmation> confirmations);
 
         ITwoTrack<T> Do(Action<T> func);
         ITwoTrack<T> Do<T2>(Func<T, T2> func);
