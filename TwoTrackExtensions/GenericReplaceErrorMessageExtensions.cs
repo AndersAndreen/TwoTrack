@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TwoTrackCore;
+﻿using TwoTrackCore;
 
 namespace TwoTrackExtensions
 {
     public static class GenericReplaceErrorMessageExtensions
     {
-        public static ITwoTrack<T> ReplaceNullResultsWithErrorMessage<T>(this ITwoTrack<T> source, string category, string decription)
-        {
-            var error = TwoTrackError.Error(ErrorLevel.ReportError, category, decription);
-            return source;
-        }
+        public static ITwoTrack<T> ReplaceNullResultsWithReportError<T>(this ITwoTrack<T> source, string category, string description)
+            => source.ReplaceErrorsByCategory(category, TwoTrackError.ReportError(category, description));
     }
 }
