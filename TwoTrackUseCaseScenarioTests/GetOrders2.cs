@@ -16,10 +16,11 @@ namespace TwoTrackUseCaseScenarioTests
     {
         private readonly UserRepository2 _userRepository;
         private readonly OrderRepository2 _orderRepository;
-        private readonly Logger _logger = new Logger();
+        private readonly Logger _logger;
 
         public GetOrders2()
         {
+            _logger = new Logger();
             var context = new FakeShopContext();
             _userRepository = new UserRepository2(context);
             _orderRepository = new OrderRepository2(context);
