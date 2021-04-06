@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TwoTrackCore.Internal;
 
 namespace TwoTrackCore
@@ -20,6 +21,10 @@ namespace TwoTrackCore
         public static ITwoTrack Enclose(Func<ITwoTrack> func) => TtResult.Enclose(func);
         public static ITwoTrack<T> Enclose<T>(Func<T> func) => TtResult<T>.Enclose(func);
         public static ITwoTrack<T> Enclose<T>(Func<ITwoTrack<T>> func) => TtResult<T>.Enclose(func);
+
+
+        //public static async Task<ITwoTrack> EncloseAsync(Func<Task> task) => await TtResult.EncloseAsync(task);
+
 
     }
 }

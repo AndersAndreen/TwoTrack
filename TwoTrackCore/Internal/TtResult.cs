@@ -13,7 +13,7 @@ namespace TwoTrackCore.Internal
         private TtResult()
         {
         }
-
+        #region Instance methods
         public ITwoTrack AddError(TwoTrackError error) => TryCatch(() => Clone().AppendError(error)); //Todo: if exception add a designbug error also
         public ITwoTrack AddErrors(IEnumerable<TwoTrackError> errors) => TryCatch(() => Clone().AppendErrors(errors)); //Todo: if exception add a designbug error also
         public ITwoTrack ReplaceErrorsByCategory(string Category, TwoTrackError replacement)
@@ -103,6 +103,7 @@ namespace TwoTrackCore.Internal
             clone.ConfirmationsList.AddRange(Confirmations);
             return clone;
         }
+        #endregion
 
         #region Factory methods
         internal static ITwoTrack Ok() => new TtResult();
