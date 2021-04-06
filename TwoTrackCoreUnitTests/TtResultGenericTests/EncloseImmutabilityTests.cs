@@ -17,7 +17,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
             // Arrange
             // Act
             var result1 = TwoTrack.Enclose(_returnOne);
-            var result2 = result1.Do(x => default(Action));
+            var result2 = result1.Do((Action<int>)default);
 
             // Assert
             result1.Succeeded.Should().BeTrue();

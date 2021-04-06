@@ -13,13 +13,20 @@ namespace TwoTrackCore
         ITwoTrack<T> ReplaceErrorsByCategory(string Category, TwoTrackError replacement);
 
         ITwoTrack<T> Do(Action<T> func);
+        ITwoTrack<T> Do<T2>(Func<T2> func);
         ITwoTrack<T> Do<T2>(Func<T, T2> func);
         ITwoTrack<T> Do(Action onFailure, Action<T> onSuccess);
+        ITwoTrack<T> Do(Func<ITwoTrack> func);
+        ITwoTrack<T> Do<T2>(Func<ITwoTrack<T2>> func);
+
 
         ITwoTrack<T2> Select<T2>(Func<T2> func);
         ITwoTrack<T2> Select<T2>(Func<T, T2> func);
         ITwoTrack<T2> Select<T2>(Func<ITwoTrack<T2>> func);
         ITwoTrack<T2> Select<T2>(Func<T, ITwoTrack<T2>> func);
+
+        ITwoTrack<T> MergeResultWith(ITtCloneable other);
+
     }
 }
 
