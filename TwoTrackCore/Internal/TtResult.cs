@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TwoTrackCore.Defaults;
 
 namespace TwoTrackCore.Internal
 {
@@ -15,6 +16,19 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack AddError(TwoTrackError error) => TryCatch(() => Clone().AppendError(error)); //Todo: if exception add a designbug error also
         public ITwoTrack AddErrors(IEnumerable<TwoTrackError> errors) => TryCatch(() => Clone().AppendErrors(errors)); //Todo: if exception add a designbug error also
+        public ITwoTrack ReplaceErrorsByCategory(string Category, TwoTrackError replacement)
+        {
+            if (!Errors.Any(error => error.Category == Category)) return this;
+
+            var clone = new TtResult
+            {
+                ExceptionFilter = this.ExceptionFilter,
+            };
+            clone.ErrorsList.AddRange(Errors.Where(error => error.Category != ErrorCategory.ResultNullError).Concat(new[] { replacement }));
+            clone.ConfirmationsList.AddRange(Confirmations);
+            return clone;
+        }
+
         public ITwoTrack AddConfirmation(TtConfirmation confirmation)
         {
             if (confirmation is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());

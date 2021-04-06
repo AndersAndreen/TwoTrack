@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using TwoTrackCore.Defaults;
 
 namespace TwoTrackCore.Internal
 {
@@ -20,10 +21,22 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack<T> AddError(TwoTrackError error) => CloneAndSet(_value).AppendError(error);
         public ITwoTrack<T> AddErrors(IEnumerable<TwoTrackError> errors) => CloneAndSet(_value).AppendErrors(errors);
+        public ITwoTrack<T> ReplaceErrorsByCategory(string Category, TwoTrackError replacement)
+        {
+            if (!Errors.Any(error => error.Category == Category)) return this;
+
+            var clone = new TtResult<T>
+            {
+                ExceptionFilter = this.ExceptionFilter,
+            };
+            clone.ErrorsList.AddRange(Errors.Where(error => error.Category != ErrorCategory.ResultNullError).Concat(new[] { replacement }));
+            clone.ConfirmationsList.AddRange(Confirmations);
+            clone._value = _value;
+            return clone;
+        }
 
         public ITwoTrack<T> AddConfirmation(TtConfirmation confirmation) => CloneAndSet(_value).AppendConfirmation(confirmation);
         public ITwoTrack<T> AddConfirmations(IEnumerable<TtConfirmation> confirmations) => CloneAndSet(_value).AppendConfirmations(confirmations);
-
 
         public ITwoTrack<T> SetExceptionFilter(Func<Exception, bool> exeptionFilter)
         {

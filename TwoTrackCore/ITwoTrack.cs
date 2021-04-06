@@ -9,10 +9,11 @@ namespace TwoTrackCore
 
         ITwoTrack AddError(TwoTrackError error);
         ITwoTrack AddErrors(IEnumerable<TwoTrackError> errors);
+        ITwoTrack ReplaceErrorsByCategory(string Category, TwoTrackError replacement);
 
         /// <summary> If succeeded: Add a confirmation.</summary>
         ITwoTrack AddConfirmation(TtConfirmation confirmation);
-        
+       
         /// <summary> If succeeded: Add some confirmations.</summary>
         ITwoTrack AddConfirmations(IEnumerable<TtConfirmation> confirmations);
 

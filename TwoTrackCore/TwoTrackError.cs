@@ -59,12 +59,10 @@ namespace TwoTrackCore
         }
 
         public static TwoTrackError ValidationError(string description)
-        {
-            return Error(ErrorLevel.ReportError,
-                 ErrorCategory.ValidationError,
-                 description);
-        }
+            => Error(ErrorLevel.ReportError, ErrorCategory.ValidationError, description);
 
+        public static TwoTrackError ReportError(string category, string description)
+            => Error(ErrorLevel.ReportError, category, description);
     }
 }
 

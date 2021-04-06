@@ -46,7 +46,13 @@ namespace TwoTrackCore.Internal
             ConfirmationsList.AddRange(confirmations);
             return (TChildClass)this;
         }
-        #endregion
 
+        protected TChildClass SetExceptionFilter(Func<Exception, bool> exceptionFilter)
+        {
+            ExceptionFilter = exceptionFilter;
+            return (TChildClass)this;
+        }
+
+        #endregion
     }
 }

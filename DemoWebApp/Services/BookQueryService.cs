@@ -37,7 +37,7 @@ namespace DemoWebApp.Services
                     .Select(mapper)
                     .FirstOrDefault())
                 .Select(tuple => tuple.Item2)
-            .ReplaceNullResultsWithErrorMessage("", ErrorDescriptions.ItemNotFound);
+            .ReplaceNullResultsWithReportError("", ErrorDescriptions.ItemNotFound);
             return result;
         }
 
