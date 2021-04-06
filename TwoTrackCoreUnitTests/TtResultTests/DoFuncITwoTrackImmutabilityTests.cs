@@ -21,8 +21,6 @@ namespace TwoTrackCoreUnitTests.TtResultTests
      */
     public class DoFuncITwoTrackImmutabilityTests
     {
-        private string StateTestValue = "";
-        private readonly Func<ITwoTrack> _throwAccessViolationException = () => throw new AccessViolationException();
         private readonly Func<ITwoTrack> _throwArgumentNullException = () => throw new ArgumentNullException();
         private readonly Func<ITwoTrack> _fail = ()=> TwoTrack.Fail(TwoTrackError.DefaultError());
         private readonly Func<ITwoTrack> _succeed = TwoTrack.Ok;
@@ -121,7 +119,6 @@ namespace TwoTrackCoreUnitTests.TtResultTests
             // Assert
             result1.Errors.Count.Should().Be(1);
             result2.Errors.Count.Should().Be(1);
-            StateTestValue.Should().Be("");
             result2.Errors.Single().Category.Should().Be(ErrorCategory.Unspecified);
         }
 
@@ -136,7 +133,6 @@ namespace TwoTrackCoreUnitTests.TtResultTests
             // Assert
             result1.Errors.Count.Should().Be(1);
             result2.Errors.Count.Should().Be(1);
-            StateTestValue.Should().Be("");
             result2.Errors.Single().Category.Should().Be(ErrorCategory.Unspecified);
         }
     }

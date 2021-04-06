@@ -79,7 +79,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Ok().AddErrors(default(IEnumerable<TwoTrackError>));
+            var result = TwoTrack.Ok().AddErrors(default);
 
             // Assert
             result.Errors.First().Category.Should().Be(ErrorCategory.ArgumentNullError);
@@ -90,7 +90,7 @@ namespace TwoTrackCoreUnitTests.ErrorsTests
         {
             // Arrange
             var result = TwoTrack.Ok();
-            var result2 = TwoTrack.Fail(TwoTrackError.DefaultError()).AddErrors(default(IEnumerable<TwoTrackError>));
+            var result2 = TwoTrack.Fail(TwoTrackError.DefaultError()).AddErrors(default);
 
             // Act
             var result3 = result.AddErrors(result2.Errors);

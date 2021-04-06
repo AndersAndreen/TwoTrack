@@ -23,7 +23,6 @@ namespace TwoTrackCoreUnitTests.TtResultTests
     public class DoActionImmutabilityTests
     {
         private string StateTestValue = "";
-        private readonly Action _throwAccessViolationException = () => throw new AccessViolationException();
         private readonly Action _throwArgumentNullException = () => throw new ArgumentNullException();
         private readonly Action<DoActionImmutabilityTests> _changeState = (obj) => { obj.StateTestValue = "#"; };
 

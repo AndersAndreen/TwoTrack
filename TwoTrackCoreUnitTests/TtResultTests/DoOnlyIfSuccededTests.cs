@@ -7,8 +7,6 @@ namespace TwoTrackCoreUnitTests.TtResultTests
 {
     public class DoOnlyIfSuccededTests
     {
-        private readonly Action _throwAccessViolationException = () => throw new AccessViolationException();
-        private readonly Action _throwArgumentNullException = () => throw new ArgumentNullException();
         private readonly Action _storeOne;
         private int _mockValue = 0;
 

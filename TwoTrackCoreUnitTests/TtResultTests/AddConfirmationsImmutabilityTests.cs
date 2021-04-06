@@ -23,8 +23,6 @@ namespace TwoTrackCoreUnitTests.TtResultTests
      */
     public class AddConfirmationsImmutabilityTests
     {
-        private readonly Action _doNothing = () => { };
-
         private static readonly TtConfirmation Confirmation1 = TtConfirmation.Make(ConfirmationLevel.Report, "cat", "miaow");
         private static readonly TtConfirmation Confirmation2 = TtConfirmation.Make(ConfirmationLevel.Report, "dog", "woof");
         private static readonly IEnumerable<TtConfirmation> TwoConfirmations = new List<TtConfirmation>{Confirmation1, Confirmation2};
