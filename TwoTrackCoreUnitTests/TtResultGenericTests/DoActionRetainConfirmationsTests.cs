@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
+using System;
 using TwoTrackCore;
-using TwoTrackCore.Defaults;
 using Xunit;
 
-namespace TwoTrackCoreUnitTests.TtResultTests
+namespace TwoTrackCoreUnitTests.TtResultGenericTests
 {
     /*
         ## Do(Action)
@@ -33,9 +31,9 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Ok()
+            var result1 = TwoTrack.Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"));
-            var result2 = result1.Do((Action)default);
+            var result2 = result1.Do((Action<int>)default);
 
             // Assert
             result1.Confirmations.Count.Should().Be(1);
@@ -47,10 +45,10 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Ok()
+            var result1 = TwoTrack.Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"))
                 .SetExceptionFilter(ex => ex is ArgumentNullException);
-            var result2 = result1.Do(_throwArgumentNullException);
+            var result2 = result1.Do(value => _throwArgumentNullException());
 
             // Assert
             result1.Confirmations.Count.Should().Be(1);
@@ -62,9 +60,9 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Ok()
+            var result1 = TwoTrack.Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"));
-            var result2 = result1.Do(() => _changeState(this));
+            var result2 = result1.Do(value => _changeState(this));
 
             // Assert
             result1.Confirmations.Count.Should().Be(1);
@@ -78,10 +76,10 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Ok()
+            var result1 = TwoTrack.Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"))
                 .AddError(TwoTrackError.DefaultError());
-            var result2 = result1.Do((Action)default);
+            var result2 = result1.Do((Action<int>)default);
 
             // Assert
             result1.Confirmations.Count.Should().Be(1);
@@ -93,10 +91,10 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Ok()
+            var result1 = TwoTrack.Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"))
                 .AddError(TwoTrackError.DefaultError()).SetExceptionFilter(ex => ex is ArgumentNullException);
-            var result2 = result1.Do(_throwArgumentNullException);
+            var result2 = result1.Do(value => _throwArgumentNullException());
 
             // Assert
             result1.Confirmations.Count.Should().Be(1);
@@ -108,10 +106,10 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Ok()
+            var result1 = TwoTrack.Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"))
                 .AddError(TwoTrackError.DefaultError());
-            var result2 = result1.Do(() => _changeState(this));
+            var result2 = result1.Do(value => _changeState(this));
 
             // Assert
             result1.Confirmations.Count.Should().Be(1);

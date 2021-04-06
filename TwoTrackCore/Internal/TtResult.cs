@@ -13,7 +13,8 @@ namespace TwoTrackCore.Internal
         private TtResult()
         {
         }
-        #region Instance methods
+
+        #region Public instance methods
         public ITwoTrack AddError(TwoTrackError error) => TryCatch(() => Clone().AppendError(error)); //Todo: if exception add a designbug error also
         public ITwoTrack AddErrors(IEnumerable<TwoTrackError> errors) => TryCatch(() => Clone().AppendErrors(errors)); //Todo: if exception add a designbug error also
         public ITwoTrack ReplaceErrorsByCategory(string Category, TwoTrackError replacement)
@@ -56,7 +57,7 @@ namespace TwoTrackCore.Internal
         {
             if (Failed) return this;
             if (action is null) return AddError(TwoTrackError.ArgumentNullError());
-            return Merge(TryCatch(() =>
+            return MergeResultWith(TryCatch(() =>
             {
                 action();
                 return new TtResult();
@@ -67,7 +68,7 @@ namespace TwoTrackCore.Internal
         {
             if (Failed) return this;
             if (func is null) return AddError(TwoTrackError.ArgumentNullError());
-            return Merge(TryCatch(func));
+            return MergeResultWith(TryCatch(func));
         }
 
         public ITwoTrack Do<T>(Func<ITwoTrack<T>> func)
@@ -80,7 +81,9 @@ namespace TwoTrackCore.Internal
                 return AddErrors(result.Errors);
             });
         }
+        #endregion
 
+        #region Private instance methods
         private ITwoTrack TryCatch(Func<ITwoTrack> func)
         {
             try
@@ -103,9 +106,8 @@ namespace TwoTrackCore.Internal
             clone.ConfirmationsList.AddRange(Confirmations);
             return clone;
         }
-        #endregion
 
-        private TtResult Merge(ITwoTrack other)
+        private TtResult MergeResultWith(ITtCloneable other)
         {
             var clone = new TtResult
             {
@@ -117,6 +119,7 @@ namespace TwoTrackCore.Internal
             clone.ConfirmationsList.AddRange(other.Confirmations);
             return clone;
         }
+        #endregion
 
         #region Factory methods
         internal static ITwoTrack Ok() => new TtResult();

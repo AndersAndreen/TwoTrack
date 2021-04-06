@@ -47,12 +47,6 @@ namespace TwoTrackCore.Internal
             return (TChildClass)this;
         }
 
-        protected TChildClass SetExceptionFilter(Func<Exception, bool> exceptionFilter)
-        {
-            ExceptionFilter = exceptionFilter;
-            return (TChildClass)this;
-        }
-
         #endregion
     }
 }
