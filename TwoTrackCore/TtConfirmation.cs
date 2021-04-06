@@ -7,6 +7,7 @@ namespace TwoTrackCore
         public ConfirmationLevel Level { get; private set; } = ConfirmationLevel.Information;
         public string Category { get; private set; }
         public string Description { get; private set; }
+        private TtConfirmation() { }
 
         public static TtConfirmation Make(ConfirmationLevel confirmationLevel, string category, string description)
         {
@@ -29,7 +30,7 @@ namespace TwoTrackCore
                    && Description == confirmation.Description;
         }
 
-        protected override string DefineToStringFormat() 
+        protected override string DefineToStringFormat()
             => $"ErrorLevel:{Level}, EventType:{Category}, Description:{Description}";
     }
 }

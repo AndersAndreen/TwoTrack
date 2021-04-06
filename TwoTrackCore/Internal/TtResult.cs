@@ -56,18 +56,18 @@ namespace TwoTrackCore.Internal
         {
             if (Failed) return this;
             if (action is null) return AddError(TwoTrackError.ArgumentNullError());
-            return TryCatch(() =>
+            return Merge(TryCatch(() =>
             {
                 action();
-                return this;
-            });
+                return new TtResult();
+            }));
         }
 
         public ITwoTrack Do(Func<ITwoTrack> func)
         {
             if (Failed) return this;
             if (func is null) return AddError(TwoTrackError.ArgumentNullError());
-            return TryCatch(func);
+            return Merge(TryCatch(func));
         }
 
         public ITwoTrack Do<T>(Func<ITwoTrack<T>> func)
@@ -89,7 +89,7 @@ namespace TwoTrackCore.Internal
             }
             catch (Exception e) when (ExceptionFilter(e))
             {
-                return AddError(TwoTrackError.Exception(e));
+                return new TtResult().AppendError(TwoTrackError.Exception(e));
             }
         }
 
@@ -104,6 +104,19 @@ namespace TwoTrackCore.Internal
             return clone;
         }
         #endregion
+
+        private TtResult Merge(ITwoTrack other)
+        {
+            var clone = new TtResult
+            {
+                ExceptionFilter = this.ExceptionFilter,
+            };
+            clone.ErrorsList.AddRange(Errors);
+            clone.ErrorsList.AddRange(other.Errors);
+            clone.ConfirmationsList.AddRange(Confirmations);
+            clone.ConfirmationsList.AddRange(other.Confirmations);
+            return clone;
+        }
 
         #region Factory methods
         internal static ITwoTrack Ok() => new TtResult();
