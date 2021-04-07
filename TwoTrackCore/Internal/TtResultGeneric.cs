@@ -9,19 +9,20 @@ namespace TwoTrackCore.Internal
     internal class TtResult<T> : TtResultBase<TtResult<T>>, ITwoTrack<T>, ITtCloneable
     {
         private T _value;
+        private readonly Func<ITwoTrack<T>> _defaultTtResult;
 
-        public bool Failed => Errors.Any(error => error.Level != ErrorLevel.Warning && error.Level != ErrorLevel.ReportWarning)
-
-        ;
+        public bool Failed => Errors.Any(error => error.Level != ErrorLevel.Warning && error.Level != ErrorLevel.ReportWarning);
         public bool Succeeded => !Failed;
 
         private TtResult()
         {
+            // _value must be set for TtResult object so as not to create an object in an illegal state
+            _defaultTtResult = () => new TtResult<T> { _value = _value };
         }
 
         #region Public instance methods
-        public ITwoTrack<T> AddError(TwoTrackError error) => CloneAndSet(_value).AppendError(error);
-        public ITwoTrack<T> AddErrors(IEnumerable<TwoTrackError> errors) => CloneAndSet(_value).AppendErrors(errors);
+        public ITwoTrack<T> AddError(TwoTrackError error) => Clone().AppendError(error);
+        public ITwoTrack<T> AddErrors(IEnumerable<TwoTrackError> errors) => Clone().AppendErrors(errors);
         public ITwoTrack<T> ReplaceErrorsByCategory(string Category, TwoTrackError replacement)
         {
             if (!Errors.Any(error => error.Category == Category)) return this;
@@ -36,12 +37,12 @@ namespace TwoTrackCore.Internal
             return clone;
         }
 
-        public ITwoTrack<T> AddConfirmation(TtConfirmation confirmation) => CloneAndSet(_value).AppendConfirmation(confirmation);
-        public ITwoTrack<T> AddConfirmations(IEnumerable<TtConfirmation> confirmations) => CloneAndSet(_value).AppendConfirmations(confirmations);
+        public ITwoTrack<T> AddConfirmation(TtConfirmation confirmation) => Clone().AppendConfirmation(confirmation);
+        public ITwoTrack<T> AddConfirmations(IEnumerable<TtConfirmation> confirmations) => Clone().AppendConfirmations(confirmations);
 
         public ITwoTrack<T> SetExceptionFilter(Func<Exception, bool> exeptionFilter)
         {
-            if (exeptionFilter is null) return CloneAndSet(_value, TwoTrackError.ArgumentNullError());
+            if (exeptionFilter is null) return ArgumentNullError();
             var clone = Clone();
             clone.ExceptionFilter = exeptionFilter;
             return clone;
@@ -49,87 +50,69 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack<T> Do(Action onFailure, Action<T> onSuccess)
         {
-            if (onFailure is null || onSuccess is null) return CloneAndSet(_value, TwoTrackError.ArgumentNullError());
-            if (Failed) onFailure();
-            if (Succeeded) return AddErrors(TryCatch(() =>
-            {
-                onSuccess(_value);
-                return this;
-            }).Errors);
-            return this;
+            if (onFailure is null || onSuccess is null) return ArgumentNullError();
+            return DoWork(onFailure, onSuccess);
         }
 
-        public ITwoTrack<T> Do<T2>(Func<T2> func)
+        public ITwoTrack<T> Do<T2>(Func<T2> onSuccess)
         {
-            if (Failed) return this;
-            if (func is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
-            return MergeResultWith(TryCatch(() =>
-            {
-                func();
-                return new TtResult<T>();
-            }));
+            if (onSuccess is null) return ArgumentNullError();
+            return DoWork(() => onSuccess());
         }
 
-        public ITwoTrack<T> Do<T2>(Func<T, T2> func)
+        public ITwoTrack<T> Do<T2>(Func<T, T2> onSuccess)
         {
-            if (Failed) return this;
-            if (func is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
-            return Do(() => func(_value));
+            if (onSuccess is null) return ArgumentNullError();
+            return DoWork(() => onSuccess(_value));
         }
 
-        public ITwoTrack<T> Do(Action<T> action)
+        public ITwoTrack<T> Do(Action<T> onSuccess)
         {
-            if (Failed) return this;
-            if (action is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
-            var other = TryCatch(() =>
-                {
-                    action(_value);
-                    return new TtResult<T>();
-                });
-            return MergeResultWith(other);
+            if (onSuccess is null) return ArgumentNullError();
+            return DoWork(() => onSuccess(_value));
+        }
+        public ITwoTrack<T> Do(Func<ITwoTrack> onSuccess)
+        {
+            if (onSuccess is null) return ArgumentNullError();
+            return DoWork(() => _defaultTtResult().MergeWith(onSuccess()));
         }
 
-        public ITwoTrack<T> Do(Func<ITwoTrack> func)
+        public ITwoTrack<T> Do<T2>(Func<ITwoTrack<T2>> onSuccess)
         {
-            if (Failed) return this;
-            if (func is null) return AddError(TwoTrackError.ArgumentNullError());
-            return MergeResultWith(TryCatch(func));
+            if (onSuccess is null) return ArgumentNullError();
+            return DoWork(() => _defaultTtResult().MergeWith(onSuccess()));
         }
 
-        public ITwoTrack<T> Do<T2>(Func<ITwoTrack<T2>> func)
+        public ITwoTrack<T2> Select<T2>(Func<T, T2> func)
         {
-            if (Failed) return this;
-            if (func is null) return AddError(TwoTrackError.ArgumentNullError());
-            return TryCatch(() =>
-            {
-                var result = func();
-                return AddErrors(result.Errors);
-            });
+            return Select(() => func(_value));
         }
 
         public ITwoTrack<T2> Select<T2>(Func<T2> func)
         {
-            if (Failed) return CloneAndChangeType<T2>();
             if (func is null) return CloneAndChangeType<T2>().AddError(TwoTrackError.ArgumentNullError());
             return TryCatch(()
                 => new TtResult<T2>
                 {
                     _value = func()
-                }.MergeResultWith(this));
+                }.MergeWith(this));
         }
 
-        public ITwoTrack<T2> Select<T2>(Func<T, T2> func) => Select(() => func(_value));
+        public ITwoTrack<T2> Select<T2>(Func<T, ITwoTrack<T2>> func)
+        {
+            return Select(() => func(_value));
+        }
 
         public ITwoTrack<T2> Select<T2>(Func<ITwoTrack<T2>> func)
         {
             if (Failed) return CloneAndChangeType<T2>();
-            if (func is null) return CloneAndChangeType<T2>().AddError(TwoTrackError.ArgumentNullError());
+            if (func is null) return ArgumentNullError<T2>();
             return CloneAndChangeType(TryCatch(func));
         }
+        #endregion
 
-        public ITwoTrack<T2> Select<T2>(Func<T, ITwoTrack<T2>> func) => Select(() => func(_value));
-
-        public ITwoTrack<T> MergeResultWith(ITtCloneable other)
+        #region Private instance methods
+        private ITwoTrack<T> MergeWith(ITtCloneable other)
         {
             var clone = new TtResult<T>
             {
@@ -142,15 +125,51 @@ namespace TwoTrackCore.Internal
             clone._value = _value;
             return clone;
         }
-        #endregion
 
-        #region Private instance methods
+        private ITwoTrack<T> DoWork(Action onFailure, Action<T> onSuccess)
+        {
+            return DoWork(() =>
+            {
+                onFailure();
+                return _defaultTtResult();
+            }, () =>
+            {
+                onSuccess(_value);
+                return _defaultTtResult();
+            });
+        }
+
+        private ITwoTrack<T> DoWork(Action onSuccess) => DoWork(() => this, () =>
+        {
+            onSuccess();
+            return _defaultTtResult();
+        });
+
+        private ITwoTrack<T> DoWork(Func<ITwoTrack<T>> onSuccess) => DoWork(() => this, onSuccess);
+
+        private ITwoTrack<T> DoWork(Func<ITwoTrack<T>> onFailure, Func<ITwoTrack<T>> onSuccess)
+        {
+            return Failed
+                ? onFailure()
+                : MergeWith(TryCatch(() => onSuccess()));
+        }
+
+        private ITwoTrack<T2> DoWork<T2>(Func<ITwoTrack<T2>> onFailure, Func<ITwoTrack<T2>> onSuccess)
+        {
+            return Failed
+                ? onFailure()
+                : CloneAndChangeType(TryCatch(() => onSuccess()));
+        }
+
+        private ITwoTrack<T> ArgumentNullError() => Clone().AppendError(TwoTrackError.ArgumentNullError());
+        private ITwoTrack<T2> ArgumentNullError<T2>() => CloneAndChangeType<T2>().AppendError(TwoTrackError.ArgumentNullError());
+
         private ITwoTrack<T> TryCatch(Func<ITwoTrack> func)
         {
             try
             {
                 var other = func();
-                return new TtResult<T>().MergeResultWith(other);
+                return new TtResult<T>().MergeWith(other);
             }
             catch (Exception e) when (ExceptionFilter(e))
             {
@@ -185,17 +204,6 @@ namespace TwoTrackCore.Internal
             }
         }
 
-        //private TtResult<T2> TryCatch<T2>(Func<TtResult<T2>> func)
-        //{
-        //    try
-        //    {
-        //        return func();
-        //    }
-        //    catch (Exception e) when (ExceptionFilter(e))
-        //    {
-        //        return new TtResult<T2>().AppendError(TwoTrackError.Exception(e));
-        //    }
-        //}
         private TtResult<T> ErrorIfNullOrTupleContainsNull(T input, TwoTrackError error)
         {
             var tupleHasNull = false;
@@ -250,19 +258,7 @@ namespace TwoTrackCore.Internal
             clone._value = default;
             return clone;
         }
-        private TtResult<T2> CloneAndSet<T2>(T2 value, TwoTrackError error = default)
-        {
-            var clone = new TtResult<T2>
-            {
-                ExceptionFilter = this.ExceptionFilter,
-            };
-            clone.ErrorsList.AddRange(Errors);
-            clone.ConfirmationsList.AddRange(Confirmations);
-            clone._value = value;
-            return clone.Succeeded
-                ? clone.ErrorIfNullOrTupleContainsNull(value, error ?? TwoTrackError.DesignBugError())
-                : clone;
-        }
+
         #endregion
 
         #region Factory methods
