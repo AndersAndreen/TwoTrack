@@ -58,6 +58,15 @@ namespace TwoTrackCoreUnitTests.TtResultTests
         public void DoAction_1_Action_ExpectImmutability()
         {
             // Arrange
+            var x1 = TwoTrack.Ok().SetExceptionFilter(default);
+            var x2 = TwoTrack.Ok().AddError(default);
+            var x3 = TwoTrack.Ok().AddErrors(default);
+            var x4 = TwoTrack.Ok().AddConfirmation(default);
+            var x5 = TwoTrack.Ok().AddConfirmations(default);
+            var x6 = TwoTrack.Ok().Do((Action)default);
+            var x7 = TwoTrack.Ok().Do((Func<ITwoTrack>)default);
+            var x8 = TwoTrack.Ok().Do(default(Func<ITwoTrack<int>>));
+
             // Act
             var result1 = TwoTrack.Ok();
             var result2 = result1.Do(() => _changeState(this));
@@ -80,8 +89,10 @@ namespace TwoTrackCoreUnitTests.TtResultTests
 
             // Assert
             result1.Errors.Count.Should().Be(1);
-            result2.Errors.Count.Should().Be(1);
-            result2.Errors.Single().Category.Should().Be(ErrorCategory.Unspecified);
+            result1.Errors.Single().Category.Should().Be(ErrorCategory.Unspecified);
+            result2.Errors.Count.Should().Be(2);
+            result2.Errors.First().Category.Should().Be(ErrorCategory.Unspecified);
+            result2.Errors.Last().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
         [Fact]

@@ -25,8 +25,6 @@ namespace TwoTrackCore
         ITwoTrack<T2> Select<T2>(Func<ITwoTrack<T2>> func);
         ITwoTrack<T2> Select<T2>(Func<T, ITwoTrack<T2>> func);
 
-        ITwoTrack<T> MergeWith(ITtCloneable other);
-
     }
 }
 

@@ -90,8 +90,10 @@ namespace TwoTrackCoreUnitTests.TtResultTests
 
             // Assert
             result1.Errors.Count.Should().Be(1);
-            result2.Errors.Count.Should().Be(1);
-            result2.Errors.Single().Category.Should().Be(ErrorCategory.Unspecified);
+            result1.Errors.Single().Category.Should().Be(ErrorCategory.Unspecified);
+            result2.Errors.Count.Should().Be(2);
+            result2.Errors.First().Category.Should().Be(ErrorCategory.Unspecified);
+            result2.Errors.Last().Category.Should().Be(ErrorCategory.ArgumentNullError);
         }
 
         [Fact]

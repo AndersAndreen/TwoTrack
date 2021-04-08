@@ -17,9 +17,10 @@ namespace TwoTrackCore
                 StackTrace = stackTrace
             };
         }
-        private static TwoTrackError MakeArgumentNullError()
+        private static TwoTrackError MakeArgumentNullError() => MakeArgumentNullError(1);
+        private static TwoTrackError MakeArgumentNullError(int skipFrames)
         {
-            var callStack = new StackFrame(1, true);
+            var callStack = new StackFrame(skipFrames, true);
             return MakeError(ErrorLevel.Error, ErrorCategory.ArgumentNullError, $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}", Environment.StackTrace);
         }
 
@@ -40,7 +41,8 @@ namespace TwoTrackCore
         public static TwoTrackError DefaultError()
             => Error(ErrorLevel.Error, ErrorCategory.Unspecified, ErrorDescriptions.DefaultError);
 
-        public static TwoTrackError ArgumentNullError() => MakeArgumentNullError();
+        public static TwoTrackError ArgumentNullError() => MakeArgumentNullError(2);
+        public static TwoTrackError ArgumentNullError(int skipFrames) => MakeArgumentNullError(skipFrames);
 
         public static TwoTrackError ResultNullError()
         {
@@ -50,6 +52,13 @@ namespace TwoTrackCore
                 $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}");
         }
 
+        public static TwoTrackError ResultNullError(int skipFrames)
+        {
+            var callStack = new StackFrame(skipFrames, true);
+            return Error(ErrorLevel.Error,
+                ErrorCategory.ResultNullError,
+                $"At {callStack.GetFileName()}, line {callStack.GetFileLineNumber()}");
+        }
         public static TwoTrackError DesignBugError()
         {
             var callStack = new StackFrame(1, true);

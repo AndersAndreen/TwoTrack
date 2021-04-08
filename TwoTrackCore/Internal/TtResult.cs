@@ -15,8 +15,18 @@ namespace TwoTrackCore.Internal
         }
 
         #region Public instance methods
-        public ITwoTrack AddError(TwoTrackError error) => TryCatch(() => Clone().AppendError(error)); //Todo: if exception add a designbug error also
-        public ITwoTrack AddErrors(IEnumerable<TwoTrackError> errors) => TryCatch(() => Clone().AppendErrors(errors)); //Todo: if exception add a designbug error also
+        public ITwoTrack AddError(TwoTrackError error)
+        {
+            if (error is null) return ArgumentNullError(4);
+            return TryCatch(() => Clone().AppendError(error)); //Todo: if exception add a designbug error also
+        }
+
+        public ITwoTrack AddErrors(IEnumerable<TwoTrackError> errors)
+        {
+            if (errors is null) return ArgumentNullError(4);
+            return TryCatch(() => Clone().AppendErrors(errors)); //Todo: if exception add a designbug error also
+        }
+
         public ITwoTrack ReplaceErrorsByCategory(string Category, TwoTrackError replacement)
         {
             if (!Errors.Any(error => error.Category == Category)) return this;
@@ -32,7 +42,7 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack AddConfirmation(TtConfirmation confirmation)
         {
-            if (confirmation is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
+            if (confirmation is null) return ArgumentNullError(4);
             return Failed
                 ? this
                 : TryCatch(() => Clone().AppendConfirmation(confirmation));
@@ -40,7 +50,7 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack AddConfirmations(IEnumerable<TtConfirmation> confirmations)
         {
-            if (confirmations is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
+            if (confirmations is null) return ArgumentNullError(4);
             return Failed
                 ? this
                 : TryCatch(() => Clone().AppendConfirmations(confirmations));
@@ -48,15 +58,15 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack SetExceptionFilter(Func<Exception, bool> exeptionFilter)
         {
-            if (exeptionFilter is null) return Clone().AppendError(TwoTrackError.ArgumentNullError());
+            if (exeptionFilter is null) return ArgumentNullError(4);
             ExceptionFilter = exeptionFilter;
             return this;
         }
 
         public ITwoTrack Do(Action action)
         {
+            if (action is null) return ArgumentNullError(4);
             if (Failed) return this;
-            if (action is null) return AddError(TwoTrackError.ArgumentNullError());
             return MergeResultWith(TryCatch(() =>
             {
                 action();
@@ -66,15 +76,15 @@ namespace TwoTrackCore.Internal
 
         public ITwoTrack Do(Func<ITwoTrack> func)
         {
+            if (func is null) return ArgumentNullError(4);
             if (Failed) return this;
-            if (func is null) return AddError(TwoTrackError.ArgumentNullError());
             return MergeResultWith(TryCatch(func));
         }
 
         public ITwoTrack Do<T>(Func<ITwoTrack<T>> func)
         {
+            if (func is null) return ArgumentNullError(4);
             if (Failed) return this;
-            if (func is null) return AddError(TwoTrackError.ArgumentNullError());
             return TryCatch(() =>
             {
                 var result = func();
@@ -84,6 +94,8 @@ namespace TwoTrackCore.Internal
         #endregion
 
         #region Private instance methods
+        private ITwoTrack ArgumentNullError(int skipFrames) => Clone().AppendError(TwoTrackError.ArgumentNullError(skipFrames));
+
         private ITwoTrack TryCatch(Func<ITwoTrack> func)
         {
             try
@@ -131,7 +143,7 @@ namespace TwoTrackCore.Internal
         internal static ITwoTrack Fail(TwoTrackError error)
         {
             return error is null
-                ? new TtResult().AppendError(TwoTrackError.ArgumentNullError())
+                ? new TtResult().AppendError(TwoTrackError.ArgumentNullError(2))
                 : new TtResult().AppendError(error);
         }
 
@@ -139,7 +151,7 @@ namespace TwoTrackCore.Internal
         {
             var ttErrors = errors?.ToList();
             return errors is null || !ttErrors.Any()
-                ? new TtResult().AppendError(TwoTrackError.ArgumentNullError())
+                ? new TtResult().AppendError(TwoTrackError.ArgumentNullError(2))
                 : new TtResult().AppendErrors(ttErrors);
         }
 
