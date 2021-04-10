@@ -61,3 +61,7 @@ Let's compare this to some code with corresponding functionality and error handl
 Here we get 14 lines with explicit try-catch and null coalescing. And one if-else statement. And we also have to remeber to log errors in two places instead of one.
 
 
+![alt text](./Docs/Img/StaticEnclose.png "Diagram image showing StaticEnclose")
+
+
+
