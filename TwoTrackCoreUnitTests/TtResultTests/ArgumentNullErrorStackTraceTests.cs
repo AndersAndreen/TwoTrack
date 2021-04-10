@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FluentAssertions.Execution;
 using System;
 using System.Linq;
 using TwoTrackCore;
@@ -30,7 +31,10 @@ namespace TwoTrackCoreUnitTests.TtResultTests
             var results = input.Select(method => method().Errors.Last().Description).ToList();
 
             //Assert
-            results.ForEach(description => description.Should().Contain(testFileName));
+            using (new AssertionScope())
+            {
+                results.ForEach(description => description.Should().Contain(testFileName));
+            }
         }
 
 
