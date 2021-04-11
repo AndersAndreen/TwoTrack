@@ -37,7 +37,7 @@ namespace TwoTrackUseCaseScenarioTests
             };
 
             // Act
-            var resultSave = TwoTrack.Enclose(() => userName)
+            var resultSave = TwoTrack.Ok().Enclose(() => userName)
                 .Select(_userRepository.GetByUserName)
                 .Select(user =>
                 {
@@ -50,7 +50,7 @@ namespace TwoTrackUseCaseScenarioTests
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "order", "Order saved"))
                 .LogErrors(_logger.Log);
 
-            var savedOrders = TwoTrack.Enclose(() => userName)
+            var savedOrders = TwoTrack.Ok().Enclose(() => userName)
                 .Select(_userRepository.GetByUserName)
                 .Select(_orderRepository.GetOrders)
                 .LogErrors(_logger.Log)

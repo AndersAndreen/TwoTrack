@@ -20,7 +20,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => "#");
+            var result1 = TwoTrack.Ok().Enclose(() => "#");
             //var result2 = result1.Do(_updateMockValue);
 
             // Assert

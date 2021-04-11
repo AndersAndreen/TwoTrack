@@ -227,8 +227,13 @@ namespace TwoTrackCore.Internal
         #endregion
 
         #region Factory methods
-        public static ITwoTrack<T> Enclose(Func<T> func) => new TtResult<T>().Select(func);
         public static ITwoTrack<T> Enclose(Func<ITwoTrack<T>> func) => new TtResult<T>().Select(func);
+        public static ITwoTrack<T> Enclose(ITwoTrack source, Func<T> func)
+            => new TtResult<T>()
+            .AppendConfirmations(source.Confirmations)
+            .AppendErrors(source.Errors)
+            .SetExceptionFilter(source.ExceptionFilter)
+            .Select(func);
 
         internal static ITwoTrack<T> Fail(TwoTrackError error)
         {

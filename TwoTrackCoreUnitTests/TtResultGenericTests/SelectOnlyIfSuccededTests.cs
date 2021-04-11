@@ -24,7 +24,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1);
+            var result1 = TwoTrack.Ok().Enclose(() => 1);
 
             // Assert
             _ = result1.Do(_storeMock);

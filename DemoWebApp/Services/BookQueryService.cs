@@ -22,7 +22,7 @@ namespace DemoWebApp.Services
 
         public ITwoTrack<ICollection<T>> Get<T>(Expression<Func<Book, bool>> filter, Expression<Func<Book, T>> mapper)
         {
-            return TwoTrack.Enclose(() => _fakeDbContext.Books
+            return TwoTrack.Ok().Enclose(() => _fakeDbContext.Books
                 .Where(filter)
                 .Select(mapper)
                 .ToList());
@@ -30,7 +30,7 @@ namespace DemoWebApp.Services
 
         public ITwoTrack<T> GetByIsbn<T>(string isbnNr, Expression<Func<Book, T>> mapper)
         {
-            var result = TwoTrack.Enclose(() => isbnNr)
+            var result = TwoTrack.Ok().Enclose(() => isbnNr)
                 .Do(Validator.ValidateIsbn)
                 .Enclose(nr => _fakeDbContext.Books
                     .Where(book => book.Isbn == nr)

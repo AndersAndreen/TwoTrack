@@ -31,7 +31,7 @@ namespace TwoTrackUseCaseScenarioTests
             var searchString = "red";
 
             // Act
-            var result1 = TwoTrack
+            var result1 = TwoTrack.Ok()
                 .Enclose(() => _context.Products.Where(product => product.Name.Contains(searchString)).ToList());
 
             // Assert

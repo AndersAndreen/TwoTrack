@@ -14,9 +14,9 @@ namespace TwoTrackUseCaseScenarioTests.FakesAndMocks
         }
 
         public ITwoTrack<User> GetByUserId(int userId) =>
-            TwoTrack.Enclose(() => _context.Users.FirstOrDefault(user => user.UserId == userId));
+            TwoTrack.Ok().Enclose(() => _context.Users.FirstOrDefault(user => user.UserId == userId));
 
         public ITwoTrack<User> GetByUserName(string userName) =>
-            TwoTrack.Enclose(() => _context.Users.FirstOrDefault(user => user.UserName == userName));
+            TwoTrack.Ok().Enclose(() => _context.Users.FirstOrDefault(user => user.UserName == userName));
     }
 }

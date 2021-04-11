@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TwoTrackCore;
+using TwoTrackExtensions;
 using TwoTrackUseCaseScenarioTests.PersistenceModel;
 
 namespace TwoTrackUseCaseScenarioTests.FakesAndMocks
@@ -17,10 +18,10 @@ namespace TwoTrackUseCaseScenarioTests.FakesAndMocks
         public bool IsSaved { get; private set; }
 
         public ITwoTrack<ICollection<Order>> GetOrders(User user) =>
-            TwoTrack.Enclose(() => _context.Orders.Where(order => order.UserId == user.UserId).ToList());
+            TwoTrack.Ok().Enclose(() => _context.Orders.Where(order => order.UserId == user.UserId).ToList());
 
         internal ITwoTrack<Order> PlaceOrder(Order order) =>
-            TwoTrack.Enclose(() =>
+            TwoTrack.Ok().Enclose(() =>
             {
                 var nextId = _context.Orders.Max(o => o.OrderId) + 1;
                 var newOrder = new Order(nextId, order.UserId, order.LineItems);

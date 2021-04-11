@@ -22,7 +22,7 @@ namespace TwoTrackCoreUnitTests.CreationTests
             {
                 TwoTrack.Fail<int>(default(Exception)),
                 TwoTrack.Fail<int>(new ArgumentOutOfRangeException()),
-                TwoTrack.Fail<int>(TwoTrack.Enclose(()=>1).AddError(TwoTrackError.DefaultError())),
+                TwoTrack.Fail<int>(TwoTrack.Ok().Enclose(()=>1).AddError(TwoTrackError.DefaultError())),
                 TwoTrack.Fail<int>(TwoTrack.Fail(TwoTrackError.DefaultError())),
                 TwoTrack.Fail<int>(TwoTrackError.DefaultError()),
             };
@@ -68,7 +68,7 @@ namespace TwoTrackCoreUnitTests.CreationTests
         public void TwoTrack_FailTWithResultOfT_ExpectedFailureStates()
         {
             // Arrange
-            var result1 = TwoTrack.Enclose(() => 1).AddError(TwoTrackError.DefaultError());
+            var result1 = TwoTrack.Ok().Enclose(() => 1).AddError(TwoTrackError.DefaultError());
 
             // Act
             var result2 = TwoTrack.Fail<int>(result1);

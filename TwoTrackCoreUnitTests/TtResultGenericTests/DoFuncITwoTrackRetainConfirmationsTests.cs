@@ -29,7 +29,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1)
+            var result1 = TwoTrack.Ok().Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"));
             var result2 = result1.Do((Func<ITwoTrack>)default);
 
@@ -43,7 +43,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1)
+            var result1 = TwoTrack.Ok().Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"))
                 .SetExceptionFilter(ex => ex is ArgumentNullException);
             var result2 = result1.Do(_throwArgumentNullException);
@@ -58,7 +58,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1)
+            var result1 = TwoTrack.Ok().Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"));
             var result2 = result1.Do(() => _fail());
 
@@ -72,7 +72,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1)
+            var result1 = TwoTrack.Ok().Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"));
             var result2 = result1.Do(() => _succeed());
 
@@ -87,7 +87,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1)
+            var result1 = TwoTrack.Ok().Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"))
                 .AddError(TwoTrackError.DefaultError());
             var result2 = result1.Do((Func<ITwoTrack>)default);
@@ -102,7 +102,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1)
+            var result1 = TwoTrack.Ok().Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"))
                 .AddError(TwoTrackError.DefaultError()).SetExceptionFilter(ex => ex is ArgumentNullException);
             var result2 = result1.Do(_throwArgumentNullException);
@@ -117,7 +117,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1)
+            var result1 = TwoTrack.Ok().Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"))
                 .AddError(TwoTrackError.DefaultError());
             var result2 = result1.Do(() => _fail());
@@ -132,7 +132,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1)
+            var result1 = TwoTrack.Ok().Enclose(() => 1)
                 .AddConfirmation(TtConfirmation.Make(ConfirmationLevel.Report, "#", "Message"))
                 .AddError(TwoTrackError.DefaultError());
             var result2 = result1.Do(() => _succeed());

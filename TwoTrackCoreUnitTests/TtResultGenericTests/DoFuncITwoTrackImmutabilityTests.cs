@@ -31,7 +31,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(()=>1);
+            var result1 = TwoTrack.Ok().Enclose(()=>1);
             var result2 = result1.Do((Func<ITwoTrack<int>>)default);
 
             // Assert
@@ -44,7 +44,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1).SetExceptionFilter(ex => ex is ArgumentNullException);
+            var result1 = TwoTrack.Ok().Enclose(() => 1).SetExceptionFilter(ex => ex is ArgumentNullException);
             var result2 = result1.Do(_throwArgumentNullException);
 
             // Assert
@@ -58,7 +58,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1);
+            var result1 = TwoTrack.Ok().Enclose(() => 1);
             var result2 = result1.Do(() =>_fail());
 
             // Assert
@@ -71,7 +71,7 @@ namespace TwoTrackCoreUnitTests.TtResultGenericTests
         {
             // Arrange
             // Act
-            var result1 = TwoTrack.Enclose(() => 1);
+            var result1 = TwoTrack.Ok().Enclose(() => 1);
             var result2 = result1.Do(() => _succeed());
 
             // Assert

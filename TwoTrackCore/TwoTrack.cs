@@ -17,13 +17,8 @@ namespace TwoTrackCore
         public static ITwoTrack<T> Fail<T>(TwoTrackError error) => TtResult<T>.Fail(error);
         public static ITwoTrack<T> Fail<T>(ITtCloneable result, TwoTrackError error = default) => TtResult<T>.Fail(result, error);
 
-        public static ITwoTrack Enclose(Action action) => TtResult.Enclose(action);
         public static ITwoTrack Enclose(Func<ITwoTrack> func) => TtResult.Enclose(func);
-        public static ITwoTrack<T> Enclose<T>(Func<T> func) => TtResult<T>.Enclose(func);
         public static ITwoTrack<T> Enclose<T>(Func<ITwoTrack<T>> func) => TtResult<T>.Enclose(func);
-
-
-        //public static async Task<ITwoTrack> EncloseAsync(Func<Task> task) => await TtResult.EncloseAsync(task);
 
 
     }

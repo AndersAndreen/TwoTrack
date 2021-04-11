@@ -13,7 +13,7 @@ namespace TwoTrackCoreUnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Enclose(() => 3);
+            var result = TwoTrack.Ok().Enclose(() => 3);
 
             // Assert
             result.AssertBasicSuccessCriteria();
@@ -26,7 +26,7 @@ namespace TwoTrackCoreUnitTests.CreationTests
             // Arrange
 
             // Act
-            var result = TwoTrack.Enclose(() => TwoTrack.Enclose(()=>3));
+            var result = TwoTrack.Enclose(() => TwoTrack.Ok().Enclose(()=>3));
 
             // Assert
             result.AssertBasicSuccessCriteria();
