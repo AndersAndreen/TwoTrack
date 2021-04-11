@@ -5,7 +5,7 @@
 
 ## Context
 The default exception filter in TwoTrack is to ignore all exceptions. This pose a problem for two static factory methods:
-`Enclose(Action action)` and `Enclose<T>(Func<T> func)`. Both these are static and it is not possible to 
+`Enclose(Action action)` and `Enclose<T>(Func<T> func)`. As both these are static it is not possible to 
 set an exception filter before the action/function is executed. Since these functions return void or a naked value they 
 lack the protection of TwoTrack.
 
