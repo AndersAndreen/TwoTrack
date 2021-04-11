@@ -1,6 +1,6 @@
 # 210411-01_Make_it_possible_to_set_exception_filter_before_execution_of_funcs_or_actions
 
-## status: accepted
+## Status: accepted
 [//]: # (proposed, accepted, rejected, deprecated, superseded)
 
 ## Context
