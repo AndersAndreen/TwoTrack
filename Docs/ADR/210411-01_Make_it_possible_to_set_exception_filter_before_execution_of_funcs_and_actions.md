@@ -17,7 +17,7 @@ return values are encapsulated in an ITwoTrack.
 - Replace all TwoTrack.Enclose(action) with TwoTrack.Ok().Enclose(action).
 - Replace all TwoTrack.Enclose(func) with TwoTrack.Ok().Enclose(func).
 - Implement the Enclose functionality inside TtResult and TtResultGeneric.
-- Add a factory method `TwoTrack.Do(exceptionFilter)`
+- Add a factory method `TwoTrack.Ok(Func<Exception, bool> exceptionFilter)`
 
 ## Consequences 
 - Clearer intent at the cost of a few more key strokes.
