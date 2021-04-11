@@ -8,6 +8,7 @@ namespace TwoTrackCore
     public class TwoTrack
     {
         public static ITwoTrack Ok() => TtResult.Ok();
+        public static ITwoTrack Ok(Func<Exception, bool> exceptionFilter) => TtResult.Ok().SetExceptionFilter(exceptionFilter);
 
         public static ITwoTrack Fail(Exception exception) => TtResult.Fail(TwoTrackError.Exception(exception));
         public static ITwoTrack Fail(TwoTrackError error) => TtResult.Fail(error);
