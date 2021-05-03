@@ -37,7 +37,7 @@ Let's start with  the most simple implementation. Get user by userName and then 
             return orders;
 ```
 
-As we all know, this would never work in a real world implementation. There is no error handling whatsoever and the application is bound To crash.
+As we all know, this would never work in a real world implementation. There is no error handling whatsoever and the application is bound to crash.
 
 ### 2: Error handling without TwoTrack
 So, lets add some error handling to make it more realistic:
@@ -65,14 +65,11 @@ Now let's instead use TwoTrack to get the same functionality
 ```C#
             var (user, orders) = TwoTrack.Ok().Enclose(() => userName)
                 .SetExceptionFilter(ex => ex is SomeExceptionThownByDatabase)
-
-                .Select(_userRepository.GetByUserName) // step 3 (db call)
-                .Enclose(_orderRepository.GetOrders) // step 4 (db call)
-
-                .LogErrors(_logger.Log) // step 5 (logging)
-                .ValueOrDefault((User.Empty(), new List<Order>())); // step 6 (final null handling)
+                .Select(_userRepository.GetByUserName)
+                .Enclose(_orderRepository.GetOrders)
+                .LogErrors(_logger.Log)
+                .ValueOrDefault((User.Empty(), new List<Order>()));
             return orders;
-
 ```
 
 As we can see: Using TwoTrack we get 6 straight steps in 7 lines without any indentation. First two setup steps, then two acting steps and finally some logging before returning the values. All exception handling is implicit, and if `_userRepository.GetByUserName` returns a null value TwoTrack automatically prevents `_orderRepository.GetOrders` from running. 
