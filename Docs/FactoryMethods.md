@@ -12,9 +12,9 @@ Static method that generates an ITwoTrack object without any errors.
 ![alt text](./Img/StaticFail.png "Diagram symbol for method TwoTrack Fail.")
 Static method that generates an ITwoTrack object with errors. This method has three overloads:
 
-`ITwoTrack Fail(Exception exception)`
-`ITwoTrack Fail(TwoTrackError error)`
-`ITwoTrack Fail(ITtCloneable result, TwoTrackError error = default)`
+`ITwoTrack Fail(Exception exception)`  
+`ITwoTrack Fail(TwoTrackError error)`  
+`ITwoTrack Fail(ITtCloneable result, TwoTrackError error = default)`  
 
 **Usage:** 
 - To return a failure object with an error message from a service or helper method.
