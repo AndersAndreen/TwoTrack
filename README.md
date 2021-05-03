@@ -78,8 +78,9 @@ As we can see: Using TwoTrack we get 7 straight steps in 7 lines without any ind
 Nice eh?
 
 
-# User Guide
-[Factory methods](./Docs/FactoryMethods.md)
+# Documentation
+[Architecture Decision Record](./Docs/ADR)  
+[Factory methods](./Docs/FactoryMethods.md)  
 
 
 
