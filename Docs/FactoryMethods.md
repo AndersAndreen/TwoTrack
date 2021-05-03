@@ -20,6 +20,7 @@ Static method that generates an ITwoTrack object with errors. This method has th
 - To return a failure object with an error message from a service or helper method.
 - To take all errors and messages from another result object (TwoTrack or TwoTrack<T>), add another error message.
 
+## TwoTrack.Fail<T>()
 ![alt text](./Img/StaticFailT.png "Diagram symbol for method TwoTrack Fail of T.")
 Static method that generates an ITwoTrack object of type T with errors. This method has three overloads:
 
