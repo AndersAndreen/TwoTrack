@@ -82,6 +82,6 @@ Nice eh?
 [Factory methods](./Docs/FactoryMethods.md)  
 
 # ADR documentation 
-*(just started, not really much here yet)*
+*(just started, not really much here yet)*  
 [Architecture Decision Record](./Docs/ADR)  
 
