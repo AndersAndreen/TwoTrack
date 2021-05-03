@@ -78,9 +78,9 @@ namespace TwoTrackUseCaseScenarioTests
             // Act
 
             // step 1 (arrange)
-            var (user, orders) = TwoTrack.Ok().Enclose(() => userName)
+            var (user, orders) = TwoTrack.Ok()
                 .SetExceptionFilter(ex => ex is SomeExceptionThownByDatabase)
-
+                .Enclose(() => userName)
             // step 2 (act)
                 .Select(_userRepository.GetByUserName) // step 3 (db call)
                 .Enclose(_orderRepository.GetOrders) // step 4 (db call)

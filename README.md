@@ -63,16 +63,17 @@ Here we get 14 lines with explicit try-catch and null coalescing and an if-else 
 ### 3: Error handling using TwoTrack
 Now let's instead use TwoTrack to get the same functionality
 ```C#
-            var (user, orders) = TwoTrack.Ok().Enclose(() => userName)
+            var (user, orders) = TwoTrack.Ok()
                 .SetExceptionFilter(ex => ex is SomeExceptionThownByDatabase)
+                .Enclose(() => userName)
                 .Select(_userRepository.GetByUserName)
                 .Enclose(_orderRepository.GetOrders)
-                .LogErrors(_logger.Log)
+                .LogErrors(_logger.Log) 
                 .ValueOrDefault((User.Empty(), new List<Order>()));
-            return orders;
+            var toReturn = orders;
 ```
 
-As we can see: Using TwoTrack we get 6 straight steps in 7 lines without any indentation. First two setup steps, then two acting steps and finally some logging before returning the values. All exception handling is implicit, and if `_userRepository.GetByUserName` returns a null value TwoTrack automatically prevents `_orderRepository.GetOrders` from running. 
+As we can see: Using TwoTrack we get 7 straight steps in 7 lines without any indentation. First three setup steps, then two acting steps and finally some logging before returning the values. Both repository calls have implicit exception catching, and if `_userRepository.GetByUserName` returns a null value TwoTrack automatically prevents `_orderRepository.GetOrders` from running. 
 
 Nice eh?
 
