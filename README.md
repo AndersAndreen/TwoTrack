@@ -25,40 +25,60 @@ TwoTrack generally follows these four principles:
 As you probably noticed all principles are written in the same form as the agile manifesto. While there is evident value in the approches on the right, TwoTrack  value the approaches on the left more.
 
 ## A first Example
-Let's take a look at how it all works. Below is an example taken from one of the included test use case scenarios (taken from TwoTrackUseCaseScenarioTests.UsersAndOrders.cs):
 
+
+Let's take a look at how it all works. Below is an example taken from one of the included test use case scenarios (taken from TwoTrackUseCaseScenarioTests.UsersAndOrders.cs). The imagined scenario is to get all placed orders for a certain user.
+
+### 1: The naive implementation
+Let's start with  the most simple implementation. Get user by userName and then all orders for thar user:
 ```C#
-            var (user, orders) = TwoTrack.Enclose(() => userName) // step 1 (arrange)
-                .SetExceptionFilter(ex => ex is SomeExceptionThownByDatabase) // step 2 (arrange)
-                .Select(_userRepository.GetByUserName) // step 3 (db call)
-                .Enclose(_orderRepository.GetOrders) // step 4 (db call)
-                .LogErrors(_logger.Log) // step 5 (logging)
-                .ValueOrDefault((User.Empty(), new List<Order>())); // step 6 (final null handling)
-        }
-
+            var user = _userRepository.GetByUserName(userName); // step 3 (act)
+            var orders = _orderRepository.GetOrders(user); // step 4 (act)
+            return orders;
 ```
 
-Using TwoTrack we get 6 steps in 6 simple lines. First two setup steps, then two database calls and finally some logging before returning the values. All exception handling is implicit, and if `_userRepository.GetByUserName` returns a null value TwoTrack automatically prevents `_orderRepository.GetOrders` from running. 
+As we all know, this would never work in a real world implementation. There is no error handling whatsoever and the application is bound To crash.
 
-Let's compare this to some code with corresponding functionality and error handling, but without using TwoTrack:
+### 2: Error handling without TwoTrack
+So, lets add some error handling to make it more realistic:
 
 ```C#
-            User user = default; // step 1 (arrange):
-            ICollection<Order> orders = default; // step 1 (arrange):
+            User user = default;
+            ICollection<Order> orders = default; 
             try
             {
-                user = _userRepository.GetByUserName(userName); // step 3 (act)
-                if (user is null) _logger.Log(TtError.ResultNullError()); // step 5 (logging)
-                else orders = _orderRepository.GetOrders(user); // step 4 (act)
+                user = _userRepository.GetByUserName(userName); 
+                if (user is null) _logger.Log(TwoTrackError.ResultNullError()); // logging
+                else orders = _orderRepository.GetOrders(user); 
             }
-            catch (Exception e) when (e is SomeExceptionThownByDatabase) // step 2 (arrange)
+            catch (Exception e) when (e is SomeExceptionThownByDatabase)
             {
-                _logger.Log(TtError.Exception(e)); // step 5 (logging)
+                _logger.Log(TwoTrackError.Exception(e)); // logging
             }
-            user ??= User.Empty(); // step 6 (final null handling)
-            orders ??= new List<Order>(); // step 6 (final null handling)
+            orders ??= new List<Order>();
+            return orders;
 ```
-Here we get 14 lines with explicit try-catch and null coalescing. And one if-else statement. And we also have to remeber to log errors in two places instead of one.
+Here we get 14 lines with explicit try-catch and null coalescing and an if-else statement. And we also have to remember to log errors in two places instead of one.
+
+### 3: Error handling using TwoTrack
+Now let's instead use TwoTrack to get the same functionality
+```C#
+            var (user, orders) = TwoTrack.Ok().Enclose(() => userName)
+                .SetExceptionFilter(ex => ex is SomeExceptionThownByDatabase)
+
+                .Select(_userRepository.GetByUserName) // step 3 (db call)
+                .Enclose(_orderRepository.GetOrders) // step 4 (db call)
+
+                .LogErrors(_logger.Log) // step 5 (logging)
+                .ValueOrDefault((User.Empty(), new List<Order>())); // step 6 (final null handling)
+            return orders;
+
+```
+
+As we can see: Using TwoTrack we get 6 straight steps in 7 lines without any indentation. First two setup steps, then two acting steps and finally some logging before returning the values. All exception handling is implicit, and if `_userRepository.GetByUserName` returns a null value TwoTrack automatically prevents `_orderRepository.GetOrders` from running. 
+
+Nice eh?
+
 
 # User Guide
 [Factory methods](./Docs/FactoryMethods.md)
