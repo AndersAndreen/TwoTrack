@@ -51,7 +51,7 @@ So, lets add some error handling to make it more realistic:
                 if (user is null) _logger.Log(TwoTrackError.ResultNullError()); // logging
                 else orders = _orderRepository.GetOrders(user); 
             }
-            catch (Exception e) when (e is SomeExceptionThownByDatabase)
+            catch (Exception e) when (e is SomeExceptionThownByEnitiyFramework)
             {
                 _logger.Log(TwoTrackError.Exception(e)); // logging
             }
@@ -64,7 +64,7 @@ Here we get 14 lines with explicit try-catch and null coalescing and an if-else 
 Now let's instead use TwoTrack to get the same functionality
 ```C#
             var (user, orders) = TwoTrack.Ok()
-                .SetExceptionFilter(ex => ex is SomeExceptionThownByDatabase)
+                .SetExceptionFilter(ex => ex is SomeExceptionThownByEnitiyFramework)
                 .Enclose(() => userName)
                 .Select(_userRepository.GetByUserName)
                 .Enclose(_orderRepository.GetOrders)
