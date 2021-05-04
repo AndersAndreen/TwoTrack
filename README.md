@@ -1,12 +1,14 @@
 # TwoTrack
 A Railway-oriented approach to functional style result handling in .Net
 
-***IMPORTANT: This project is still pre-alpha! Expect daily updates and breaking changes.***
+***NOTE: This project is in alpha. There is no support for async code yet, but it's in the roadmap.***
 
 # Introduction - What is this?
-As a developer I have always struggled with writing readable code describing a clear business case and on the same time having sufficient error handling. What starts out as readable code often ends up littered with null checks and if-statements to check that everything is in order. And if there are errors, how do I select which ones to show the user, which ones to log and which ones to ignore?  And what about messages to report a successful operation?
+As a developer I have always struggled with writing readable code describing a clear business case and on the same time having sufficient error handling. What starts out as readable code often ends up littered with null checks and if-statements. And if there are errors, how do I select which ones to show the user, which ones to log and which ones to ignore? And what about messages to report a successful operation?
 
-In the summer of 2019 i came across a way of applying functional style result/error handling in .net called [Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/). Using this method you encapsulate all return values in a result object that holds the value, if there is one, as well as two collections: Errors and Confirmations. TwoTrack is my C# implementation of Railway Oriented Programming. It is still in it's infancy, but feel free to check it out! I have included some use case scenarios in the form of unit tests, and a demo web app to show some of the functionality that I've implemented so far.
+In the summer of 2019 i came across a way of applying functional style result/error handling called [Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/). I implemented my first C# version of this in an internal closed source development project. TwoTrack is my open source version of the original implementation. It is still in it's infancy, but feel free to check it out! I have included some use case scenarios in the form of unit tests to show some of the functionality that I've implemented so far.
+
+Railway Oriented Programming uses the metaphor of two parallel tracks: A success track and a failure track. Result data travels along the success track until there is an error. If an error occurs the data switches to the failure track and succeeding actions are bypassed. All values gets encapsulated in a result object that holds the values, as well as two collections: Errors and Confirmations. If there is an error all access to the values are blocked. 
 
 ## Features:
 - Automatic null check of inputs
