@@ -4,7 +4,7 @@
 ![alt text](./Img/StaticOk.png "Diagram symbol for method TwoTrack Ok.")
 Static method that generates an ITwoTrack object without any errors.
 
-**Usage:** 
+**Typical usage:** 
 - To start an ItwoTrack command sequence
 - To return a success object, maybe with some confirmation messages, from a service or helper method.
 
@@ -16,7 +16,7 @@ Static method that generates an ITwoTrack object with errors. This method has th
 `ITwoTrack Fail(TwoTrackError error)`  
 `ITwoTrack Fail(ITtCloneable result, TwoTrackError error = default)`  
 
-**Usage:** 
+**Typical usage:** 
 - To return a failure object with an error message from a service or helper method.
 - To take all errors and messages from another result object (TwoTrack or TwoTrack<T>), add another error message.
 
@@ -28,6 +28,6 @@ Static method that generates an ITwoTrack object of type T with errors. This met
  `ITwoTrack<T> Fail<T>(TwoTrackError error)`  
  `ITwoTrack<T> Fail<T>(ITtCloneable result, TwoTrackError error = default)`  
 
- **Usage:** 
+ **Typical usage:** 
 - To return an empty failure object of type T with an error message from a service or helper method.
 - To take all errors and messages from another result object (TwoTrack or TwoTrack<T>), add another error message.
