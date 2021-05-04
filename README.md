@@ -75,7 +75,7 @@ Now let's instead use TwoTrack to get the same functionality
             var toReturn = orders;
 ```
 
-As we can see: Using TwoTrack we get 7 straight steps in 7 lines without any indentation. First three setup steps, then two acting steps and finally some logging before returning the values. Both repository calls have implicit exception catching, and if `_userRepository.GetByUserName` returns a null value TwoTrack automatically prevents `_orderRepository.GetOrders` from running. 
+Using TwoTrack we get 7 straight steps in 7 lines without any indentation. First three setup steps, then two acting steps and finally some logging before returning the values. Both repository calls have implicit exception catching, and if `_userRepository.GetByUserName` returns a null value TwoTrack automatically prevents `_orderRepository.GetOrders` from running. 
 
 Nice eh?
 
