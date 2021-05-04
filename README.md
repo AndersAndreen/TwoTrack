@@ -34,8 +34,8 @@ Let's take a look at how it all works. Below is an example taken from one of the
 ### 1: The naive implementation
 Let's start with  the most simple implementation. Get user by userName and then all orders for thar user:
 ```C#
-            var user = _userRepository.GetByUserName(userName); // step 3 (act)
-            var orders = _orderRepository.GetOrders(user); // step 4 (act)
+            var user = _userRepository.GetByUserName(userName);  
+            var orders = _orderRepository.GetOrders(user);  
             return orders;
 ```
 
