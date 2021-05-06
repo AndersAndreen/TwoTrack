@@ -8,3 +8,4 @@ Most operations using TwoTrack involves the three commands ´Enclose´, ´Select´ a
 2. Do I want to transform the current value(s) into new value(s) or discard of some values no longer needed? [Choose ´Select´](./Select.md)!  
 3. Do I want to Transform or combine the current values into new values or discard of some values no longer needed? [Choose ´Do´](./Do.md)!  
 
+[Go back](../README.md#usage-documentation)  

@@ -16,4 +16,4 @@ ITwoTrack Do<T>(Func<ITwoTrack<T>> func);
 - Print some data to the console.
 
 
-[Go back](../README.md)  
+[Go back](../README.md#usage-documentation)  

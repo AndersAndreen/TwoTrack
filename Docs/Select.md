@@ -8,4 +8,4 @@
 - Discard some values no longer needed.
 - Do some database call to get data that is needed for further processing, replacing the current data.
 
-[Go back](../README.md)  
+[Go back](../README.md#usage-documentation)  

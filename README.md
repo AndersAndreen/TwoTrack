@@ -79,10 +79,12 @@ Using TwoTrack we get 7 straight steps in 7 lines without any indentation. First
 
 Nice eh?
 
-
 # Usage Documentation
 [Factory methods](./Docs/FactoryMethods.md)  
 [Enclose vs Select vs Do](./Docs/EncloseVsSelectVsDo.md)  
+[Enclose](./Docs/Enclose.md)!  
+[Select](./Docs/Select.md)!  
+[Do](./Docs/Do.md)!  
 
 # ADR documentation 
 *(just started, not really much here yet)*  
