@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DemoWebApp\DemoWebApp.csproj" />
     <ProjectReference Include="..\TwoTrackCore\TwoTrackCore.csproj" />
     <ProjectReference Include="..\TwoTrackExtensions\TwoTrackExtensions.csproj" />
   </ItemGroup>

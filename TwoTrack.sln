@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackCore", "TwoTrackCor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackCoreUnitTests", "TwoTrackCoreUnitTests\TwoTrackCoreUnitTests.csproj", "{7F222B1D-3354-4326-8B9B-8A8B275C8134}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoWebApp", "DemoWebApp\DemoWebApp.csproj", "{E3EC71ED-B112-46D2-91D3-D148225D39AB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackExtensions", "TwoTrackExtensions\TwoTrackExtensions.csproj", "{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoTrackUseCaseScenarioTests", "TwoTrackUseCaseScenarioTests\TwoTrackUseCaseScenarioTests.csproj", "{7777E12D-A5BF-45ED-AB60-6B0775B1442B}"
@@ -27,10 +25,6 @@ Global
 		{7F222B1D-3354-4326-8B9B-8A8B275C8134}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F222B1D-3354-4326-8B9B-8A8B275C8134}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F222B1D-3354-4326-8B9B-8A8B275C8134}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E3EC71ED-B112-46D2-91D3-D148225D39AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3EC71ED-B112-46D2-91D3-D148225D39AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3EC71ED-B112-46D2-91D3-D148225D39AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3EC71ED-B112-46D2-91D3-D148225D39AB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6F2793F-6CE5-4A0A-94C2-B3B1BE6471A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
