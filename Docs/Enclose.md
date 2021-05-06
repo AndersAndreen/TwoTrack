@@ -1,4 +1,9 @@
 
 
 ## ITwoTrack.Enclose Method
-Keep all the current values and add yet another value.
+
+
+**Typical usage:**
+- Enclose a parameter
+- Do some database call to get data that will be user together with present data.
+
