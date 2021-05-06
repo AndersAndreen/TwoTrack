@@ -82,6 +82,7 @@ Nice eh?
 
 # Usage Documentation
 [Factory methods](./Docs/FactoryMethods.md)  
+[Enclose vs Select vs Do](./Docs/EncloseVsSelectVsDo.md)  
 
 # ADR documentation 
 *(just started, not really much here yet)*  
