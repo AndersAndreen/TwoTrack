@@ -82,9 +82,9 @@ Nice eh?
 # Usage Documentation
 [Factory methods](./Docs/FactoryMethods.md)  
 [Enclose vs Select vs Do](./Docs/EncloseVsSelectVsDo.md)  
-[Enclose](./Docs/Enclose.md)!  
-[Select](./Docs/Select.md)!  
-[Do](./Docs/Do.md)!  
+[Enclose](./Docs/Enclose.md)  
+[Select](./Docs/Select.md)  
+[Do](./Docs/Do.md)  
 
 # ADR documentation 
 *(just started, not really much here yet)*  
