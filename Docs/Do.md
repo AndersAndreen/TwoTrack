@@ -14,3 +14,6 @@ ITwoTrack Do<T>(Func<ITwoTrack<T>> func);
 - Call DbContext.SaveChanges(),
 - Set a value outside of the TwoTrack scope
 - Print some data to the console.
+
+
+[Go back](../README.md)  
