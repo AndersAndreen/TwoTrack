@@ -90,3 +90,5 @@ Nice eh?
 *(just started, not really much here yet)*  
 [Architecture Decision Record](./Docs/ADR)  
 
+# License
+[Under MIT License](./LICENSE)  
